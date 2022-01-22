@@ -4,7 +4,7 @@ package com.example.KlubTenisowy;
 public class Adresy {
 	private int idAdresu;
 	private String ulica;
-	private String numerBloku;
+	private String numerBudynku;
 	private String numerMieszkania;
 	private String miejscowosc;
 	private String kodPocztowy;
@@ -13,12 +13,12 @@ public class Adresy {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Adresy(int idAdresu, String ulica, String numerBloku, String numerMieszkania, String miejscowosc,
+	public Adresy(int idAdresu, String ulica, String numerBudynku, String numerMieszkania, String miejscowosc,
 			String kodPocztowy) {
 		super();
 		this.idAdresu = idAdresu;
 		this.ulica = ulica;
-		this.numerBloku = numerBloku;
+		this.numerBudynku = numerBudynku;
 		this.numerMieszkania = numerMieszkania;
 		this.miejscowosc = miejscowosc;
 		this.kodPocztowy = kodPocztowy;
@@ -36,11 +36,11 @@ public class Adresy {
 	public void setUlica(String ulica) {
 		this.ulica = ulica;
 	}
-	public String getNumerBloku() {
-		return numerBloku;
+	public String getNumerBudynku() {
+		return numerBudynku;
 	}
-	public void setNumerBloku(String numerBloku) {
-		this.numerBloku = numerBloku;
+	public void setNumerBudynku(String numerBudynku) {
+		this.numerBudynku = numerBudynku;
 	}
 	public String getNumerMieszkania() {
 		return numerMieszkania;
@@ -63,7 +63,7 @@ public class Adresy {
 	
 	@Override
 	public String toString() {
-		return "Adresy [idAdresu=" + idAdresu + ", ulica=" + ulica + ", numerBloku=" + numerBloku + ", numerMieszkania="
+		return "Adresy [idAdresu=" + idAdresu + ", ulica=" + ulica + ", numerBudnyku=" + numerBudynku + ", numerMieszkania="
 				+ numerMieszkania + ", miejscowosc=" + miejscowosc + ", kodPocztowy=" + kodPocztowy + "]";
 	}
 }
