@@ -24,7 +24,7 @@ public class KortyDAO {
 	/* Import java.util.List */ 
 	public List<Korty> list(){
 		
-		String sql = "SELECT * FROM " + tableName;
+		String sql =  "SELECT * FROM " + tableName + " ORDER BY "+ idName+ " ASC";
 		
 		List<Korty> lista = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Korty.class)); 
 		return lista;

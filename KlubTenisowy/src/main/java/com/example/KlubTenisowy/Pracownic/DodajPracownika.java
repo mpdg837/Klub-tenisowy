@@ -6,12 +6,14 @@ import com.example.KlubTenisowy.Osoby;
 
 public class DodajPracownika {
 	String imie;
-	String naziwsko;
+	String nazwisko;
 	String drugieImie;
 	String plec;
 	
 	int numerKlubu;
 	int numerBiura;
+	
+	String dataUrodzenia;
 	
 	String numerTelefonu;
 	String adresEmail;
@@ -23,15 +25,16 @@ public class DodajPracownika {
 		// TODO Auto-generated constructor stub
 	}
 
-	public DodajPracownika(String imie, String naziwsko, String drugieImie, String plec, int numerKlubu, int numerBiura,
-			String numerTelefonu, String adresEmail, String pESEL) {
+	public DodajPracownika(String imie, String nazwisko, String drugieImie, String plec, int numerKlubu, int numerBiura,
+			String dataUrodzenia, String numerTelefonu, String adresEmail, String pESEL) {
 		super();
 		this.imie = imie;
-		this.naziwsko = naziwsko;
+		this.nazwisko = nazwisko;
 		this.drugieImie = drugieImie;
 		this.plec = plec;
 		this.numerKlubu = numerKlubu;
 		this.numerBiura = numerBiura;
+		this.dataUrodzenia = dataUrodzenia;
 		this.numerTelefonu = numerTelefonu;
 		this.adresEmail = adresEmail;
 		PESEL = pESEL;
@@ -45,12 +48,12 @@ public class DodajPracownika {
 		this.imie = imie;
 	}
 
-	public String getNaziwsko() {
-		return naziwsko;
+	public String getNazwisko() {
+		return nazwisko;
 	}
 
-	public void setNaziwsko(String naziwsko) {
-		this.naziwsko = naziwsko;
+	public void setNazwisko(String nazwisko) {
+		this.nazwisko = nazwisko;
 	}
 
 	public String getDrugieImie() {
@@ -85,6 +88,14 @@ public class DodajPracownika {
 		this.numerBiura = numerBiura;
 	}
 
+	public String getDataUrodzenia() {
+		return dataUrodzenia;
+	}
+
+	public void setDataUrodzenia(String dataUrodzenia) {
+		this.dataUrodzenia = dataUrodzenia;
+	}
+
 	public String getNumerTelefonu() {
 		return numerTelefonu;
 	}
@@ -111,9 +122,12 @@ public class DodajPracownika {
 
 	@Override
 	public String toString() {
-		return "DodajPracownika [imie=" + imie + ", naziwsko=" + naziwsko + ", drugieImie=" + drugieImie + ", plec="
-				+ plec + ", numerKlubu=" + numerKlubu + ", numerBiura=" + numerBiura + ", numerTelefonu="
-				+ numerTelefonu + ", adresEmail=" + adresEmail + ", PESEL=" + PESEL + "]";
+		return "DodajPracownika [imie=" + imie + ", nazwisko=" + nazwisko + ", drugieImie=" + drugieImie + ", plec="
+				+ plec + ", numerKlubu=" + numerKlubu + ", numerBiura=" + numerBiura + ", dataUrodzenia="
+				+ dataUrodzenia + ", numerTelefonu=" + numerTelefonu + ", adresEmail=" + adresEmail + ", PESEL=" + PESEL
+				+ "]";
 	}
+
+
 	
 }

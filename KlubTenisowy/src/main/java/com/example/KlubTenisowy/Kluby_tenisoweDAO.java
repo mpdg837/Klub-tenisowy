@@ -26,7 +26,7 @@ import org.springframework.stereotype.Repository;
 		/* Import java.util.List */ 
 		public List<Kluby_tenisowe> list(){
 			
-			String sql = "SELECT * FROM " + tableName;
+			String sql = "SELECT * FROM " + tableName + " ORDER BY "+ idName+ " ASC";
 			
 			List<Kluby_tenisowe> lista = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Kluby_tenisowe.class)); 
 			return lista;

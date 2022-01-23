@@ -1,21 +1,19 @@
 package com.example.KlubTenisowy;
 
-import java.sql.Date;
-
 public class Osoby {
 	int idOsoby;
 	String imie;
 	String nazwisko;
 	String drugieImie;
 	String plec;
-	Date dataUrodzenia;
+	String dataUrodzenia;
 	
 	public Osoby() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Osoby(int idOsoby, String imie, String nazwisko, String drugieImie, String plec, Date dataUrodzenia) {
+	public Osoby(int idOsoby, String imie, String nazwisko, String drugieImie, String plec, String dataUrodzenia) {
 		super();
 		this.idOsoby = idOsoby;
 		this.imie = imie;
@@ -65,11 +63,11 @@ public class Osoby {
 		this.plec = plec;
 	}
 
-	public Date getDataUrodzenia() {
+	public String getDataUrodzenia() {
 		return dataUrodzenia;
 	}
 
-	public void setDataUrodzenia(Date dataUrodzenia) {
+	public void setDataUrodzenia(String dataUrodzenia) {
 		this.dataUrodzenia = dataUrodzenia;
 	}
 

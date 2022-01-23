@@ -9,21 +9,24 @@
 <div align = "center">
 	<h1> Dodawanie nowego pracownika </h1>
 	
+	
+	<a style="color: red" id="komunikat"> </a> </br>
+	
 	Tym formularzem możesz zatrudnić nowego pracownika.
-	<form action="#" th:action="@{/save}" th:object="${pracownik}" method="post">
+	<form action="#" th:action="@{/savePracownik}" th:object="${pracownik}" method="post">
 		<h5> Dane osobowe </h5>
 		<table border = "1" cellpadding  = "10">
 			<tr>
 				<td> Imie: </td>
-				<td> <input type="text" th:field="*{imie}"></td>
+				<td> <input type="text" th:field="*{imie}" /></td>
 			</tr>
 			<tr>
 				<td> Nazwisko: </td>
-				<td> <input type="text" th:field="*{nazwisko}"></td>
+				<td> <input type="text" th:field="*{nazwisko}" /></td>
 			</tr>
 			<tr>
 				<td> Drugie imie: </td>
-				<td> <input type="text" th:field="*{drugieImie}"></td>
+				<td> <input type="text" th:field="*{drugieImie}" /></td>
 			</tr>
 			<tr>
 				<td> Płeć: </td>
@@ -36,25 +39,26 @@
 			</tr>
 			<tr>
 				<td> Data urodzenia: </td>
-				<td> <input type="date" th:field="*{dataUrodzenia}"> </td>
+				<td> <input type="date" th:field="*{dataUrodzenia}" /> </td>
 			</tr>
 		</table>
+		
 		<h5> Klub </h5>
 			<td> Numer klubu: </td>
-			<td> <input type="text" th:field="*{numerKlubu}"></td>
+			<td> <input type="number" th:field="*{numerKlubu}" /></td>
 		<h5> Biuro </h5>
 			<td> Numer biura: </td>
-			<td> <input type="text" th:field="*{numerBiura}"></td>
+			<td> <input type="number" th:field="*{numerBiura}" /></td>
 			
 		<h5> Dane kontatkowe </h5>
 			<table border = "1" cellpadding  = "10">
 			<tr>
 				<td> Numer telefonu: </td>
-				<td> <input type="text" th:field="*{numerTelefonu}"></td>
+				<td> <input type="text" th:field="*{numerTelefonu}" /></td>
 			</tr>
 			<tr>
-				<td> Nazwisko: </td>
-				<td> <input type="text" th:field="*{adresEmail}"></td>
+				<td> Adres Email: </td>
+				<td> <input type="text" th:field="*{adresEmail}" /></td>
 			</tr>
 		
 		</table>
@@ -62,7 +66,7 @@
 			<table border = "1" cellpadding  = "10">
 			<tr>
 				<td> PESEL: </td>
-				<td> <input type="text" th:field="*{PESEL}"></td>
+				<td> <input type="text" th:field="*{PESEL}" /></td>
 			</tr>
 			
 		
@@ -72,5 +76,50 @@
 	</form>
 </div>
 
+		
+<script>
+
+	var adres = window.location.href;
+	var komunikat = "";
+	var start = false;
+	
+	for(var n=0; n< adres.length; n++){
+		var znak = adres[n];
+		
+		if(start){
+			komunikat = komunikat + znak;	
+		}
+		
+		if(znak + "" == "?"){
+			start = true;
+		}
+			
+	}
+	
+	if(start){
+	
+		if(komunikat == "pusteImie"){
+			document.getElementById("komunikat").innerHTML = "Nie wprowadzono imienia";
+		}
+		if(komunikat == "pusteNazwisko"){
+			document.getElementById("komunikat").innerHTML = "Nie wprowadzono nazwiska";
+		}
+		if(komunikat == "pustaData"){
+			document.getElementById("komunikat").innerHTML = "Nie wprowadzono daty urodzenia" 	
+		}
+		if(komunikat == "nieprawidlowyNumerTelefonu"){
+			document.getElementById("komunikat").innerHTML = "Nie numeru prawidłowego telefonu" 	
+		}
+		if(komunikat == "nieprawidlowyEmail"){
+			document.getElementById("komunikat").innerHTML = "Nie podano prawidlowego adresu Email" 	
+		}
+		if(komunikat == "nieprawidlowyPESEL"){
+			document.getElementById("komunikat").innerHTML = "Nie podano prawidłowego PESEL-u" 	
+		}
+	}
+	
+</script>
 </body>
+
+
 </html>

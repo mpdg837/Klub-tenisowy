@@ -24,7 +24,7 @@ public class SprzetyDAO {
 	/* Import java.util.List */ 
 	public List<Sprzety> list(){
 		
-		String sql = "SELECT * FROM " + tableName;
+		String sql =  "SELECT * FROM " + tableName + " ORDER BY "+ idName+ " ASC";
 		
 		List<Sprzety> lista = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Sprzety.class)); 
 		return lista;

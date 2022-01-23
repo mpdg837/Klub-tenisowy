@@ -1,24 +1,25 @@
 package com.example.KlubTenisowy;
 
 public class DaneKontatkowe {
-	int idDaneKontatkowe;
+	int idDaneKontaktowe;
 	String numerTelefonu;
 	String adresEmail;
+	
 	public DaneKontatkowe() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public DaneKontatkowe(int idDaneKontatkowe, String numerTelefonu, String adresEmail) {
+	public DaneKontatkowe(int idDaneKontaktowe, String numerTelefonu, String adresEmail) {
 		super();
-		this.idDaneKontatkowe = idDaneKontatkowe;
+		this.idDaneKontaktowe = idDaneKontaktowe;
 		this.numerTelefonu = numerTelefonu;
 		this.adresEmail = adresEmail;
 	}
-	public int getIdDaneKontatkowe() {
-		return idDaneKontatkowe;
+	public int getIdDaneKontaktowe() {
+		return idDaneKontaktowe;
 	}
-	public void setIdDaneKontatkowe(int idDaneKontatkowe) {
-		this.idDaneKontatkowe = idDaneKontatkowe;
+	public void setIdDaneKontatkowe(int idDaneKontaktowe) {
+		this.idDaneKontaktowe = idDaneKontaktowe;
 	}
 	public String getNumerTelefonu() {
 		return numerTelefonu;
@@ -34,7 +35,7 @@ public class DaneKontatkowe {
 	}
 	@Override
 	public String toString() {
-		return "DaneKontatkowe [idDaneKontatkowe=" + idDaneKontatkowe + ", numerTelefonu=" + numerTelefonu
+		return "DaneKontatkowe [idDaneKontaktowe=" + idDaneKontaktowe + ", numerTelefonu=" + numerTelefonu
 				+ ", adresEmail=" + adresEmail + "]";
 	}
 	

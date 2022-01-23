@@ -11,6 +11,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.example.KlubTenisowy.Osoby;
+
 
 @Repository
 public class PracownicyDAO {
@@ -28,7 +30,7 @@ public class PracownicyDAO {
 	/* Import java.util.List */ 
 	public List<Pracownicy> list(){
 		
-		String sql = "SELECT * FROM " + tableName;
+		String sql =  "SELECT * FROM " + tableName + " ORDER BY "+ idName+ " ASC";
 		
 		List<Pracownicy> lista = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Pracownicy.class)); 
 		return lista;
@@ -45,8 +47,20 @@ public class PracownicyDAO {
 	
 	/* Insert – wstawianie nowego wiersza do bazy */
 	public void save(Pracownicy pracownik) {
+		
+		List<Pracownicy> osoby = list();
+		if(osoby.size()>0) {
+			Pracownicy osoba = osoby.get(osoby.size()-1);
+			pracownik.idPracownika = osoba.idPracownika + 1;
+		}else {
+			
+			pracownik.idPracownika= 0;
+		}
+		
+		
 		SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
-		insert.withTableName(tableName).usingColumns("PESEL","DATA_ZATRUDNIENIA","ID_KLUBU","ID_BIURA","ID_OSOBY","ID_DANE_KONTAKTOWE");
+		
+		insert.withTableName(tableName).usingColumns("ID_PRACOWNIKA","PESEL","DATA_ZATRUDNIENIA","ID_KLUBU","ID_BIURA","ID_OSOBY","ID_DANE_KONTAKTOWE");
 		
 		BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(pracownik);
 		insert.execute(param);
@@ -54,7 +68,7 @@ public class PracownicyDAO {
 	
 	/* Read – odczytywanie danych z bazy */
 	public Pracownicy get(int id) {
-		String sql = "SELECT * FROM WHERE " + idName + " = " + id;
+		String sql = "SELECT * FROM "+tableName +"WHERE " + idName + " = " + id;
 		
 		List<Pracownicy> lista = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Pracownicy.class)); 
 		if(lista.size()>0) {

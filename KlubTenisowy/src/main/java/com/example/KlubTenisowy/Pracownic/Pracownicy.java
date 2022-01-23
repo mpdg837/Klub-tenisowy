@@ -1,9 +1,11 @@
 package com.example.KlubTenisowy.Pracownic;
 
+import java.util.Date;
+
 public class Pracownicy {
 	int idPracownika;
 	String PESEL;
-	String dataZatrudnienia;
+	Date dataZatrudnienia;
 	int idKlubu;
 	int idBiura;
 	int idOsoby;
@@ -14,7 +16,7 @@ public class Pracownicy {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Pracownicy(int idPracownika, String pESEL, String dataZatrudnienia, int idKlubu, int idBiura, int idOsoby,
+	public Pracownicy(int idPracownika, String pESEL,Date dataZatrudnienia, int idKlubu, int idBiura, int idOsoby,
 			int idDaneKontaktowe) {
 		super();
 		this.idPracownika = idPracownika;
@@ -42,11 +44,11 @@ public class Pracownicy {
 		PESEL = pESEL;
 	}
 
-	public String getDataZatrudnienia() {
+	public Date getDataZatrudnienia() {
 		return dataZatrudnienia;
 	}
 
-	public void setDataZatrudnienia(String dataZatrudnienia) {
+	public void setDataZatrudnienia(Date dataZatrudnienia) {
 		this.dataZatrudnienia = dataZatrudnienia;
 	}
 

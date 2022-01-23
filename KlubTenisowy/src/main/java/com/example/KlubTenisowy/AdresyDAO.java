@@ -2,6 +2,9 @@ package com.example.KlubTenisowy;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -23,13 +26,32 @@ public class AdresyDAO {
 	/* Import java.util.List */ 
 	public List<Adresy> list(){
 		
-		String sql = "SELECT * FROM " + tableName;
+		String sql =  "SELECT * FROM " + tableName + " ORDER BY "+ idName+ " ASC";
 		
 		List<Adresy> lista = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Adresy.class)); 
 		return lista;
 	}
 	/* Insert – wstawianie nowego wiersza do bazy */
-	public void save(Adresy sale) {
+	public int save(Adresy sale) {
+		
+		List<Adresy> adresy = list();
+		if(adresy.size()>0) {
+			Adresy adres = adresy.get(adresy.size()-1);
+			sale.setIdAdresu( adres.getIdAdresu() + 1);
+		}else {
+			
+			sale.setIdAdresu(0);
+		}
+		
+		SimpleJdbcInsert insertActor = new SimpleJdbcInsert(jdbcTemplate);
+		insertActor.withTableName(tableName).usingColumns("ID_ADRESU","UICA","NUMER_BUDYNKU","NUMER_MIESZKANIA","MIEJSCOWOSC","KOD_POCZTOWY");
+		
+		BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(sale);
+
+		insertActor.execute(param);
+		return sale.getIdAdresu();
+		
+		
 	}
 	/* Read – odczytywanie danych z bazy */
 	public Adresy get(int id) {
