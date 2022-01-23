@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<div align = "center">
+	<h1> Dodawanie nowego pracownika </h1>
+	
+	Tym formularzem możesz zatrudnić nowego pracownika.
+	<form action="#" th:action="@{/save}" th:object="${pracownik}" method="post">
+		<h5> Dane osobowe </h5>
+		<table border = "1" cellpadding  = "10">
+			<tr>
+				<td> Imie: </td>
+				<td> <input type="text" th:field="*{imie}"></td>
+			</tr>
+			<tr>
+				<td> Nazwisko: </td>
+				<td> <input type="text" th:field="*{nazwisko}"></td>
+			</tr>
+			<tr>
+				<td> Drugie imie: </td>
+				<td> <input type="text" th:field="*{drugieImie}"></td>
+			</tr>
+			<tr>
+				<td> Płeć: </td>
+				<td> 
+				 <select name="plec" th:field="*{plec}">
+				    <option value="M">Mężczyzna</option>
+				    <option value="K">Kobieta</option>
+				  </select>
+				</td>
+			</tr>
+			<tr>
+				<td> Data urodzenia: </td>
+				<td> <input type="date" th:field="*{dataUrodzenia}"> </td>
+			</tr>
+		</table>
+		<h5> Klub </h5>
+			<td> Numer klubu: </td>
+			<td> <input type="text" th:field="*{numerKlubu}"></td>
+		<h5> Biuro </h5>
+			<td> Numer biura: </td>
+			<td> <input type="text" th:field="*{numerBiura}"></td>
+			
+		<h5> Dane kontatkowe </h5>
+			<table border = "1" cellpadding  = "10">
+			<tr>
+				<td> Numer telefonu: </td>
+				<td> <input type="text" th:field="*{numerTelefonu}"></td>
+			</tr>
+			<tr>
+				<td> Nazwisko: </td>
+				<td> <input type="text" th:field="*{adresEmail}"></td>
+			</tr>
+		
+		</table>
+		<h5> Dane pracownicze </h5>
+			<table border = "1" cellpadding  = "10">
+			<tr>
+				<td> PESEL: </td>
+				<td> <input type="text" th:field="*{PESEL}"></td>
+			</tr>
+			
+		
+		</table>
+		
+		<button type="sumbit">Save</button>
+	</form>
+</div>
+
+</body>
+</html>
