@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	
+	
+<div align = "center">
+	<h1> Szczegóły na temat pracownika </h1>
+	
+	<a style = "color : red" id="komunikat"></a> <a style = "color : green" id="powodzenie"></a>
+	<a style="color: red" id="komunikat"> </a> </br>
+	
+	Zobacz informacje na temat pracownika <br />
+	<a href="/pracownicy" > Powrót</a>
+	| 
+	<a th:href="@{/edytuj_pracownik?pracownik=} + ${pracownik.idPracownika}" > Edytuj dane pracownika</a>
+	|
+	<a th:href="@{/usun_pracownik?pracownik=} + ${pracownik.idPracownika}" > Zwolnij pracownika</a>
+	
+		<h5> Dane osobowe </h5>
+		<table border = "1" cellpadding  = "10">
+			<tr>
+				<td> Imie: </td>
+				<td> <a th:text="${pracownik.imie}" /> </td>
+			</tr>
+			<tr>
+				<td> Nazwisko: </td>
+				<td> <a th:text="${pracownik.nazwisko}" /> </td>
+			</tr>
+			<tr>
+				<td> Drugie imie: </td>
+				<td> <a id="drugieImie" th:text="${pracownik.drugieImie}" /> </td>
+			</tr>
+			<tr>
+				<td> Płeć: </td>
+				<td> <a th:text="${pracownik.plec}" /> </td>
+			</tr>
+		
+		</table>
+		
+		<h5> Biuro </h5>
+			<td> Numer biura: </td>
+			<td> <a  id="numerBiura" th:text="${pracownik.numerBiura}" /> </td>
+			
+		<h5> Dane kontatkowe </h5>
+			<table border = "1" cellpadding  = "10">
+			<tr>
+				<td> Data urodzenia: </td>
+				<td> <a th:text="${pracownik.dataUrodzenia}" /> </td>
+			</tr>
+			<tr>
+				<td> Adres Email: </td>
+				<td> <a th:text="${pracownik.adresEmail}" /></td>
+			</tr>
+			<tr>
+				<td> Telefon: </td>
+				<td> <a th:text="${pracownik.numerTelefonu}" /></td>
+			</tr>
+			
+		</table>
+		<h5> Dane pracownicze </h5>
+			
+			<table border = "1" cellpadding  = "10">
+			<tr>
+			
+				<td> Data zatrudnienia: </td>
+				<td> <a th:text="${pracownik.dataZatrudnienia}" /> </td>
+			</tr>
+			<tr>
+				<td> PESEL: </td>
+				<td> <a th:text="${pracownik.PESEL}" /></td>
+			</tr>
+			<tr>
+				<td> Stanowisko: </td>
+				<td> 
+				 <a th:text="${pracownik.stanowisko}" />
+				</td>
+			</tr>
+		
+		</table>
+		
+</div>
+<script>
+
+
+	if(document.getElementById("drugieImie").text == "") document.getElementById("drugieImie").innerHTML = "brak";
+	if(document.getElementById("numerBiura").text == "") document.getElementById("numerBiura").innerHTML = "brak";
+	
+	var adres = window.location.href;
+	var komunikat = "";
+	var start = false;
+	
+	for(var n=0; n< adres.length; n++){
+		var znak = adres[n];
+		
+		if(start){
+			komunikat = komunikat + znak;	
+		}
+		
+		if(znak + "" == "?"){
+			start = true;
+		}
+			
+	}
+	
+	if(start){
+		
+		if(komunikat == "success"){
+			document.getElementById("powodzenie").innerHTML = "Operacja zakończona sukcesem";
+		}
+	}
+	
+</script>
+
+</body>
+</html>

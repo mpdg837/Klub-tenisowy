@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Zwalnianie pracownika</title>
+</head>
+<body>
+<h1> Zwalnianie pracownika </h1>
+	
+	<div align="center">
+	<a style="color: red" id="komunikat"> </a> </br>
+	
+	Czy na pewno chcesz zwolnić tego pracownika ?.
+	
+	
+		
+		
+		<h5> Dane osobowe </h5>
+		
+			<table border = "1" cellpadding  = "10">
+				<tr>
+					<td> Imie: </td>
+					<td> <a th:text="${pracownik.imie}" /> </td>
+				</tr>
+				<tr>
+					<td> Nazwisko: </td>
+					<td> <a th:text="${pracownik.nazwisko}" /> </td>
+				</tr>
+				<tr>
+					<td> Stanowisko: </td>
+					<td> <a id="drugieImie" th:text="${pracownik.stanowisko}" /> </td>
+				</tr>
+				<tr>
+					<td> Płeć: </td>
+					<td> <a th:text="${pracownik.plec}" /> </td>
+				</tr>
+			
+			</table>
+	
+	
+		
+		<button onclick="tak()">TAK</button>
+		<button onclick="nie()"> NIE </button>
+
+	</div>
+</body>
+
+<script>
+function nie(){
+	window.location.href = "/pracownicy";
+}
+
+function tak(){
+	
+	
+	
+	var adres = window.location.href;
+	var adresZn = adres.split('');
+	
+	var nciag="";
+	var wartosc = "";
+	
+	var startRead = false;
+	var startReadWartosc = false;
+	
+	var error = false;
+	var error1 = false;
+	var success = false;
+	
+	for(var n=0;n<adres.length;n++){
+		if(startReadWartosc){
+			if(adresZn[n] == "_"){
+				wartosc = wartosc + " ";
+			}else{
+				wartosc = wartosc + adresZn[n];
+			}
+			
+			
+		}else if(startRead){
+			nciag = nciag + adresZn[n];
+		}
+		
+		if(adresZn[n] == "?"){
+			startRead = true;
+		}
+		
+		if(nciag =="pracownik="){
+			startReadWartosc = true;
+		}
+		
+	}
+	window.location.href = "/usun_pracownika_ostatecznie?pracownik=" + wartosc;
+}
+</script>
+</html>

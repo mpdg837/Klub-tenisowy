@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div align="center">
+<h1> Edytowanie danych pracownika </h1>
+	
+	
+	
+	
+	Tym formularzem możesz zatrudnić nowego pracownika. <br />
+	
+	<a style="color: red" id="komunikat"> </a> </br>
+	<a href="/pracownicy" > Powrót</a>
+</div>
+
+
+<script>
+var adres = window.location.href;
+var komunikat = "";
+var start = false;
+
+for(var n=0; n< adres.length; n++){
+	var znak = adres[n];
+	
+	if(start){
+		komunikat = komunikat + znak;	
+	}
+	
+	if(znak + "" == "?"){
+		start = true;
+	}
+		
+}
+
+if(start){
+	if(komunikat == "niedozwoloneZnaki"){
+		document.getElementById("komunikat").innerHTML = "Użyto niedozwolonych znaków"; 	
+		document.getElementById("forma").style.visibility = "hidden";
+	}
+	if(komunikat == "pusteImie"){
+		document.getElementById("komunikat").innerHTML = "Nie wprowadzono imienia"; 	
+		document.getElementById("forma").style.visibility = "hidden";
+	}
+	if(komunikat == "pusteNazwisko"){
+		document.getElementById("komunikat").innerHTML = "Nie wprowadzono nazwiska"; 	
+		document.getElementById("forma").style.visibility = "hidden";
+	}
+	if(komunikat == "pustaData"){
+		document.getElementById("komunikat").innerHTML = "Nie wprowadzono daty urodzenia"; 	
+		document.getElementById("forma").style.visibility = "hidden"; 	
+	}
+	if(komunikat == "nieprawidlowyNumerTelefonu"){
+		document.getElementById("komunikat").innerHTML = "Nie podano prawidłowego numeru telefonu"; 	
+		document.getElementById("forma").style.visibility = "hidden"; 	
+	}
+	if(komunikat == "nieprawidlowyEmail"){
+		document.getElementById("komunikat").innerHTML = "Nie podano prawidlowego adresu Email"; 	
+		document.getElementById("forma").style.visibility = "hidden"; 	
+	}
+	if(komunikat == "nieprawidlowyPESEL"){
+		document.getElementById("komunikat").innerHTML = "Nie podano prawidłowego PESEL-u"; 	
+			document.getElementById("forma").style.visibility = "hidden";
+	}
+	
+	
+}
+</script>
+
+</body>
+</html>
