@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -23,7 +24,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.KlubTenisowy.Pracownic.*;
 import com.example.KlubTenisowy.Weryfikacja.AntySQLInjection;
+
 import com.example.KlubTenisowy.Weryfikacja.WeryfikacjaDaneOsobowe;
+import com.example.KlubTenisowy.Wyplaty.WyplatyDAO;
+import com.example.KlubTenisowy.Wyplaty.WyplatyPodglad;
 
 import ch.qos.logback.classic.Logger;
 
@@ -32,6 +36,10 @@ public class AppController {
 
 	@Autowired
 	private PracownicyDAO pracownicyDao;
+	
+	@Autowired
+	private WyplatyDAO wyplatyDao;
+	
 	
 	@RequestMapping("/")
 	public String viewHomePage(Model model) {
@@ -150,6 +158,7 @@ public class AppController {
 				
 					if(pracownik != null) {
 						
+						
 						model.addAttribute("pracownik",pracownik);
 						
 						return "edytuj_pracownik";
@@ -173,6 +182,28 @@ public class AppController {
 			return "pracownicy?error";
 		}
 	
+	}
+	@GetMapping("/error")
+	public String viewPraPage(Model model) {
+		
+		return "error";
+	}
+	
+	@GetMapping("/wyplaty")
+	public String viewPraPage(@RequestParam(name="dataOd",required=false,defaultValue="") String odDaty,
+			@RequestParam(name="dataDo",required=false,defaultValue="") String doDaty,
+			Model model) {
+		
+		List<WyplatyPodglad> lista = wyplatyDao.list("","");
+
+		if(lista == null) {
+			lista = new ArrayList<WyplatyPodglad>();
+			
+		}
+		model.addAttribute("lista",lista);
+		
+		
+		return "wyplaty";
 	}
 	
 	@GetMapping("/pracownicy")

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Wysylanie wyplat pracownikom</title>
+</head>
+<body>
+	<div align = "center">
+		<h1>Zarządzanie pracownikami</h1>
+		<a style = "color : red" id="komunikat"></a> <a style = "color : green" id="powodzenie"></a><br>
+
+		Szukaj po dacie <input type="date" id="od"> - <input type="date" id="do"> <button onclick="find()" >Search</button> <br>
+	
+		<a href="\nowa_wyplata"> Dodaj wyplate</a>
+		<br/>
+		<!--Table -->
+			<table id="table" border = "1" cellpadding = "10">
+			<!-–border –obramowanie, cellpadding –rozmiar komórki -->
+			<!--Table header -->
+			<thead>
+				<tr>
+				<!--Table row -->
+					<th>ID Wyplaty</th>
+					<!–-Table column -->
+					<th>Imie</th>
+					<th>Nazwisko</th>
+					<th>Data wyplaty</th>
+					<th>Stanowisko</th>
+					<th>Stawka lacznie</th>
+				</tr>
+			</thead>
+			<!--Table body -->
+				<tbody>
+					<tr th:id = "@{pole} + ${wyplata.index}" th:each = "wyplata : ${lista}">
+						<td th:text = "${wyplata.idPracownika}">ID</td>
+						<td th:text = "${wyplata.imie}">Imie</td>
+						<td th:text = "${wyplata.nazwisko}">Nazwisko</td>
+						<td th:text = "${wyplata.stanowisko}">Numer telefonu</td>
+						<td th:text = "${wyplata.dataWyplaty}">Nazwisko</td>
+						<td th:text = "${wyplata.stawkaLacznie}">Stanowisko</td>
+						<td><a th:href= "@{/szczegoly_wyplata?wyplata=} + ${wyplata.idWyplaty}">Szczegóły</a></td>
+					</tr>
+				</tbody>
+			</table> 
+			<br/>
+			
+			<button onclick = "sub()"> << </button> <a id="pozycja"></a> <button onclick = "add()"> >> </button> 
+			<br />
+			Uzyskano : <a id = "ilosc" th:text = "${lista.size}">ID</a> wyników 
+			
+	</div>
+	
+	<script>
+		
+		var currentPos = 0;
+		
+		if(document.getElementById("ilosc").innerHTML == 0){
+			document.getElementById("komunikat").innerHTML = "Nie odnaleziono pasujących wyników";
+		}
+		
+		refresh(true);
+		
+		function add(){
+			if(currentPos + 5 < numbers){
+				currentPos += 5;	
+			}
+			refresh(false);
+		}
+		
+		function sub(){
+			if(currentPos - 5 >=0){
+				currentPos -= 5;	
+			}
+			refresh(false);
+		}
+		
+		function refresh(starter){
+			
+			for(var n=0;n<numbers;n++){
+				var names = "pole"+n;
+				
+				
+				if(starter){
+					state = document.getElementById(names).style.display;
+				}
+				if(n>= currentPos && n< currentPos + 5){
+					document.getElementById(names).style.display = state;
+				}else{
+					document.getElementById(names).style.display = "none";
+				}
+			}
+			
+			document.getElementById("pozycja").innerHTML = currentPos + " - " + (currentPos + 5)
+		}
+	</script>
+</body>
