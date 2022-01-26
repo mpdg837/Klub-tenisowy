@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<div align = "center">
+<h1> Edytowanie danych pracownika </h1>
+	
+	
+	
+	
+	Tym formularzem możesz zatrudnić nowego pracownika. <br />
+	
+	<a style="color: red" id="komunikat"> </a> </br>
+	<a href="/pracownicy" > Powrót</a>
+	
+	<form action="#" th:action="@{/edytujPracownik}" th:object="${pracownik}" method="post" id="forma">
+		<h5> Dane osobowe </h5>
+		<table border = "1" cellpadding  = "10">
+			<tr>
+				<td> ID: </td>
+				<td> <input type="text" th:field="*{idPracownika}" readonly="true"/></td>
+			</tr>
+			<tr>
+				<td> Imie: </td>
+				<td> <input type="text" th:field="*{imie}" /></td>
+			</tr>
+			<tr>
+				<td> Nazwisko: </td>
+				<td> <input type="text" th:field="*{nazwisko}" /></td>
+			</tr>
+			<tr>
+				<td> Drugie imie: </td>
+				<td> <input type="text" th:field="*{drugieImie}" /></td>
+			</tr>
+			<tr>
+				<td> Płeć: </td>
+				<td> 
+				 <select name="plec" th:field="*{plec}">
+				    <option value="M">Mężczyzna</option>
+				    <option value="K">Kobieta</option>
+				  </select>
+				</td>
+			</tr>
+			<tr>
+				<td> Data urodzenia: </td>
+				<td> <a th:text="*{dataUrodzenia}"> </a> Zmien na: <input type="date" th:field="*{dataUrodzenia}" /> <td>
+			</tr>
+		</table>
+		
+		<h5> Biuro </h5>
+			<td> Numer biura: </td>
+			<td> <input type="number" th:field="*{numerBiura}" /></td>
+			
+		<h5> Dane kontatkowe </h5>
+			<table border = "1" cellpadding  = "10">
+			<tr>
+				<td> Numer telefonu: </td>
+				<td> <input type="text" th:field="*{numerTelefonu}" /></td>
+			</tr>
+			<tr>
+				<td> Adres Email: </td>
+				<td> <input type="text" th:field="*{adresEmail}" /></td>
+			</tr>
+		
+		</table>
+		<h5> Dane pracownicze </h5>
+			<table border = "1" cellpadding  = "10">
+			<tr>
+				<td> PESEL: </td>
+				<td> <input type="text" th:field="*{PESEL}" /></td>
+			</tr>
+			<tr>
+				<td> Stanowisko: </td>
+				<td> 
+				 <select name="plec" th:field="*{stanowisko}">
+				    <option value="Trener">Trener</option>
+				    <option value="Pracownik biurowy">Pracownik biura</option>
+				    <option value="Inny">Inny</option>
+				  </select>
+				</td>
+			</tr>
+		
+		</table>
+		
+		<button type="sumbit">Save</button>
+	</form>
+</div>
+
+</body>
+
+</html>
