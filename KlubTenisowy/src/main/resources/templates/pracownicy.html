@@ -124,7 +124,7 @@
 	}
 	
 	function start(){
-		var adres = window.location.href;
+		var adres = decodeURIComponent(window.location.href);
 		var adresZn = adres.split('');
 		
 		var nciag="";
@@ -195,14 +195,21 @@
 		var znaki = wyszuaknie.split('');
 		
 		var nciag = "";
+		
+		var jeden = true;
+		
 		for(var n=0;n<znaki.length;n++){
 			if(znaki[n] == " "){
 				nciag = nciag+ "_";
+				jeden = false;
 			}else{
 				nciag = nciag+ znaki[n];
 			}
 		}
 		
+		if(jeden){
+			nciag = wyszuaknie;
+		}
 		if(nciag == ""){
 			nciag = "*";
 		}

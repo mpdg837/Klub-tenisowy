@@ -36,15 +36,15 @@
 			<table border = "1" cellpadding  = "10">
 			<tr>
 				<td> Stawka podstawowa: </td>
-				<td> <input type="number" th:field="*{stawkaPodstawowa}" /> zł</td>
+				<td> <input type="number" step="0.01" th:field="*{stawkaPodstawowa}" /> zł</td>
 			</tr>
 			<tr>
 				<td> Premia: </td>
-				<td> <input type="number" th:field="*{premia}" /> zł</td>
+				<td> <input type="number" step="0.01" th:field="*{premia}" /> zł</td>
 			</tr>
 			<tr>
 				<td> Dodatek okolicznosciowy: </td>
-				<td> <input type="number" th:field="*{dodatekOkolicznosciowy}" /> zł</td>
+				<td> <input type="number" step="0.01" th:field="*{dodatekOkolicznosciowy}" /> zł</td>
 			</tr>
 		
 		</table>

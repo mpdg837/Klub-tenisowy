@@ -511,6 +511,14 @@ public class AppController {
 					
 				}
 				
+				int n=0;
+				for(Pilka pilka : lista) {
+					
+					pilka.setIndex(n);
+					
+					n++;
+				}
+				
 				
 				model.addAttribute("lista",lista);
 			}else {
@@ -519,4 +527,143 @@ public class AppController {
 	
 		return "pilki";
 	}
+	
+	@GetMapping("/nowa_pilka")
+	public String viewDWyPage(Model model) {
+	
+		
+		Pilka pilka = new Pilka();
+		
+		model.addAttribute("pilka",pilka);
+
+		return "nowa_pilka";
+		
+	}
+	
+	@RequestMapping(value="/savePilka", method = RequestMethod.POST)
+	public String savePilka(@ModelAttribute("pilka") Pilka pilka) {
+		
+		
+		if(!AntySQLInjection.isCorrect(pilka.toString())) return "redirect:/nowa_pilka?niedozwoloneZnaki";
+		if(WeryfikacjaDaneOsobowe.isEmpty(pilka.getNazwa())) return "redirect:/nowa_pilka?pustaNazwa";
+		if(pilka.getMasa() <= 0) return "redirect:/nowa_pilka?podanoNiedodatniaMase";
+		if(pilka.getSrednica() <= 0) return "redirect:/nowa_pilka?podanoNiedodatniaSrednice";
+		
+		pilkiDao.save(pilka);
+		
+		return "redirect:/pilki?success";
+	}
+	
+	@GetMapping("/usun_pilke")
+	public String viewDPilPage(@RequestParam(name="pilka",required=false,defaultValue="") String id, Model model) {
+		
+		if(id.length()>0) {
+			if(AntySQLInjection.isCorrect(id)) {
+				
+				try {
+					Pilka wyp = pilkiDao.get((int)Integer.parseInt(id));
+				
+					if(wyp != null) {
+						model.addAttribute("pilka",wyp);
+						
+						return "usun_pilke";
+					}else {
+						return "redirect:/pilki?brak";
+					}
+					
+				}catch(NumberFormatException err) {
+					return "redirect:/pilki?error";
+				}
+				
+				
+			}else {
+				return "redirect:/pilki?error";
+			}
+		}else {
+			
+			return "redirect:/pilki?error";
+		}
+	
+	}
+	
+	@GetMapping("/usun_pilke_ostatecznie")
+	public String viewWWPIPage(@RequestParam(name="pilka",required=false,defaultValue="") String id, Model model) {
+		
+		if(id.length()>0) {
+			if(AntySQLInjection.isCorrect(id)) {
+				
+				try {
+					Pilka pracownik = pilkiDao.get((int)Integer.parseInt(id));
+				
+					if(pracownik != null) {
+						
+						pilkiDao.delete((int)Integer.parseInt(id));
+						
+						return "redirect:/pilki?success";
+					}else {
+						return "redirect:/pilki?brak";
+					}
+					
+				}catch(NumberFormatException err) {
+					return "redirect:/pilki?error";
+				}
+				
+				
+			}else {
+				return "redirect:/pilki?error";
+			}
+		}else {
+			
+			return "redirect:/pilki?error";
+		}
+	
+	}
+	
+	@GetMapping("/edytuj_pilke")
+	public String viewPPraPage(@RequestParam(name="pilka",required=false,defaultValue="") String id, Model model) {
+		
+		if(id.length()>0) {
+			if(AntySQLInjection.isCorrect(id)) {
+				
+				try {
+					Pilka pracownik = pilkiDao.get((int)Integer.parseInt(id));
+				
+					if(pracownik != null) {
+						
+						model.addAttribute("pilka",pracownik);
+						
+						return "edytuj_pilke";
+					}else {
+						model.addAttribute("pilka",new Pracownik());
+						return "redirect:/pilki?brak";
+					}
+					
+				}catch(NumberFormatException err) {
+					return "redirect:/pilki?error";
+				}
+				
+				
+			}else {
+				return "redirect:/pilki?error";
+			}
+		}else {
+			return "redirect:/pilki?error";
+		}
+	
+	}
+	
+	@RequestMapping(value="/edytujPilka", method = RequestMethod.POST)
+	public String edtyujPilka(@ModelAttribute("pilka") Pilka pilka) {
+		
+		
+		if(!AntySQLInjection.isCorrect(pilka.toString())) return "redirect:/pilki?niedozwoloneZnaki";
+		if(WeryfikacjaDaneOsobowe.isEmpty(pilka.getNazwa())) return "redirect:/pilki?pustaNazwa";
+		if(pilka.getMasa() <= 0) return "redirect:/pilki?podanoNiedodatniaMase";
+		if(pilka.getSrednica() <= 0) return "redirect:/pilki?podanoNiedodatniaSrednice";
+		
+		pilkiDao.update(pilka);
+		
+		return "redirect:/pilki?success";
+	}
+	
 }

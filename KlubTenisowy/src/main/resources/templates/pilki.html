@@ -12,7 +12,7 @@
 
 		Szukaj po nazwie <input type="text" id="szukanie"> <button onclick="find()" >Search</button> <br>
 	
-		<a href="\dodaj_wyplate"> Dodaj wyplatami</a>
+		<a href="\nowa_pilka"> Dodaj wyplatami</a>
 		<br/>
 		<!--Table -->
 			<table id="table" border = "1" cellpadding = "10">
@@ -37,8 +37,8 @@
 						<td th:text = "${pilka.masa}">Nazwisko</td>
 						<td th:text = "${pilka.srednica}">Numer telefonu</td>
 						<td th:text = "${pilka.material}">Nazwisko</td>
-						<td><a th:href= "@{/edytuj_pilke?wyplata=} + ${pilka.idPilki}">Edytuj</a></td>
-						<td><a th:href= "@{/usun_pilke?wyplata=} + ${pilka.idPilki}">Usuń</a></td>
+						<td><a th:href= "@{/edytuj_pilke?pilka=} + ${pilka.idPilki}">Edytuj</a></td>
+						<td><a th:href= "@{/usun_pilke?pilka=} + ${pilka.idPilki}">Usuń</a></td>
 					</tr>
 				</tbody>
 			</table> 
@@ -50,7 +50,7 @@
 			
 	</div>
 	
-		<script>
+	<script>
 	
 		
 		var numbers = parseInt(document.getElementById("ilosc").innerHTML);
@@ -63,7 +63,7 @@
 		errors();
 		
 		function start(){
-			var adres = window.location.href;
+			var adres = decodeURIComponent(window.location.href);
 			var adresZn = adres.split('');
 			
 			var nciag="";
@@ -99,7 +99,7 @@
 			
 			}
 			
-			document.getElementById("szukanie").value = wartosc;
+			document.getElementById("szukanie").value = wartosc ;
 		}
 		
 		function errors(){
@@ -136,6 +136,18 @@
 					document.getElementById("powodzenie").innerHTML = "Operacja zakonczona sukcesem";
 				}
 				
+				
+					
+					if(komunikat == "pustaNazwa"){
+						document.getElementById("komunikat").innerHTML = "Nie podano nazwy";
+					}
+					if(komunikat == "podanoNiedodatniaMase"){
+						document.getElementById("komunikat").innerHTML = "Podano ujemną masę";
+					}
+					if(komunikat == "podanoNiedodatniaSrednie"){
+						document.getElementById("komunikat").innerHTML = "Podano ujemną średnice" 	
+					}
+					
 				
 			}
 			
