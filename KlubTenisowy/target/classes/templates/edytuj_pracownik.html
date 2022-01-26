@@ -22,7 +22,7 @@
 		<table border = "1" cellpadding  = "10">
 			<tr>
 				<td> ID: </td>
-				<td> <input type="text" th:field="*{idPracownika}" disabled/></td>
+				<td> <input type="text" th:field="*{idPracownika}" readonly="true"/></td>
 			</tr>
 			<tr>
 				<td> Imie: </td>
@@ -47,7 +47,7 @@
 			</tr>
 			<tr>
 				<td> Data urodzenia: </td>
-				<td> <a th:text="*{pracownikData}"> </a> Zmien na: <input type="date" th:field="*{dataUrodzenia}" /> <td>
+				<td> <a th:text="*{dataUrodzenia}"> </a> Zmien na: <input type="date" th:field="*{dataUrodzenia}" /> <td>
 			</tr>
 		</table>
 		

@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.example.KlubTenisowy.Pilki.Pilka;
+import com.example.KlubTenisowy.Pilki.PilkaDAO;
 import com.example.KlubTenisowy.Pracownic.*;
 import com.example.KlubTenisowy.Weryfikacja.AntySQLInjection;
 import com.example.KlubTenisowy.Weryfikacja.Daty;
@@ -165,7 +167,6 @@ public class AppController {
 				
 					if(pracownik != null) {
 						
-						
 						model.addAttribute("pracownik",pracownik);
 						
 						return "edytuj_pracownik";
@@ -186,7 +187,7 @@ public class AppController {
 			}
 		}else {
 			
-			return "pracownicy?error";
+			return "redirect:/pracownicy?error";
 		}
 	
 	}
@@ -491,5 +492,31 @@ public class AppController {
 		pracownicyDao.update(pracownik);
 		
 		return "redirect:/pracownicy?success";
+	}
+	
+	// Pilki
+	
+	@Autowired
+	private PilkaDAO pilkiDao;
+	
+	@GetMapping("/pilki")
+	public String viewPilkiPage(@RequestParam(name="search",required=false,defaultValue="") String search,
+			Model model) {
+		
+			if(AntySQLInjection.isCorrect(search)) {
+				List<Pilka> lista = pilkiDao.list(search);
+				
+				if(lista == null) {
+					lista = new ArrayList<Pilka>();
+					
+				}
+				
+				
+				model.addAttribute("lista",lista);
+			}else {
+				return "redirect:/pilki?niedozwoloneZnaki";
+			}
+	
+		return "pilki";
 	}
 }

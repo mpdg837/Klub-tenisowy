@@ -157,8 +157,10 @@ public class PracownicyDAO {
 		if(pracownik.getDataUrodzenia().length() == 0) {
 			String updateQuery = "update "+tableName+" set IMIE = ? ,  NAZWISKO = ? , DRUGIE_IMIE = ?,  "
 					+ "ADRES_EMAIL = ? ,  PESEL = ? , NUMER_TELEFONU = ? , STANOWISKO = ? where "+idName+" = ?";
+			
 			jdbcTemplate.update(updateQuery, pracownik.getImie() , pracownik.getNazwisko(), pracownik.getDrugieImie(), pracownik.getAdresEmail(), pracownik.getPESEL(), 
 					pracownik.getNumerTelefonu(), pracownik.getStanowisko() , pracownik.getIdPracownika());
+			
 		}else {
 			String updateQuery = "update "+tableName+" set IMIE = ? ,  NAZWISKO = ? , DRUGIE_IMIE = ? ,  DATA_URODZENIA = ? ,  "
 					+ "ADRES_EMAIL = ? ,  PESEL = ? , NUMER_TELEFONU = ? , STANOWISKO = ? where "+idName+" = ?";
