@@ -24,10 +24,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.KlubTenisowy.Pracownic.*;
 import com.example.KlubTenisowy.Weryfikacja.AntySQLInjection;
-
+import com.example.KlubTenisowy.Weryfikacja.Daty;
 import com.example.KlubTenisowy.Weryfikacja.WeryfikacjaDaneOsobowe;
+import com.example.KlubTenisowy.Wyplaty.Wyplaty;
 import com.example.KlubTenisowy.Wyplaty.WyplatyDAO;
 import com.example.KlubTenisowy.Wyplaty.WyplatyPodglad;
+import com.example.KlubTenisowy.Wyplaty.WyplatyWyciag;
 
 import ch.qos.logback.classic.Logger;
 
@@ -58,6 +60,8 @@ public class AppController {
 					Pracownik pracownik = pracownicyDao.get((int)Integer.parseInt(id));
 				
 					if(pracownik != null) {
+						
+						wyplatyDao.deletePracownika((int)Integer.parseInt(id));
 						pracownicyDao.delete((int)Integer.parseInt(id));
 						
 						return "redirect:/pracownicy?success";
@@ -65,7 +69,7 @@ public class AppController {
 						return "redirect:/pracownicy?brak";
 					}
 					
-				}catch(Exception err) {
+				}catch(NumberFormatException err) {
 					return "redirect:/pracownicy?error";
 				}
 				
@@ -83,21 +87,23 @@ public class AppController {
 	@GetMapping("/usun_pracownik")
 	public String viewDPraPage(@RequestParam(name="pracownik",required=false,defaultValue="") String id, Model model) {
 		
+
+				
 		if(id.length()>0) {
 			if(AntySQLInjection.isCorrect(id)) {
 				
 				try {
-					Pracownik pracownik = pracownicyDao.get((int)Integer.parseInt(id));
+					Wyplaty wyp = wyplatyDao.get((int)Integer.parseInt(id));
 				
-					if(pracownik != null) {
-						model.addAttribute("pracownik",pracownik);
+					if(wyp != null) {
+						model.addAttribute("wyplata",wyp);
 						
 						return "usun_pracownik";
 					}else {
-						return "redirect:/pracownicy?brak";
+						return "redirect:/w?brak";
 					}
 					
-				}catch(Exception err) {
+				}catch(NumberFormatException err) {
 					return "redirect:/pracownicy?error";
 				}
 				
@@ -109,6 +115,7 @@ public class AppController {
 			
 			return "redirect:/pracownicy?error";
 		}
+	
 	
 	}
 	
@@ -167,7 +174,7 @@ public class AppController {
 						return "redirect:/pracownicy?brak";
 					}
 					
-				}catch(Exception err) {
+				}catch(NumberFormatException err) {
 					model.addAttribute("pracownik",new Pracownik());
 					return "redirect:/pracownicy?error";
 				}
@@ -194,16 +201,186 @@ public class AppController {
 			@RequestParam(name="dataDo",required=false,defaultValue="") String doDaty,
 			Model model) {
 		
-		List<WyplatyPodglad> lista = wyplatyDao.list("","");
-
-		if(lista == null) {
-			lista = new ArrayList<WyplatyPodglad>();
+		if(odDaty.length()>0 && doDaty.length()>0) {
+			if(AntySQLInjection.isCorrect( odDaty) && AntySQLInjection.isCorrect(doDaty)) {
+				
+				if(!Daty.isCorrect(odDaty)) return "redirect:/wyplaty?zlaData";
+				if(!Daty.isCorrect(doDaty)) return "redirect:/wyplaty?zlaData";
+				
+				List<WyplatyPodglad> lista = wyplatyDao.list(odDaty,doDaty);
+				
+				if(lista == null) {
+					lista = new ArrayList<WyplatyPodglad>();
+					
+				}
+				
+				
+				model.addAttribute("lista",lista);
+			}else {
+				return "redirect:/wyplaty?zlyCiag";
+			}
+		}else {
 			
+			if(odDaty.length()>0 || doDaty.length()>0) {
+				 return "redirect:/wyplaty?brakDaty";
+			}
+			
+			List<WyplatyPodglad> lista = wyplatyDao.list("","");
+			
+			if(lista == null) {
+				lista = new ArrayList<WyplatyPodglad>();
+				
+			}
+			
+			model.addAttribute("lista",lista);
 		}
-		model.addAttribute("lista",lista);
-		
 		
 		return "wyplaty";
+	}
+	
+	@GetMapping("/dodaj_wyplate")
+	public String viewDWyPage(@RequestParam(name="id",required=false,defaultValue="") String id,Model model) {
+	
+		
+		Wyplaty wyplata = new Wyplaty();
+		if(id.length()>0) {
+			try {
+				
+				wyplata.setIdPracownika(Integer.parseInt(id));
+			}catch(Exception err) {
+				return "redirect:/dodaj_wyplate?nieMaPracownika";
+			}
+		}
+		
+		List<Pracownik> prac = pracownicyDao.list("", "");
+		
+		model.addAttribute("wyplata",wyplata);
+		model.addAttribute("pracownicy",prac);
+		
+		return "dodaj_wyplate";
+		
+	}
+	
+	@RequestMapping(value="/saveWyplata", method = RequestMethod.POST)
+	public String saveWyplata(@ModelAttribute("wyplata") Wyplaty wyplata) {
+		
+		if(!AntySQLInjection.isCorrect(wyplata.toString())) return "redirect:/nowy_pracownik?niedozwoloneZnaki";
+		
+		Pracownik prac = pracownicyDao.get(wyplata.getIdPracownika());
+		
+		if(prac == null) return "redirect:/dodaj_wyplate?nieMaPracownika";
+		if(wyplata.getStawkaPodstawowa() <= 0) return "redirect:/dodaj_wyplate?podanoNiedodatniaStawkePodstawowa";
+		if(wyplata.getPremia() < 0) return "redirect:/dodaj_wyplate?podanoNiedodatniaPremie";
+		if(wyplata.getDodatekOkolicznosciowy() < 0) return "redirect:/dodaj_wyplate?podanoNiedodatniDodatek";
+		
+		
+		wyplata.setDataWyplaty(Daty.getActData());
+		
+		wyplatyDao.save(wyplata);
+		
+		return "redirect:/wyplaty?success";
+	}
+	
+	
+	@GetMapping("/usun_wyplate")
+	public String viewUWypPage(@RequestParam(name="wyplata",required=false,defaultValue="") String id, Model model) {
+		
+		if(id.length()>0) {
+			if(AntySQLInjection.isCorrect(id)) {
+				
+				try {
+					Wyplaty wyp = wyplatyDao.get((int)Integer.parseInt(id));
+				
+					if(wyp != null) {
+						model.addAttribute("wyplata",wyp);
+						
+						return "usun_wyplate";
+					}else {
+						return "redirect:/usun_wyplate?brak";
+					}
+					
+				}catch(NumberFormatException err) {
+					return "redirect:/usun_wyplate?error";
+				}
+				
+				
+			}else {
+				return "redirect:/usun_wyplate?error";
+			}
+		}else {
+			
+			return "redirect:/usun_wyplate?error";
+		}
+	
+	}
+	
+	@GetMapping("/usun_wyplate_ostatecznie")
+	public String viewUWypOPage(@RequestParam(name="wyplata",required=false,defaultValue="") String id, Model model) {
+		
+		if(id.length()>0) {
+			if(AntySQLInjection.isCorrect(id)) {
+				
+				try {
+					Wyplaty wyplata = wyplatyDao.get((int)Integer.parseInt(id));
+				
+					if(wyplata != null) {
+						
+						wyplatyDao.delete((int)Integer.parseInt(id));
+					
+						
+						return "redirect:/wyplaty?success";
+					}else {
+						return "redirect:/wyplaty?brak";
+					}
+					
+				}catch(NumberFormatException err) {
+					return "redirect:/wyplaty?error";
+				}
+				
+				
+			}else {
+				return "redirect:/wyplaty?error";
+			}
+		}else {
+			
+			return "redirect:/wyplaty?error";
+		}
+	
+	}
+	
+	@GetMapping("/szczegoly_wyplata")
+	public String viewSWypPage(@RequestParam(name="wyplata",required=false,defaultValue="") String id, Model model) {
+		
+		if(id.length()>0) {
+			if(AntySQLInjection.isCorrect(id)) {
+				
+				try {
+					WyplatyWyciag wyplata = wyplatyDao.getS((int)Integer.parseInt(id));
+				
+					if(wyplata != null) {
+						model.addAttribute("wyplata",wyplata);
+						
+						return "szczegoly_wyplata";
+					}else {
+						model.addAttribute("pracownik",new Pracownik());
+						return "redirect:/wyplaty?brak";
+					}
+					
+				}catch(NumberFormatException err) {
+					model.addAttribute("pracownik",new Pracownik());
+					return "redirect:/wyplaty?error";
+				}
+				
+				
+			}else {
+				model.addAttribute("pracownik",new Pracownik());
+				return "redirect:/wyplaty?error";
+			}
+		}else {
+			
+			return "wyplaty?error";
+		}
+	
 	}
 	
 	@GetMapping("/pracownicy")
@@ -283,8 +460,9 @@ public class AppController {
 		if(!WeryfikacjaDaneOsobowe.weryfikujEmail(pracownik.getAdresEmail())) return "redirect:/nowy_pracownik?nieprawidlowyAdresEmail";
 		if(!WeryfikacjaDaneOsobowe.weryfikujPESEL(pracownik.getPESEL())) return "redirect:/nowy_pracownik?nieprawidlowyPESEL";
 		
-		Date date = new Date(java.time.LocalDate.now().getYear(),java.time.LocalDate.now().getMonthValue(),java.time.LocalDate.now().getDayOfMonth());
-		pracownik.setDataZatrudnienia(date);
+		
+		 
+		pracownik.setDataZatrudnienia(Daty.getActData());
 		pracownicyDao.save(pracownik);
 		
 		return "redirect:/pracownicy?success";

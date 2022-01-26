@@ -1,5 +1,7 @@
 package com.example.KlubTenisowy.Wyplaty;
 
+import java.util.Date;
+
 public class Wyplaty {
 	int idWyplaty;
 	int idPracownika;

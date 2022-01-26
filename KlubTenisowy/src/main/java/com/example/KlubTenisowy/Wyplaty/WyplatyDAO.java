@@ -24,17 +24,39 @@ public class WyplatyDAO {
 		super();
 		this.jdbcTemplate = jdbcTemplate;
 	}
-	
-
 	/* Import java.util.List */ 
-	public List<WyplatyPodglad> list(String dataPoczatek, String dataKoniec){
+	
+	public WyplatyWyciag getS(int id){
 		
+		String sql =  "SELECT w.ID_WYPLATY, p.IMIE, w.DATA_WYPLATY, p.NAZWISKO, p.STANOWISKO, w.STAWKA_PODSTAWOWA, w.PREMIA, w.DODATEK_OKOLICZNOSCIOWY  "
+				+ "FROM " + tableName + " w, PRACOWNICY p WHERE w.ID_PRACOWNIKA = p.ID_PRACOWNIKA AND w.ID_WYPLATY=" +id+" ORDER BY "+ idName+ " ASC";
+	
+		
+		List<WyplatyWyciag> lista = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(WyplatyWyciag.class)); 
+		
+		if(lista.size() > 0) {
+			return lista.get(0);
+		}else {
+			return null;
+		}
+		
+		
+	}
+	public List<WyplatyPodglad> list(String dataPoczatek, String dataKoniec){
 		
 		String sql =  "SELECT w.ID_WYPLATY, p.IMIE, w.DATA_WYPLATY, p.NAZWISKO, p.STANOWISKO, w.STAWKA_PODSTAWOWA, w.PREMIA, w.DODATEK_OKOLICZNOSCIOWY  "
 				+ "FROM " + tableName + " w, PRACOWNICY p WHERE w.ID_PRACOWNIKA = p.ID_PRACOWNIKA ORDER BY "+ idName+ " ASC";
 		
+		if(dataPoczatek.length() > 0 && dataKoniec.length() > 0) {
+			sql =  "SELECT w.ID_WYPLATY, p.IMIE, w.DATA_WYPLATY, p.NAZWISKO, p.STANOWISKO, w.STAWKA_PODSTAWOWA, w.PREMIA, w.DODATEK_OKOLICZNOSCIOWY  "
+					+ "FROM " + tableName + " w, PRACOWNICY p WHERE w.ID_PRACOWNIKA = p.ID_PRACOWNIKA AND "
+							+ "DATA_WYPLATY BETWEEN to_date('"+dataPoczatek+"', 'yyyy-mm-dd') AND to_date('"+dataKoniec+"', 'yyyy-mm-dd')"
+							+ "ORDER BY "+ idName+ " ASC";
+		}
+		
 		List<WyplatyWyciag> lista = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(WyplatyWyciag.class)); 
 		List<WyplatyPodglad> podglad = new ArrayList<>();
+		
 		
 		int n=0;
 		for(WyplatyWyciag wypl : lista) {
@@ -94,6 +116,12 @@ public class WyplatyDAO {
 	/* Delete – wybrany rekord z danym id */
 	public void delete(int id) {
 		String sql = "DELETE FROM "+tableName+" WHERE "+idName+" = ?";
+		jdbcTemplate.update(sql,id);
+	}
+	
+	/* Delete – wybrany rekord z danym id */
+	public void deletePracownika(int id) {
+		String sql = "DELETE FROM "+tableName+" WHERE ID_PRACOWNIKA = ?";
 		jdbcTemplate.update(sql,id);
 	}
 }

@@ -20,7 +20,8 @@
 	<a th:href="@{/edytuj_pracownik?pracownik=} + ${pracownik.idPracownika}" > Edytuj dane pracownika</a>
 	|
 	<a th:href="@{/usun_pracownik?pracownik=} + ${pracownik.idPracownika}" > Zwolnij pracownika</a>
-	
+	|
+	<a th:href="@{/dodaj_wyplate?id=} + ${pracownik.idPracownika}" > Nowa pensja</a>
 		<h5> Dane osobowe </h5>
 		<table border = "1" cellpadding  = "10">
 			<tr>

@@ -11,7 +11,7 @@ public class Pracownik {
 	String plec;
 	String PESEL;
 	String dataUrodzenia;
-	Date dataZatrudnienia;
+	String dataZatrudnienia;
 	String stanowisko;
 	String numerTelefonu;
 	String adresEmail;
@@ -25,7 +25,7 @@ public class Pracownik {
 	}
 
 	public Pracownik(int idPracownika, String imie, String nazwisko, String drugieImie, String plec, String pESEL,
-			String dataUrodzenia, Date dataZatrudnienia, String stanowisko, String numerTelefonu, String adresEmail,
+			String dataUrodzenia, String dataZatrudnienia, String stanowisko, String numerTelefonu, String adresEmail,
 			Integer numerBiura) {
 		super();
 		this.idPracownika = idPracownika;
@@ -106,11 +106,11 @@ public class Pracownik {
 		this.dataUrodzenia = dataUrodzenia;
 	}
 
-	public Date getDataZatrudnienia() {
+	public String getDataZatrudnienia() {
 		return dataZatrudnienia;
 	}
 
-	public void setDataZatrudnienia(Date dataZatrudnienia) {
+	public void setDataZatrudnienia(String dataZatrudnienia) {
 		this.dataZatrudnienia = dataZatrudnienia;
 	}
 
