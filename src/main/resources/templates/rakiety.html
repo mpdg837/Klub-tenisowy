@@ -7,12 +7,12 @@
 </head>
 <body>
 	<div align = "center">
-		<h1>Pilki</h1>
+		<h1>Rakiety</h1>
 		<a style = "color : red" id="komunikat"></a> <a style = "color : green" id="powodzenie"></a><br>
 
 		Szukaj po nazwie <input type="text" id="szukanie"> <button onclick="find()" >Search</button> <br>
 	
-		<a href="\nowa_pilka"> Dodaj wyplatami</a>
+		<a href="\nowa_rakieta"> Dodaj rakiete</a>
 		<br/>
 		<!--Table -->
 			<table id="table" border = "1" cellpadding = "10">
@@ -21,24 +21,24 @@
 			<thead>
 				<tr>
 				<!--Table row -->
-					<th>ID Pilki</th>
+					<th>ID Rakiety</th>
 					<!–-Table column -->
 					<th>Nazwa</th>
-					<th>Masa</th>
-					<th>Srednica</th>
-					<th>Materiał</th>
+					<th>Masa [g]</th>
+					<th>Długość [cm]</th>
+					<th>Szerokość [cm]</th>
 				</tr>
 			</thead>
 			<!--Table body -->
 				<tbody>
-					<tr th:id = "@{pole} + ${pilka.index}" th:each = "pilka : ${lista}">
-						<td th:text = "${pilka.idPilki}">ID</td>
-						<td th:text = "${pilka.nazwa}">Imie</td>
-						<td th:text = "${pilka.masa}">Nazwisko</td>
-						<td th:text = "${pilka.srednica}">Numer telefonu</td>
-						<td th:text = "${pilka.material}">Nazwisko</td>
-						<td><a th:href= "@{/edytuj_pilke?pilka=} + ${pilka.idPilki}">Edytuj</a></td>
-						<td><a th:href= "@{/usun_pilke?pilka=} + ${pilka.idPilki}">Usuń</a></td>
+					<tr th:id = "@{pole} + ${rakieta.index}" th:each = "rakieta : ${lista}">
+						<td th:text = "${rakieta.idRakiety}">ID</td>
+						<td th:text = "${rakieta.nazwa}">Imie</td>
+						<td th:text = "${rakieta.masa}">Nazwisko</td>
+						<td th:text = "${rakieta.dlugosc}">Numer telefonu</td>
+						<td th:text = "${rakieta.szerokosc}">Nazwisko</td>
+						<td><a th:href= "@{/edytuj_rakiete?rakieta=} + ${rakieta.idRakiety}">Edytuj</a></td>
+						<td><a th:href= "@{/usun_rakiete?rakieta=} + ${rakieta.idRakiety}">Usuń</a></td>
 					</tr>
 				</tbody>
 			</table> 
@@ -138,15 +138,18 @@
 				
 				
 					
-					if(komunikat == "pustaNazwa"){
-						document.getElementById("komunikat").innerHTML = "Nie podano nazwy";
-					}
-					if(komunikat == "podanoNiedodatniaMase"){
-						document.getElementById("komunikat").innerHTML = "Podano ujemną masę";
-					}
-					if(komunikat == "podanoNiedodatniaSrednice"){
-						document.getElementById("komunikat").innerHTML = "Podano ujemną średnice" 	
-					}
+				if(komunikat == "pustaNazwa"){
+					document.getElementById("komunikat").innerHTML = "Nie podano nazwy";
+				}
+				if(komunikat == "podanoNiedodatniaMase"){
+					document.getElementById("komunikat").innerHTML = "Podano ujemną masę";
+				}
+				if(komunikat == "podanoNiedodatniaDlugosc"){
+					document.getElementById("komunikat").innerHTML = "Podano ujemną dlugosc" 	
+				}
+				if(komunikat == "podanoNiedodatniaSzerokosc"){
+					document.getElementById("komunikat").innerHTML = "Podano ujemną szerokosc" 	
+				}
 					
 				
 			}
@@ -169,7 +172,7 @@
 			
 			var szukaj = document.getElementById("szukanie").value;
 
-			window.location.href = "/pilki?search="+ szukaj;
+			window.location.href = "/rakiety?search="+ szukaj;
 		}
 		
 		function sub(){

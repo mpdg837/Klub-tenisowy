@@ -24,7 +24,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.KlubTenisowy.Pilki.Pilka;
 import com.example.KlubTenisowy.Pilki.PilkaDAO;
+import com.example.KlubTenisowy.Rakiety.RakietyDAO;
 import com.example.KlubTenisowy.Pracownic.*;
+import com.example.KlubTenisowy.Rakiety.Rakieta;
 import com.example.KlubTenisowy.Weryfikacja.AntySQLInjection;
 import com.example.KlubTenisowy.Weryfikacja.Daty;
 import com.example.KlubTenisowy.Weryfikacja.WeryfikacjaDaneOsobowe;
@@ -665,5 +667,181 @@ public class AppController {
 		
 		return "redirect:/pilki?success";
 	}
+	
+	// Rakiety
+	
+	@Autowired
+	private RakietyDAO rakietyDao;
+	
+	@GetMapping("/rakiety")
+	public String viewRakietyPage(@RequestParam(name="search",required=false,defaultValue="") String search,
+			Model model) {
+		
+			if(AntySQLInjection.isCorrect(search)) {
+				List<Rakieta> lista = rakietyDao.list(search);
+				
+				if(lista == null) {
+					lista = new ArrayList<Rakieta>();
+					
+				}
+				
+				int n=0;
+				for(Rakieta pilka : lista) {
+					
+					pilka.setIndex(n);
+					
+					n++;
+				}
+				
+				
+				model.addAttribute("lista",lista);
+			}else {
+				return "redirect:/rakiety?niedozwoloneZnaki";
+			}
+	
+		return "rakiety";
+	}
+	
+	@GetMapping("/nowa_rakieta")
+	public String viewRRaPage(Model model) {
+	
+		
+		Rakieta pilka = new Rakieta();
+		
+		model.addAttribute("rakieta",pilka);
+
+		return "nowa_rakieta";
+		
+	}
+	
+	@RequestMapping(value="/saveRakieta", method = RequestMethod.POST)
+	public String saveRakieta(@ModelAttribute("rakieta") Rakieta rakieta) {
+		
+		
+		if(!AntySQLInjection.isCorrect(rakieta.toString())) return "redirect:/nowa_rakieta?niedozwoloneZnaki";
+		if(WeryfikacjaDaneOsobowe.isEmpty(rakieta.getNazwa())) return "redirect:/nowa_rakieta?pustaNazwa";
+		if(rakieta.getMasa() <= 0) return "redirect:/nowa_rakieta?podanoNiedodatniaMase";
+		if(rakieta.getDlugosc() <= 0) return "redirect:/nowa_rakieta?podanoNiedodatniaDlugosc";
+		if(rakieta.getSzerokosc() <= 0) return "redirect:/nowa_rakieta?podanoNiedodatniaSzerokosc";
+		
+		rakietyDao.save(rakieta);
+		
+		return "redirect:/rakiety?success";
+	}
+	
+	@GetMapping("/usun_rakiete")
+	public String viewDRakPage(@RequestParam(name="rakieta",required=false,defaultValue="") String id, Model model) {
+		
+		if(id.length()>0) {
+			if(AntySQLInjection.isCorrect(id)) {
+				
+				try {
+					Rakieta wyp = rakietyDao.get((int)Integer.parseInt(id));
+				
+					if(wyp != null) {
+						model.addAttribute("rakieta",wyp);
+						
+						return "usun_rakiete";
+					}else {
+						return "redirect:/rakiety?brak";
+					}
+					
+				}catch(NumberFormatException err) {
+					return "redirect:/rakiety?error";
+				}
+				
+				
+			}else {
+				return "redirect:/rakiety?error";
+			}
+		}else {
+			
+			return "redirect:/rakiety?error";
+		}
+	
+	}
+	
+	@GetMapping("/usun_rakiete_ostatecznie")
+	public String viewRPIPage(@RequestParam(name="rakieta",required=false,defaultValue="") String id, Model model) {
+		
+		if(id.length()>0) {
+			if(AntySQLInjection.isCorrect(id)) {
+				
+				try {
+					Rakieta pracownik = rakietyDao.get((int)Integer.parseInt(id));
+				
+					if(pracownik != null) {
+						
+						rakietyDao.delete((int)Integer.parseInt(id));
+						
+						return "redirect:/rakiety?success";
+					}else {
+						return "redirect:/rakiety?brak";
+					}
+					
+				}catch(NumberFormatException err) {
+					return "redirect:/rakiety?error";
+				}
+				
+				
+			}else {
+				return "redirect:/rakiety?error";
+			}
+		}else {
+			
+			return "redirect:/rakiety?error";
+		}
+	
+	}
+	
+	@GetMapping("/edytuj_rakiete")
+	public String viewERaPage(@RequestParam(name="rakieta",required=false,defaultValue="") String id, Model model) {
+		
+		if(id.length()>0) {
+			if(AntySQLInjection.isCorrect(id)) {
+				
+				try {
+					Rakieta pracownik = rakietyDao.get((int)Integer.parseInt(id));
+				
+					if(pracownik != null) {
+						
+						model.addAttribute("rakieta",pracownik);
+						
+						return "edytuj_rakiete";
+					}else {
+						return "redirect:/rakiety?brak";
+					}
+					
+				}catch(NumberFormatException err) {
+					return "redirect:/rakiety?error";
+				}
+				
+				
+			}else {
+				return "redirect:/rakiety?error";
+			}
+		}else {
+			return "redirect:/rakiety?error";
+		}
+	
+	}
+	
+	
+
+	@RequestMapping(value="/editRakieta", method = RequestMethod.POST)
+	public String editRakieta(@ModelAttribute("rakieta") Rakieta rakieta) {
+		
+		
+		if(!AntySQLInjection.isCorrect(rakieta.toString())) return "redirect:/rakiety?niedozwoloneZnaki";
+		if(WeryfikacjaDaneOsobowe.isEmpty(rakieta.getNazwa())) return "redirect:/rakiety?pustaNazwa";
+		if(rakieta.getMasa() <= 0) return "redirect:/rakiety?podanoNiedodatniaMase";
+		if(rakieta.getDlugosc() <= 0) return "redirect:/rakiety?podanoNiedodatniaDlugosc";
+		if(rakieta.getSzerokosc() <= 0) return "redirect:/rakiety?podanoNiedodatniaSzerokosc";
+		
+		rakietyDao.update(rakieta);
+		
+		return "redirect:/rakiety?success";
+	}
+	
 	
 }

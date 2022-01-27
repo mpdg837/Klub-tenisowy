@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<div align = "center">
+	<h1> Edytuj rakiete </h1>
+	
+	
+	<a style="color: red" id="komunikat"> </a> </br>
+	
+	Tym formularzem możesz edytować rakietę <br />
+	<a href="/pilki" > Powrót</a>
+	
+	<form action="#" th:action="@{/editRakieta}" th:object="${rakieta}" method="post">
+		<h5> Dane identyfikacyjne </h5>
+		<table border = "1" cellpadding  = "10">
+			<tr>
+				<td> ID: </td>
+				<td>		
+				 	<input readOnly = "true" type="text" th:field="*{idRakiety}" />
+				</td>
+			</tr>
+			<tr>
+				<td> Nazwa: </td>
+				<td>		
+				 	<input type="text" th:field="*{nazwa}" />
+				</td>
+				
+			</tr>
+			
+		</table>
+		
+		<h5> Dane pracownicze </h5>
+			<table border = "1" cellpadding  = "10">
+			<tr>
+				<td> Masa: </td>
+				<td> <input type="number"  step="0.01" th:field="*{masa}" /> g</td>
+			</tr>
+			<tr>
+				<td> Długość: </td>
+				<td> <input type="number"  step="0.01" th:field="*{dlugosc}" /> cm</td>
+			</tr>
+			<tr>
+				<td> Szerokość: </td>
+				<td> <input type="number"  step="0.01" th:field="*{szerokosc}" /> cm</td>
+			</tr>
+		
+		</table>
+		
+		<button type="sumbit">Save</button>
+	</form>
+</div>

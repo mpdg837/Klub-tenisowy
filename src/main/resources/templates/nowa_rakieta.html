@@ -7,25 +7,18 @@
 <body>
 
 <div align = "center">
-	<h1> Edycja piłki </h1>
+	<h1> Nowa rakieta </h1>
 	
 	
 	<a style="color: red" id="komunikat"> </a> </br>
 	
-	Tym formularzem możesz edytować parametry piłki <br />
+	Tym formularzem możesz dodać nową rakietę <br />
 	<a href="/pilki" > Powrót</a>
 	
-	<form action="#" th:action="@{/edytujPilka}" th:object="${pilka}" method="post">
+	<form action="#" th:action="@{/saveRakieta}" th:object="${rakieta}" method="post">
 		<h5> Dane identyfikacyjne </h5>
 		<table border = "1" cellpadding  = "10">
 			<tr>
-			<td> ID: </td>
-					<td>		
-					 	<input type="text" readOnly="true" th:field="*{idPilki}" />
-					</td>
-			</tr>
-			<tr>
-				
 				<td> Nazwa: </td>
 				<td>		
 				 	<input type="text" th:field="*{nazwa}" />
@@ -42,18 +35,12 @@
 				<td> <input type="number"  step="0.01" th:field="*{masa}" /> g</td>
 			</tr>
 			<tr>
-				<td> Srednica: </td>
-				<td> <input type="number"  step="0.01" th:field="*{srednica}" /> cm</td>
+				<td> Długość: </td>
+				<td> <input type="number"  step="0.01" th:field="*{dlugosc}" /> cm</td>
 			</tr>
 			<tr>
-				<td> Materiał: </td>
-				<td>
-				 <select name="plec" th:field="*{material}">
-				    <option value="guma">Guma</option>
-				    <option value="filc">Filc</option>
-				    <option value="gabka">Gąbka</option>
-				  </select>
-				</td>
+				<td> Szerokość: </td>
+				<td> <input type="number"  step="0.01" th:field="*{szerokosc}" /> cm</td>
 			</tr>
 		
 		</table>
@@ -92,8 +79,11 @@
 		if(komunikat == "podanoNiedodatniaMase"){
 			document.getElementById("komunikat").innerHTML = "Podano ujemną masę";
 		}
-		if(komunikat == "podanoNiedodatniaSrednice"){
-			document.getElementById("komunikat").innerHTML = "Podano ujemną średnice" 	
+		if(komunikat == "podanoNiedodatniaDlugosc"){
+			document.getElementById("komunikat").innerHTML = "Podano ujemną dlugosc" 	
+		}
+		if(komunikat == "podanoNiedodatniaSzerokosc"){
+			document.getElementById("komunikat").innerHTML = "Podano ujemną szerokosc" 	
 		}
 		
 	}
