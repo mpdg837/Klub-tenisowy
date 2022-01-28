@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Wysylanie wyplat pracownikom</title>
+</head>
+<body>
+	<div align = "center">
+		<h1>Zarządzanie biurami</h1>
+		<a style = "color : red" id="komunikat"></a> <a style = "color : green" id="powodzenie"></a><br>
+
+		
+	
+		<a href="\nowe_biuro"> Zarejestruj nowe biuro</a>
+		<br/>
+		<!--Table -->
+			<table id="table" border = "1" cellpadding = "10">
+			<!-–border –obramowanie, cellpadding –rozmiar komórki -->
+			<!--Table header -->
+			<thead>
+				<tr>
+				<!--Table row -->
+					<th>ID Biura</th>
+					<!–-Table column -->
+					<th>Numer telefonu</th>
+					<th>Adres email</th>				
+					<th>Ulica</th>
+					<th>Numer budynku</th>
+					<th>Numer mieszkania</th>
+					<th>Miejscowosc</th>
+					<th>Kod pocztowy</th>
+				</tr>
+			</thead>
+			<!--Table body -->
+				<tbody>
+					<tr th:each = "biuro : ${listaBiura}">
+						<td th:text = "${biuro.id_biura}">ID Biura</td>
+						<td th:text = "${biuro.numer_telefonu}">Numer telefonu</td>
+						<td th:text = "${biuro.adres_email}">Adres email</td>
+						<td th:text = "${biuro.ulica}">Ulica</td>
+						<td th:text = "${biuro.numer_budynku}">Numer budynku</td>
+						<td th:text = "${biuro.numer_mieszkania}">Numer mieszkania</td>
+						<td th:text = "${biuro.miejscowosc}">Miejscowosc</td>
+						<td th:text = "${biuro.kod_pocztowy}">Kod pocztowy</td>
+						
+						<td><a th:href="@{'/edytuj_biuro?biuro=' + ${biuro.id_biura}}"> Edit</a></td>
+						<td><a th:href= "@{/usun_biuro?biuro=} + ${biuro.id_biura}">Usuń</a></td>
+					</tr>
+				</tbody>
+			</table> 
+		
+			
+			
+	</div>
+	

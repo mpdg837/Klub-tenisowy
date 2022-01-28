@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Klienci indywidualni</title>
+</head>
+<body>
+	<div align = "center">
+		<h1>Zarządzanie klientami indywidualnymi</h1>
+		<a style = "color : red" id="komunikat"></a> <a style = "color : green" id="powodzenie"></a><br>
+
+		
+	
+		<a href="\nowy_klient_indywidualny"> Zarejestruj nowego klienta</a>
+		<br/>
+		<!--Table -->
+			<table id="table" border = "1" cellpadding = "10">
+			<!-–border –obramowanie, cellpadding –rozmiar komórki -->
+			<!--Table header -->
+			<thead>
+				<tr>
+				<!--Table row -->
+					<th>ID Klienta</th>
+					<!–-Table column -->
+					<th>Imię</th>
+					<th>Nazwisko</th>		
+					<th>Drugie imię</th>							
+					<th>Płeć</th>
+					
+				</tr>
+			</thead>
+			<!--Table body -->
+				<tbody>
+					<tr th:each = "klient : ${listaKlientow_indywidualnych}">
+						<td th:text = "${klient.idKlienta_indywidualnego}">ID Klienta</td>
+						<td th:text = "${klient.imie}">Imię</td>
+						<td th:text = "${klient.nazwisko}">Nazwisko</td>
+						<td th:text = "${klient.drugieImie}">Drugie imię</td>
+						<td th:text = "${klient.plec}">Nazwisko</td>
+						
+						
+						
+					</tr>
+				</tbody>
+			</table> 
+		
+			
+			
+	</div>
+	
