@@ -33,7 +33,7 @@
 		<div class="menuL"><img src="konto.png" width="18"/>   Logowanie</div>
 	</div>
 	<div id="main" align = "center">
-		<h1>Pilki</h1>
+		<h1> <img src="equipmnet.png" width="32"/> Pilki</h1>
 		<a style = "color : red" id="komunikat"></a> <a style = "color : green" id="powodzenie"></a><br>
 
 		Szukaj po nazwie <input type="text" id="szukanie"> <button onclick="find()" ><img width="16" src="search.png"/></button> <br>
@@ -64,8 +64,8 @@
 						<td  th:text = "${pilka.masa}">Nazwisko</td>
 						<td class="kol" th:text = "${pilka.srednica}">Numer telefonu</td>
 						<td  th:text = "${pilka.material}">Nazwisko</td>
-						<td><a th:href= "@{/edytuj_pilke?pilka=} + ${pilka.idPilki}"><img width="24" src="properties.png"/></a></td>
-						<td><a th:href= "@{/usun_pilke?pilka=} + ${pilka.idPilki}"><img width="24" src="remove.png"/></a></td>
+						<td><a class="button" th:href= "@{/edytuj_pilke?pilka=} + ${pilka.idPilki}"><img width="24" src="properties.png"/></a></td>
+						<td><a class="button" th:href= "@{/usun_pilke?pilka=} + ${pilka.idPilki}"><img width="24" src="remove.png"/></a></td>
 					</tr>
 				</tbody>
 			</table> 

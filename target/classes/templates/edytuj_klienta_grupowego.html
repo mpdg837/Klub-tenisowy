@@ -3,20 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <title>Dodaj nowego klienta grupowego</title>
+<link rel="stylesheet" href="style.css">
+
 </head>
 <body>
-<div align="center">
-	<h1> Dodawanie nowego klienta grupwoego</h1>
+<div id="nadtlo">
+		<img id="tlo" src="theme.jpg"/>
+	</div>
+	<div id="headerX">
+	</div>
+	<div id="header">
+		<div class="menuX"><img src="tenis.png" width="32"/></div>
+		<div class="menu"><img src="konto.png" width="24"/>  Pracownicy</div>
+		<div class="menu"><img src="mone.png" width="24"/>  Pensje</div>
+		<div class="menu">
+			<img src="equipmnet.png" width="24"/>   Inwentaż <br />
+			<div id="rozwin">
+				<img src="equipmnet.png" width="24"/>   Pilki <br />
+				<img src="equipmnet.png" width="24"/>   Rakiety <br />
+			</div>
+		</div>
+		<div class="menu"><img src="office.png" width="24"/>   Biura</div>
+		<div class="menu"><img src="court.png" width="24"/>   Korty</div>
+		<div class="menu"><img src="calendar.png" width="24"/>   Rezerwacje</div>
+		<div class="menu"><img src="calendar.png" width="24"/>   Wypożyczenia</div>
+		
+		<div class="menuL"><img src="konto.png" width="18"/>   Logowanie</div>
+	</div>
+<div id="main" align="center">
+	<h1><a class="button" href="/klienci_grupowi" ><img src="prev.png" width="24" /></a> Edycja klienta grupwoego</h1>
 	
 	
 	<a style="color: red" id="komunikat"> </a> </br>
 	
-	Tym formularzem możesz zarejestrować nowego klienta grupowego. <br />
-	<a href="/klienci_grupowi" > Powrót</a>
+	Tym formularzem możesz edytować dane klienta grupowego. <br />
+	
 	
 	<form action="#" th:action="@{/updateKlienta_grupowego}" th:object="${klient_grupowy}" method="post">
 	
-	<table border = "1" cellpadding  = "10">
+	<table border = "1" cellpadding  = "10" cellspacing = 0>
 		<tr>
 				<td> ID: </td>
 				<td> <input type="text" th:field="*{id_klienta_grupowego}" readonly="readonly" /></td>
@@ -24,7 +49,7 @@
 			<tr>
 	</table>
 	<h5> Dane firmy </h5>
-		<table border = "1" cellpadding  = "10">
+		<table border = "1" cellpadding  = "10"  cellspacing=0>
 			<tr>
 				<td> Nazwa: </td>
 				<td>		
@@ -49,7 +74,7 @@
 			
 		</table>
 		<h5> Dane kontaktowe klienta </h5>
-		<table border = "1" cellpadding  = "10">
+		<table border = "1" cellpadding  = "10"  cellspacing=0>
 			<tr>
 				<td> Numer telefonu: </td>
 				<td> <input type="text" th:field="*{numer_telefonu}" /></td>
@@ -61,7 +86,7 @@
 			
 		</table>
 		<h5> Dane adresowe klienta </h5>
-		<table border = "1" cellpadding  = "10">
+		<table border = "1" cellpadding  = "10" cellspacing=0>
 			<tr>
 				<td> Ulica: </td>
 				<td> <input type="text" th:field="*{ulica}" /></td>
@@ -83,11 +108,17 @@
 				<td> <input type="text" th:field="*{kod_pocztowy}" /> </td>
 			</tr>
 		</table>
-		<
 		
-		<button type="submit">Save</button>
+		<button class="buttonLarge" type="submit">Save</button>
 	</form>
 </div>
+	<div id="bottom" align="center">
+		System zarządzania klubem tenisowym <br />
+		<br />
+		<img src="tenis.png" width="32"/>
+		<br />
+	</div>
+<body>
 
 </body>
 </html>
