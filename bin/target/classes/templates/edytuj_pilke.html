@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<div align = "center">
+	<h1> Edycja piłki </h1>
+	
+	
+	<a style="color: red" id="komunikat"> </a> </br>
+	
+	Tym formularzem możesz edytować parametry piłki <br />
+	<a href="/pilki" > Powrót</a>
+	
+	<form action="#" th:action="@{/edytujPilka}" th:object="${pilka}" method="post">
+		<h5> Dane identyfikacyjne </h5>
+		<table border = "1" cellpadding  = "10">
+			<tr>
+			<td> ID: </td>
+					<td>		
+					 	<input type="text" readOnly="true" th:field="*{idPilki}" />
+					</td>
+			</tr>
+			<tr>
+				
+				<td> Nazwa: </td>
+				<td>		
+				 	<input type="text" th:field="*{nazwa}" />
+				</td>
+				
+			</tr>
+			
+		</table>
+		
+		<h5> Dane pracownicze </h5>
+			<table border = "1" cellpadding  = "10">
+			<tr>
+				<td> Masa: </td>
+				<td> <input type="number"  step="0.01" th:field="*{masa}" /> g</td>
+			</tr>
+			<tr>
+				<td> Srednica: </td>
+				<td> <input type="number"  step="0.01" th:field="*{srednica}" /> cm</td>
+			</tr>
+			<tr>
+				<td> Materiał: </td>
+				<td>
+				 <select name="plec" th:field="*{material}">
+				    <option value="guma">Guma</option>
+				    <option value="filc">Filc</option>
+				    <option value="gabka">Gąbka</option>
+				  </select>
+				</td>
+			</tr>
+		
+		</table>
+		
+		<button type="sumbit">Save</button>
+	</form>
+</div>
+
+		
+<script>
+
+	var adres = window.location.href;
+	var komunikat = "";
+	var start = false;
+	
+	for(var n=0; n< adres.length; n++){
+		var znak = adres[n];
+		
+		if(start){
+			komunikat = komunikat + znak;	
+		}
+		
+		if(znak + "" == "?"){
+			start = true;
+		}
+			
+	}
+		
+	if(start){
+		if(komunikat == "niedozwoloneZnaki"){
+			document.getElementById("komunikat").innerHTML = "Użyto niedozwolonych znaków";
+		}
+		if(komunikat == "pustaNazwa"){
+			document.getElementById("komunikat").innerHTML = "Nie podano nazwy";
+		}
+		if(komunikat == "podanoNiedodatniaMase"){
+			document.getElementById("komunikat").innerHTML = "Podano ujemną masę";
+		}
+		if(komunikat == "podanoNiedodatniaSrednie"){
+			document.getElementById("komunikat").innerHTML = "Podano ujemną średnice" 	
+		}
+		
+	}
+	
+</script>
