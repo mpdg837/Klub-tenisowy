@@ -3,11 +3,11 @@
 	xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Klienci indywidualni</title>
+<title>Klient grupowy</title>
 </head>
 <body>
 	<div align = "center">
-		<h1>Zarządzanie klientami indywidualnymi</h1>
+		<h1>Szczegoly klientów grupowych</h1>
 		<a style = "color : red" id="komunikat"></a> <a style = "color : green" id="powodzenie"></a><br>
 
 		
@@ -26,6 +26,13 @@
 					<th>Nazwa</th>
 					<th>NIP</th>
 					<th>REGON</th>				
+					<th>Numer telefonu</th>
+					<th>Adres email</th>				
+					<th>Ulica</th>
+					<th>Numer budynku</th>
+					<th>Numer mieszkania</th>
+					<th>Miejscowosc</th>
+					<th>Kod pocztowy</th>
 					
 					
 				</tr>
@@ -37,9 +44,16 @@
 						<td th:text = "${klient.nazwa}">Nazwa</td>
 						<td th:text = "${klient.nip}">NIP</td>
 						<td th:text = "${klient.regon}">REGON</td>
-						<td><a th:href="@{'/edytuj_klienta_grupowego?klient_grupowy=' + ${klient.id_klienta_grupowego}}"> Edit</a></td>
-						<td><a th:href="@{'/szczegoly_klienta_grupowego?klient_grupowy=' + ${klient.id_klienta_grupowego}}"> Szczegoly</a></td>
-						<td><a th:href= "@{/usun_klienta_grupowego?klient_grupowy=} + ${klient.id_klienta_grupowego}">Usuń</a></td>
+						<td th:text = "${klient.numer_telefonu}">Numer telefonu</td>
+						<td th:text = "${klient.adres_email}">Adres email</td>
+						<td th:text = "${klient.ulica}">Ulica</td>
+						<td th:text = "${klient.numer_budynku}">Numer budynku</td>
+						<td th:text = "${klient.numer_mieszkania}">Numer mieszkania</td>
+						<td th:text = "${klient.miejscowosc}">Miejscowość</td>
+						<td th:text = "${klient.kod_pocztowy}">Kod pocztowy</td>
+						<td><a th:href="@{/edytuj_klienta_grupowego?klient_grupowy=} + ${klient.id_klienta_grupowego}"> Edit</a></td>
+						
+				
 					</tr>
 				</tbody>
 			</table> 

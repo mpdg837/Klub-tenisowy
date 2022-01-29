@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Zwalnianie pracownika</title>
+</head>
+<body>
+
+	
+	<div align="center">
+	
+	<h1> Usuwanie piłki </h1>
+	<a href="/klienci_grupowi"> Powrót </a>
+	<a style="color: red" id="komunikat"> </a> </br>
+	
+	Czy na pewno usunąć tą piłkę ?.
+	
+	
+		
+		
+		<h5> Dane osobowe </h5>
+		
+			<table border = "1" cellpadding  = "10">
+				<tr>
+					<td> Nazwa: </td>
+					<td> <a th:text="${klient_grupowy.nazwa}" /> </td>
+				</tr>
+				<tr>
+					<td> NIP: </td>
+					<td> <a th:text="${klient_grupowy.nip}" /> </td>
+				</tr>
+			
+			</table>
+	
+	
+		
+		<button onclick="tak()">TAK</button>
+		<button onclick="nie()"> NIE </button>
+
+	</div>
+</body>
