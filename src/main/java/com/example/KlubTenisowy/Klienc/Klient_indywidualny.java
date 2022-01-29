@@ -14,6 +14,9 @@ public class Klient_indywidualny {
 	String numer_mieszkania;
 	String miejscowosc;
 	String kod_pocztowy;
+	
+	int index;
+	
 	public Klient_indywidualny(int id_klienta_indywidualnego, String imie, String nazwisko, String drugieImie,
 			String plec, String numer_telefonu, String adres_email, String ulica, String numer_budynku,
 			String numer_mieszkania, String miejscowosc, String kod_pocztowy) {
@@ -106,6 +109,12 @@ public class Klient_indywidualny {
 	}
 	public void setKod_pocztowy(String kod_pocztowy) {
 		this.kod_pocztowy = kod_pocztowy;
+	}
+	public int getIndex() {
+		return index;
+	}
+	public void setIndex(int index) {
+		this.index = index;
 	}
 	@Override
 	public String toString() {

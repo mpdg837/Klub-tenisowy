@@ -75,9 +75,9 @@ public class Biuro {
 	}
 	@Override
 	public String toString() {
-		return "Biura [id_biura=" + id_biura + ", numer_telefonu=" + numer_telefonu + ", adres_email=" + adres_email
-				+ ", ulica=" + ulica + ", numer_budynku=" + numer_budynku + ", numer_mieszkania=" + numer_mieszkania
-				+ ", miejscowosc=" + miejscowosc + ", kod_pocztowy=" + kod_pocztowy + "]";
+		return "Biura [idbiura:" + id_biura + ", numertelefonu:" + numer_telefonu + ", adresemail:" + adres_email
+				+ ", ulica:" + ulica + ", numerbudynku:" + numer_budynku + ", numermieszkania:" + numer_mieszkania
+				+ ", miejscowosc:" + miejscowosc + ", kodpocztowy:" + kod_pocztowy + "]";
 	}
 	
 }

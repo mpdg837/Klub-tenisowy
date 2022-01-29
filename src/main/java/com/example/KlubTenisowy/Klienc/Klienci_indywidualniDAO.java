@@ -29,11 +29,16 @@ public class Klienci_indywidualniDAO {
 	
 	public List<Klient_indywidualny> list1(){
 		
-		String sql =  "SELECT  NUMER_TELEFONU, ADRES_EMAIL, ULICA, NUMER_BUDYNKU, NUMER_MIESZKANIA, MIEJSCOWOSC, KOD_POCZTOWY FROM " + tableName;
+		String sql =  "SELECT ID_KLIENTA_INDYWIDUALNEGO, NUMER_TELEFONU, ADRES_EMAIL, ULICA, NUMER_BUDYNKU, NUMER_MIESZKANIA, MIEJSCOWOSC, KOD_POCZTOWY FROM " + tableName+" ORDER BY "+idName+ " ASC";
 	
 		
 		List<Klient_indywidualny> listaKlienta_indywidualnego = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Klient_indywidualny.class)); 
 		
+		int n=0;
+		for(Klient_indywidualny klient: listaKlienta_indywidualnego) {
+			klient.index = n;
+			n++;
+		}
 		
 		return listaKlienta_indywidualnego;
 	
@@ -66,7 +71,7 @@ public class Klienci_indywidualniDAO {
 	
 	/* Read – odczytywanie danych z bazy */
 	public Klient_indywidualny get(int id) {
-		String sql = "SELECT * FROM "+tableName;
+		String sql = "SELECT * FROM "+tableName+ " WHERE "+idName+" = " + id;
 		
 		List<Klient_indywidualny> lista = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Klient_indywidualny.class)); 
 		if(lista.size()>0) {

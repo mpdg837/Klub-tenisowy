@@ -29,7 +29,7 @@ public class BiuraDAO {
 	
 	public List<Biuro> list(){
 		
-		String sql =  "SELECT * FROM BIURA";
+		String sql =  "SELECT * FROM BIURA ORDER BY "+idName+" ASC";
 	
 		
 		List<Biuro> listaBiura = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Biuro.class)); 

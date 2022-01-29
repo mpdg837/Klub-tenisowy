@@ -177,6 +177,10 @@ html{
 		
 		overflow-x: hidden;
 		
+		min-width: 700px;
+		
+		display: block;
+		
 	}
 	#headerX{
 		background-color:#638f46;
@@ -197,6 +201,8 @@ html{
 		overflow-x: hidden;
 		
 		box-shadow: 3px 3px 3px;
+		min-width: 700px;
+		display:block;
 	}
 	
 	#komunikat{

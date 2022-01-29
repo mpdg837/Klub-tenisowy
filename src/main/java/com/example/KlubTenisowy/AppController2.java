@@ -18,7 +18,10 @@ import com.example.KlubTenisowy.Klienc.Klienci_indywidualniDAO;
 import com.example.KlubTenisowy.Klienc.Klient_grupowy;
 import com.example.KlubTenisowy.Klienc.Klient_indywidualny;
 import com.example.KlubTenisowy.Pracownic.PracownicyDAO;
+import com.example.KlubTenisowy.Weryfikacja.AntySQLInjection;
 import com.example.KlubTenisowy.Wyplaty.WyplatyDAO;
+
+import com.example.KlubTenisowy.Weryfikacja.*;
 
 @Controller
 public class AppController2 {
@@ -41,8 +44,22 @@ public class AppController2 {
 	
 	@RequestMapping(value = "/updateBiuro", method = RequestMethod.POST)
 	public String updateBiu(@ModelAttribute("biuro") Biuro biuro) {
+		
+		if(!AntySQLInjection.isCorrect(biuro.toString())) return "redirect:/biura?error";
+		
+		if(WeryfikacjaDaneOsobowe.isEmpty(biuro.getUlica())) return "redirect:/biura?pustaUlica";
+		if(WeryfikacjaDaneOsobowe.isEmpty(biuro.getMiejscowosc())) return "redirect:/biura?pustaMiejscowosc";
+		
+		if(!WeryfikacjaDaneOsobowe.weryfikujNumerTelefonu(biuro.getNumer_telefonu())) return "redirect:/biura?zlyNumerTelefonu";
+		if(!WeryfikacjaDaneOsobowe.weryfikujKodPocztowy(biuro.getKod_pocztowy())) return "redirect:/biura?zlyNumerTelefonu";
+		if(!WeryfikacjaDaneOsobowe.weryfikujNumeryMieszkanBlokow(biuro.getNumer_budynku())) return "redirect:/biura?zlyNumerBudynku";
+		if(biuro.getNumer_mieszkania().length()>0) {
+			if(!WeryfikacjaDaneOsobowe.weryfikujNumeryMieszkanBlokow(biuro.getNumer_mieszkania())) return "redirect:/biura?zlyNumerMieszkania";
+		}
+		if(!WeryfikacjaDaneOsobowe.weryfikujEmail(biuro.getAdres_email())) return "redirect:/biura?zlyEmail";
+		
 		biuraDao.update(biuro);
-		return "redirect:/biura";
+		return "redirect:/biura?success";
 		
 	}
 	@GetMapping("/biura")
@@ -54,6 +71,7 @@ public class AppController2 {
 	
 	@GetMapping("/edytuj_biuro")
 	public String viewEBiuPage(@RequestParam(name="biuro",required=false,defaultValue="") String id, Model model) {
+		
 		Biuro biuro = biuraDao.get((int)Integer.parseInt(id));
 		model.addAttribute("biuro",biuro);
 						
@@ -63,8 +81,23 @@ public class AppController2 {
 		
 	@RequestMapping(value = "/saveBiuro", method = RequestMethod.POST)
 	public String saveNewBiu(@ModelAttribute("biuro") Biuro biuro) {
+		
+
+		if(!AntySQLInjection.isCorrect(biuro.toString())) return "redirect:/nowe_biuro?error";
+		
+		if(WeryfikacjaDaneOsobowe.isEmpty(biuro.getUlica())) return "redirect:/nowe_biuro?pustaUlica";
+		if(WeryfikacjaDaneOsobowe.isEmpty(biuro.getMiejscowosc())) return "redirect:/nowe_biuro?pustaMiejscowosc";
+		
+		if(!WeryfikacjaDaneOsobowe.weryfikujNumerTelefonu(biuro.getNumer_telefonu())) return "redirect:/nowe_biuro?zlyNumerTelefonu";
+		if(!WeryfikacjaDaneOsobowe.weryfikujKodPocztowy(biuro.getKod_pocztowy())) return "redirect:/nowe_biuro?zlyNumerTelefonu";
+		if(!WeryfikacjaDaneOsobowe.weryfikujNumeryMieszkanBlokow(biuro.getNumer_budynku())) return "redirect:/nowe_biuro?zlyNumerBudynku";
+		if(biuro.getNumer_mieszkania().length()>0) {
+			if(!WeryfikacjaDaneOsobowe.weryfikujNumeryMieszkanBlokow(biuro.getNumer_mieszkania())) return "redirect:/nowe_biuro?zlyNumerMieszkania";
+		}
+		if(!WeryfikacjaDaneOsobowe.weryfikujEmail(biuro.getAdres_email())) return "redirect:/nowe_biuro?zlyEmail";
+		
 		biuraDao.save(biuro);
-		return "redirect:/biura";
+		return "redirect:/biura?success";
 		
 	}
 	@GetMapping("/usun_biuro")
@@ -79,7 +112,7 @@ public class AppController2 {
 	public String viewDefBiuPage(@RequestParam(name="biuro",required=false,defaultValue="") String id, Model model) {
 		biuraDao.delete((int)Integer.parseInt(id));
 		
-		return "biura";
+		return "redirect:/biura?success";
 		
 	}
 	@GetMapping("/klienci_indywidualni")
@@ -117,6 +150,24 @@ public class AppController2 {
 	}
 	@RequestMapping(value = "/saveKlient_grupowy", method = RequestMethod.POST)
 	public String saveNewKli(@ModelAttribute("nowy_klient_grupowy") Klient_grupowy biuro) {
+		
+		if(!AntySQLInjection.isCorrect(biuro.toString())) return "redirect:/nowy_klient_grupowy?error";
+		
+		if(WeryfikacjaDaneOsobowe.isEmpty(biuro.getNazwa())) return "redirect:/nowy_klient_grupowy?brakNazwy";
+		if(WeryfikacjaDaneOsobowe.isEmpty(biuro.getMiejscowosc())) return "redirect:/nowy_klient_grupowy?pustaMiejscowosc";
+		if(WeryfikacjaDaneOsobowe.isEmpty(biuro.getUlica())) return "redirect:/nowy_klient_grupowy?pustaUlica";
+		
+		if(!WeryfikacjaDaneOsobowe.weryfikujEmail(biuro.getAdres_email())) return "redirect:/nowy_klient_grupowy?zlyEmail";
+		if(!WeryfikacjaDaneOsobowe.weryfikujKodPocztowy(biuro.getKod_pocztowy())) return "redirect:/nowy_klient_grupowy?zlyKodPocztowy";
+		if(!WeryfikacjaDaneOsobowe.weryfikujKodPocztowy(biuro.getNumer_budynku())) return "redirect:/nowy_klient_grupowy?zlyNumerBudynku";
+		if(biuro.getNumer_mieszkania().length()>0) {
+			if(!WeryfikacjaDaneOsobowe.weryfikujKodPocztowy(biuro.getNumer_mieszkania())) return "redirect:/nowy_klient_grupowy?zlyNumerMieszkania";
+		}
+		
+		if(!WeryfikacjaDaneOsobowe.weryfikujNumerTelefonu(biuro.getNumer_telefonu())) return "redirect:/nowy_klient_grupowy?zlyNumerTelefonu";
+		if(biuro.getNip().length()!=10) return "redirect:/nowy_klient_grupowy?nieprawidlowyNIP";
+		if(biuro.getRegon().length()!=10) return "redirect:/nowy_klient_grupowy?nieprawidlowyRegon";
+		
 		Klienci_grupowiDAO.save(biuro);
 		return "redirect:/klienci_grupowi";
 		
@@ -131,8 +182,26 @@ public class AppController2 {
 	}
 	@RequestMapping(value = "/updateKlienta_grupowego", method = RequestMethod.POST)
 	public String updateKgru(@ModelAttribute("klient_grupowy") Klient_grupowy biuro) {
+		
+		if(!AntySQLInjection.isCorrect(biuro.toString())) return "redirect:/klienci_grupowi?error";
+		
+		if(WeryfikacjaDaneOsobowe.isEmpty(biuro.getNazwa())) return "redirect:/klienci_grupowi?brakNazwy";
+		if(WeryfikacjaDaneOsobowe.isEmpty(biuro.getMiejscowosc())) return "redirect:/klienci_grupowi?pustaMiejscowosc";
+		if(WeryfikacjaDaneOsobowe.isEmpty(biuro.getUlica())) return "redirect:/klienci_grupowi?pustaUlica";
+		
+		if(!WeryfikacjaDaneOsobowe.weryfikujEmail(biuro.getAdres_email())) return "redirect:/klienci_grupowi?zlyEmail";
+		if(!WeryfikacjaDaneOsobowe.weryfikujKodPocztowy(biuro.getKod_pocztowy())) return "redirect:/klienci_grupowi?zlyKodPocztowy";
+		if(!WeryfikacjaDaneOsobowe.weryfikujKodPocztowy(biuro.getNumer_budynku())) return "redirect:/klienci_grupowi?zlyNumerBudynku";
+		if(biuro.getNumer_mieszkania().length()>0) {
+			if(!WeryfikacjaDaneOsobowe.weryfikujKodPocztowy(biuro.getNumer_mieszkania())) return "redirect:/klienci_grupowi?zlyNumerMieszkania";
+		}
+		
+		if(!WeryfikacjaDaneOsobowe.weryfikujNumerTelefonu(biuro.getNumer_telefonu())) return "redirect:/klienci_grupowi?zlyNumerTelefonu";
+		if(biuro.getNip().length()!=10) return "redirect:/klienci_grupowi?nieprawidlowyNIP";
+		if(biuro.getRegon().length()!=10) return "redirect:/klienci_grupowi?nieprawidlowyRegon";
+		
 		Klienci_grupowiDAO.update(biuro);
-		return "redirect:/klienci_grupowi";
+		return "redirect:/klienci_grupowi?success";
 		
 	}
 	@GetMapping("/edytuj_klienta_indywidualnego")
@@ -183,7 +252,7 @@ public class AppController2 {
 	@GetMapping("/usun_klienta_grupowego")
 	public String viewUKliGPage(@RequestParam(name="klient_grupowy",required=false,defaultValue="") String id, Model model) {
 		Klient_grupowy biuro = Klienci_grupowiDAO.get((int)Integer.parseInt(id));
-		model.addAttribute("listaKlientow_grupowych",biuro);
+		model.addAttribute("klient_grupowy",biuro);
 		
 		return "usun_klienta_grupowego";
 		

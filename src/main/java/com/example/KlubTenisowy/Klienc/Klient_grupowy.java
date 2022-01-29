@@ -12,6 +12,9 @@ public class Klient_grupowy {
 	String numer_mieszkania;
 	String miejscowosc;
 	String kod_pocztowy;
+	
+	int index;
+	
 	public Klient_grupowy() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -98,12 +101,20 @@ public class Klient_grupowy {
 	public void setKod_pocztowy(String kod_pocztowy) {
 		this.kod_pocztowy = kod_pocztowy;
 	}
+
+	public int getIndex() {
+		return index;
+	}
+	public void setIndex(int index) {
+		this.index = index;
+	}
+	
 	@Override
 	public String toString() {
-		return "Klienct_grupowy [id_klienta_grupowego=" + id_klienta_grupowego + ", nazwa=" + nazwa + ", nip=" + nip
-				+ ", regon=" + regon + ", numer_telefonu=" + numer_telefonu + ", adres_email=" + adres_email + ", ulica="
-				+ ulica + ", numer_budynku=" + numer_budynku + ", numer_mieszkania=" + numer_mieszkania
-				+ ", miejscowosc=" + miejscowosc + ", kod_pocztowy=" + kod_pocztowy + "]";
+		return "Klienct_grupowy [id_klienta_grupowego:" + id_klienta_grupowego + ", nazwa:" + nazwa + ", nip:" + nip
+				+ ", regon:" + regon + ", numer_telefonu:" + numer_telefonu + ", adres_email:" + adres_email + ", ulica:"
+				+ ulica + ", numer_budynku:" + numer_budynku + ", numer_mieszkania:" + numer_mieszkania
+				+ ", miejscowosc:" + miejscowosc + ", kod_pocztowy:" + kod_pocztowy + "]";
 	}
 	
 }

@@ -18,8 +18,8 @@ public class Klienci_grupowiDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
-	private final String tableName = "KlIENCI_ZBIOROWI";
-	private final String idName = "ID_KLIENTA_ZBIOROWEGO";
+	private final String tableName = "KlIENCI_GRUPOWI";
+	private final String idName = "ID_KLIENTA_GRUPOWEGO";
 	
 	public Klienci_grupowiDAO(JdbcTemplate jdbcTemplate) {
 		super();
@@ -29,7 +29,7 @@ public class Klienci_grupowiDAO {
 	
 	public List<Klient_grupowy> list1(){
 		
-		String sql =  "SELECT  NUMER_TELEFONU, ADRES_EMAIL, ULICA, NUMER_BUDYNKU, NUMER_MIESZKANIA, MIEJSCOWOSC, KOD_POCZTOWY FROM " + tableName;
+		String sql =  "SELECT ID_KLIENTA_GRUPOWEGO, NUMER_TELEFONU, ADRES_EMAIL, ULICA, NUMER_BUDYNKU, NUMER_MIESZKANIA, MIEJSCOWOSC, KOD_POCZTOWY FROM " + tableName +" ORDER BY ID_KLIENTA_GRUPOWEGO ASC";
 	
 		
 		List<Klient_grupowy> listaBiura = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Klient_grupowy.class)); 
@@ -39,13 +39,17 @@ public class Klienci_grupowiDAO {
 	
 		
 	}
-public List<Klient_grupowy> list2(){
+	public List<Klient_grupowy> list2(){
 		
-		String sql =  "SELECT  ID_KLIENTA_ZBIOROWEGO, NAZWA, NIP, REGON FROM " + tableName;
+		String sql =  "SELECT  ID_KLIENTA_GRUPOWEGO, NAZWA, NIP, REGON FROM " + tableName+" ORDER BY ID_KLIENTA_GRUPOWEGO ASC";
 	
 		
 		List<Klient_grupowy> listaBiura = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Klient_grupowy.class)); 
-		
+		int n=0;
+		for(Klient_grupowy klient: listaBiura) {
+			klient.index = n;
+			n++;
+		}
 		
 		return listaBiura;
 	
@@ -57,7 +61,7 @@ public List<Klient_grupowy> list2(){
 		
 		SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
 		
-		insert.withTableName(tableName).usingColumns("ID_KLIENTA_ZBIOROWEGO", "NAZWA", "NIP", "REGON","NUMER_TELEFONU", "ADRES_EMAIL", "ULICA", "NUMER_BUDYNKU", "NUMER_MIESZKANIA", "MIEJSCOWOSC", "KOD_POCZTOWY");
+		insert.withTableName(tableName).usingColumns("ID_KLIENTA_GRUPOWEGO", "NAZWA", "NIP", "REGON","NUMER_TELEFONU", "ADRES_EMAIL", "ULICA", "NUMER_BUDYNKU", "NUMER_MIESZKANIA", "MIEJSCOWOSC", "KOD_POCZTOWY");
 		
 		BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(biuro);
 		insert.execute(param);
@@ -65,7 +69,7 @@ public List<Klient_grupowy> list2(){
 	
 	/* Read – odczytywanie danych z bazy */
 	public Klient_grupowy get(int id) {
-		String sql = "SELECT * FROM "+tableName;
+		String sql = "SELECT * FROM "+tableName+ " WHERE "+idName+" = " + id;
 		
 		List<Klient_grupowy> lista = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Klient_grupowy.class)); 
 		if(lista.size()>0) {
@@ -79,7 +83,7 @@ public List<Klient_grupowy> list2(){
 	
 	/* Update – aktualizacja danych */
 	public void update(Klient_grupowy biuro) {
-		String sql = "UPDATE KLIENCI_ZBIOROWI SET NAZWA = ?, NIP = ?, REGON = ?,NUMER_TELEFONU = ?,ADRES_EMAIL = ?, ULICA = ?,NUMER_BUDYNKU = ?,NUMER_MIESZKANIA = ?,MIEJSCOWOSC = ?,KOD_POCZTOWY = ? WHERE ID_KLIENTA_ZBIOROWEGO= ?";
+		String sql = "UPDATE KLIENCI_GRUPOWi SET NAZWA = ?, NIP = ?, REGON = ?,NUMER_TELEFONU = ?,ADRES_EMAIL = ?, ULICA = ?,NUMER_BUDYNKU = ?,NUMER_MIESZKANIA = ?,MIEJSCOWOSC = ?,KOD_POCZTOWY = ? WHERE ID_KLIENTA_GRUPOWEGO= ?";
 		jdbcTemplate.update(sql, biuro.nazwa,biuro.nip,biuro.regon,biuro.numer_telefonu,biuro.adres_email,biuro.ulica,biuro.numer_budynku,biuro.numer_mieszkania,biuro.miejscowosc,biuro.kod_pocztowy,biuro.id_klienta_grupowego);
 	}
 		
