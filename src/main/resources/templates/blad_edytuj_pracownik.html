@@ -3,20 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="style.css">
+
 </head>
 <body>
-<div align="center">
+<div id="nadtlo">
+		<img id="tlo" src="theme.jpg"/>
+	</div>
+	<div id="headerX">
+	</div>
+	<div id="header">
+		<div class="menuX"><img src="tenis.png" width="32"/></div>
+		<div class="menu"><img src="konto.png" width="24"/>  Pracownicy</div>
+		<div class="menu"><img src="mone.png" width="24"/>  Pensje</div>
+		<div class="menu">
+			<img src="equipmnet.png" width="24"/>   Inwentaż <br />
+			<div id="rozwin">
+				<img src="equipmnet.png" width="24"/>   Pilki <br />
+				<img src="equipmnet.png" width="24"/>   Rakiety <br />
+			</div>
+		</div>
+		<div class="menu"><img src="office.png" width="24"/>   Biura</div>
+		<div class="menu"><img src="court.png" width="24"/>   Korty</div>
+		<div class="menu"><img src="calendar.png" width="24"/>   Rezerwacje</div>
+		<div class="menu"><img src="calendar.png" width="24"/>   Wypożyczenia</div>
+		
+		<div class="menuL"><img src="konto.png" width="18"/>   Logowanie</div>
+	</div>	
+	
+<div id="main" align="center">
 <h1> Edytowanie danych pracownika </h1>
 	
 	
 	
-	
-	Tym formularzem możesz zatrudnić nowego pracownika. <br />
-	
 	<a style="color: red" id="komunikat"> </a> </br>
-	<a href="/pracownicy" > Powrót</a>
+	<a class="button" href="/pracownicy" ><img src="prev.png"  width="16"></a> Powrót
 </div>
-
+<div id="bottom" align="center">
+		System zarządzania klubem tenisowym <br />
+		<br />
+		<img src="tenis.png" width="32"/>
+		<br />
+	</div>
 
 <script>
 var adres = window.location.href;
@@ -38,33 +66,34 @@ for(var n=0; n< adres.length; n++){
 
 if(start){
 	if(komunikat == "niedozwoloneZnaki"){
-		document.getElementById("komunikat").innerHTML = "Użyto niedozwolonych znaków"; 	
+		document.getElementById("komunikat").innerHTML = "<img width=20 src='error.png' /> " +"Użyto niedozwolonych znaków"; 	
 		document.getElementById("forma").style.visibility = "hidden";
 	}
 	if(komunikat == "pusteImie"){
-		document.getElementById("komunikat").innerHTML = "Nie wprowadzono imienia"; 	
+		document.getElementById("komunikat").innerHTML = "<img width=20 src='error.png' /> " +"Nie wprowadzono imienia"; 	
 		document.getElementById("forma").style.visibility = "hidden";
 	}
 	if(komunikat == "pusteNazwisko"){
-		document.getElementById("komunikat").innerHTML = "Nie wprowadzono nazwiska"; 	
+		document.getElementById("komunikat").innerHTML = "<img width=20 src='error.png' /> " +"Nie wprowadzono nazwiska"; 	
 		document.getElementById("forma").style.visibility = "hidden";
 	}
 	if(komunikat == "pustaData"){
-		document.getElementById("komunikat").innerHTML = "Nie wprowadzono daty urodzenia"; 	
+		document.getElementById("komunikat").innerHTML = "<img width=20 src='error.png' /> " +"Nie wprowadzono daty urodzenia"; 	
 		document.getElementById("forma").style.visibility = "hidden"; 	
 	}
 	if(komunikat == "nieprawidlowyNumerTelefonu"){
-		document.getElementById("komunikat").innerHTML = "Nie podano prawidłowego numeru telefonu"; 	
+		document.getElementById("komunikat").innerHTML = "<img width=20 src='error.png' /> " +"Nie podano prawidłowego numeru telefonu"; 	
 		document.getElementById("forma").style.visibility = "hidden"; 	
 	}
 	if(komunikat == "nieprawidlowyEmail"){
-		document.getElementById("komunikat").innerHTML = "Nie podano prawidlowego adresu Email"; 	
+		document.getElementById("komunikat").innerHTML = "<img width=20 src='error.png' /> " +"Nie podano prawidlowego adresu Email"; 	
 		document.getElementById("forma").style.visibility = "hidden"; 	
 	}
 	if(komunikat == "nieprawidlowyPESEL"){
-		document.getElementById("komunikat").innerHTML = "Nie podano prawidłowego PESEL-u"; 	
+		document.getElementById("komunikat").innerHTML = "<img width=20 src='error.png' /> " +"Nie podano prawidłowego PESEL-u"; 	
 			document.getElementById("forma").style.visibility = "hidden";
 	}
+	
 	
 	
 }
