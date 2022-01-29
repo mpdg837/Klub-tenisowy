@@ -4,18 +4,43 @@
 <head>
 <meta charset="UTF-8">
 <title>Wysylanie wyplat pracownikom</title>
+
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-	<div align = "center">
-		<h1>Zarządzanie wyplatami</h1>
+	<div id="nadtlo">
+		<img id="tlo" src="theme.jpg"/>
+	</div>
+	<div id="headerX">
+	</div>
+	<div id="header">
+		<div class="menuX"><img src="tenis.png" width="32"/></div>
+		<div class="menu"><img src="konto.png" width="24"/>  Pracownicy</div>
+		<div class="menu"><img src="mone.png" width="24"/>  Pensje</div>
+		<div class="menu">
+			<img src="equipmnet.png" width="24"/>   Inwentaż <br />
+			<div id="rozwin">
+				<img src="equipmnet.png" width="24"/>   Pilki <br />
+				<img src="equipmnet.png" width="24"/>   Rakiety <br />
+			</div>
+		</div>
+		<div class="menu"><img src="office.png" width="24"/>   Biura</div>
+		<div class="menu"><img src="court.png" width="24"/>   Korty</div>
+		<div class="menu"><img src="calendar.png" width="24"/>   Rezerwacje</div>
+		<div class="menu"><img src="calendar.png" width="24"/>   Wypożyczenia</div>
+		
+		<div class="menuL"><img src="konto.png" width="18"/>   Logowanie</div>
+	</div>
+	
+	<div id="main" align = "center">
+		<h1> <img src="mone.png" width="32"/> Zarządzanie wyplatami</h1>
 		<a style = "color : red" id="komunikat"></a> <a style = "color : green" id="powodzenie"></a><br>
 
-		Szukaj po dacie <input type="date" id="od"> - <input type="date" id="do"> <button onclick="find()" >Search</button> <br>
+		Szukaj po dacie <input type="date" id="od"> - <input type="date" id="do"> <button onclick="find()" ><img width="16" src="search.png"/></button> <br>
 	
-		<a href="\dodaj_wyplate"> Dodaj wyplatami</a>
-		<br/>
+		
 		<!--Table -->
-			<table id="table" border = "1" cellpadding = "10">
+			<table CELLSPACING=0 id="table" border = "0" cellpadding = "10">
 			<!-–border –obramowanie, cellpadding –rozmiar komórki -->
 			<!--Table header -->
 			<thead>
@@ -28,29 +53,39 @@
 					<th>Data wyplaty</th>
 					<th>Stanowisko</th>
 					<th>Stawka lacznie</th>
+					<th> <a href="\dodaj_wyplate"> <img width="24" src="add.jpg"/> </a> </th>
 				</tr>
 			</thead>
 			<!--Table body -->
 				<tbody>
 					<tr th:id = "@{pole} + ${wyplata.index}" th:each = "wyplata : ${lista}">
 						<td th:text = "${wyplata.idWyplaty}">ID</td>
-						<td th:text = "${wyplata.imie}">Imie</td>
+						<td class="kol" th:text = "${wyplata.imie}">Imie</td>
 						<td th:text = "${wyplata.nazwisko}">Nazwisko</td>
-						<td th:text = "${wyplata.stanowisko}">Numer telefonu</td>
+						<td class="kol" th:text = "${wyplata.stanowisko}">Numer telefonu</td>
 						<td th:text = "${wyplata.dataWyplaty}">Nazwisko</td>
-						<td ><a th:text = "${wyplata.wyplataLacznie}">Stanowisko</a> zł</td>
-						<td><a th:href= "@{/szczegoly_wyplata?wyplata=} + ${wyplata.idWyplaty}">Szczegóły</a></td>
-						<td><a th:href= "@{/usun_wyplate?wyplata=} + ${wyplata.idWyplaty}">Usuń</a></td>
+						<td class="kol"><a th:text = "${wyplata.wyplataLacznie}">Stanowisko</a> zł</td>
+						<td><a th:href= "@{/szczegoly_wyplata?wyplata=} + ${wyplata.idWyplaty}" class="button"><img width="24" src="properties.png"/></a></td>
+						<td><a th:href= "@{/usun_wyplate?wyplata=} + ${wyplata.idWyplaty}" class="button"><img width="24" src="remove.png"/></a></td>
 					</tr>
 				</tbody>
 			</table> 
 			<br/>
 			
-			<button onclick = "sub()"> << </button> <a id="pozycja"></a> <button onclick = "add()"> >> </button> 
+			<button onclick = "sub()"> <img width="19" src="prev.png"/> </button> <a id="pozycja"></a> <button onclick = "add()"> <img width="19" src="next.png"/> </button> 
 			<br />
 			Uzyskano : <a id = "ilosc" th:text = "${lista.size}">ID</a> wyników 
 			
 	</div>
+	<div id="bottom" align="center">
+		System zarządzania klubem tenisowym <br />
+		<br />
+		<img src="tenis.png" width="32"/>
+		<br />
+	</div>
+	<script>
+	
+	</script>
 	
 	<script>
 	
@@ -108,6 +143,12 @@
 
 			if(document.getElementById("ilosc").innerHTML == 0 && start && komunikat != "success"){
 				document.getElementById("komunikat").innerHTML = "Nie odnaleziono pasujących wyników";
+			}
+			
+			if(komunikat == "success"){
+				document.getElementById("powodzenie").innerHTML ="<img width=20 src='success.png' /> " + document.getElementById("powodzenie").innerHTML;
+			}else if(document.getElementById("komunikat").innerText.length != 0){
+				document.getElementById("komunikat").innerHTML ="<img width=20 src='error.png' /> " + document.getElementById("komunikat").innerHTML;
 			}
 			
 		}

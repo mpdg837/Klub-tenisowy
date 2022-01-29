@@ -3,14 +3,40 @@
 <head>
 <meta charset="UTF-8">
 <title>Zwalnianie pracownika</title>
+
+<link rel="stylesheet" href="style.css">
+
 </head>
 <body>
+<div id="nadtlo">
+		<img id="tlo" src="theme.jpg"/>
+	</div>
+	<div id="headerX">
+	</div>
+	<div id="header">
+		<div class="menuX"><img src="tenis.png" width="32"/></div>
+		<div class="menu"><img src="konto.png" width="24"/>  Pracownicy</div>
+		<div class="menu"><img src="mone.png" width="24"/>  Pensje</div>
+		<div class="menu">
+			<img src="equipmnet.png" width="24"/>   Inwentaż <br />
+			<div id="rozwin">
+				<img src="equipmnet.png" width="24"/>   Pilki <br />
+				<img src="equipmnet.png" width="24"/>   Rakiety <br />
+			</div>
+		</div>
+		<div class="menu"><img src="office.png" width="24"/>   Biura</div>
+		<div class="menu"><img src="court.png" width="24"/>   Korty</div>
+		<div class="menu"><img src="calendar.png" width="24"/>   Rezerwacje</div>
+		<div class="menu"><img src="calendar.png" width="24"/>   Wypożyczenia</div>
+		
+		<div class="menuL"><img src="konto.png" width="18"/>   Logowanie</div>
+	</div>
 
 	
-	<div align="center">
+	<div id="main" align="center">
 	
-	<h1> Usuwanie piłki </h1>
-	<a href="/pilki"> Powrót </a>
+	<h1><a href="/pilki" class="button"><img src="prev.png" width="24" /></a> Usuwanie piłki </h1>
+	
 	<a style="color: red" id="komunikat"> </a> </br>
 	
 	Czy na pewno usunąć tą piłkę ?.
@@ -20,23 +46,29 @@
 		
 		<h5> Dane osobowe </h5>
 		
-			<table border = "1" cellpadding  = "10">
+			<table border = "1" cellpadding  = "10" cellspacing=0>
 				<tr>
 					<td> Nazwa: </td>
-					<td> <a th:text="${pilka.nazwa}" /> </td>
+					<td class="kol"> <a th:text="${pilka.nazwa}" /> </td>
 				</tr>
 				<tr>
 					<td> Material: </td>
-					<td> <a th:text="${pilka.material}" /> </td>
+					<td class="kol"> <a th:text="${pilka.material}" /> </td>
 				</tr>
 			
 			</table>
 	
 	
 		
-		<button onclick="tak()">TAK</button>
-		<button onclick="nie()"> NIE </button>
+		<button class="buttonLarge"  onclick="tak()">TAK</button>
+		<button class="buttonLarge"  onclick="nie()"> NIE </button>
 
+	</div>
+		<div id="bottom" align="center">
+		System zarządzania klubem tenisowym <br />
+		<br />
+		<img src="tenis.png" width="32"/>
+		<br />
 	</div>
 </body>
 
