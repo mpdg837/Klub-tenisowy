@@ -1,7 +1,7 @@
 package com.example.KlubTenisowy.Klienc;
 
 public class Klient_indywidualny {
-	int idKlienta_indywidualnego;
+	int id_klienta_indywidualnego;
 	
 	String imie;
 	String nazwisko;
@@ -14,11 +14,11 @@ public class Klient_indywidualny {
 	String numer_mieszkania;
 	String miejscowosc;
 	String kod_pocztowy;
-	public Klient_indywidualny(int idKlienta_indywidualnego, String imie, String nazwisko, String drugieImie,
+	public Klient_indywidualny(int id_klienta_indywidualnego, String imie, String nazwisko, String drugieImie,
 			String plec, String numer_telefonu, String adres_email, String ulica, String numer_budynku,
 			String numer_mieszkania, String miejscowosc, String kod_pocztowy) {
 		super();
-		this.idKlienta_indywidualnego = idKlienta_indywidualnego;
+		this.id_klienta_indywidualnego = id_klienta_indywidualnego;
 		this.imie = imie;
 		this.nazwisko = nazwisko;
 		this.drugieImie = drugieImie;
@@ -35,11 +35,11 @@ public class Klient_indywidualny {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public int getIdKlienta_indywidualnego() {
-		return idKlienta_indywidualnego;
+	public int getId_klienta_indywidualnego() {
+		return id_klienta_indywidualnego;
 	}
-	public void setIdKlienta_indywidualnego(int idKlienta_indywidualnego) {
-		this.idKlienta_indywidualnego = idKlienta_indywidualnego;
+	public void setId_klienta_indywidualnego(int id_klienta_indywidualnego) {
+		this.id_klienta_indywidualnego = id_klienta_indywidualnego;
 	}
 	public String getImie() {
 		return imie;
@@ -109,7 +109,7 @@ public class Klient_indywidualny {
 	}
 	@Override
 	public String toString() {
-		return "Klient_indywidualny [idKlienta_indywidualnego=" + idKlienta_indywidualnego + ", imie=" + imie
+		return "Klient_indywidualny [id_klienta_indywidualnego=" + id_klienta_indywidualnego + ", imie=" + imie
 				+ ", nazwisko=" + nazwisko + ", drugieImie=" + drugieImie + ", plec=" + plec + ", numer_telefonu="
 				+ numer_telefonu + ", adres_email=" + adres_email + ", ulica=" + ulica + ", numer_budynku="
 				+ numer_budynku + ", numer_mieszkania=" + numer_mieszkania + ", miejscowosc=" + miejscowosc

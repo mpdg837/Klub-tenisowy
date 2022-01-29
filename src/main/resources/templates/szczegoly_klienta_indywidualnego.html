@@ -27,6 +27,13 @@
 					<th>Nazwisko</th>		
 					<th>Drugie imię</th>							
 					<th>Płeć</th>
+					<th>Numer telefonu</th>
+					<th>Adres email</th>				
+					<th>Ulica</th>
+					<th>Numer budynku</th>
+					<th>Numer mieszkania</th>
+					<th>Miejscowosc</th>
+					<th>Kod pocztowy</th>
 					
 				</tr>
 			</thead>
@@ -37,10 +44,16 @@
 						<td th:text = "${klient.imie}">Imię</td>
 						<td th:text = "${klient.nazwisko}">Nazwisko</td>
 						<td th:text = "${klient.drugieImie}">Drugie imię</td>
-						<td th:text = "${klient.plec}">Nazwisko</td>
-						<td><a th:href="@{'/edytuj_klienta_indywidualnego?klient_indywidualny=' + ${klient.id_klienta_indywidualnego}}"> Edit</a></td>
-						<td><a th:href="@{'/szczegoly_klienta_indywidualnego?klient_indywidualny=' + ${klient.id_klienta_indywidualnego}}"> Szczegoly</a></td>
-						<td><a th:href= "@{/usun_klienta_indywidualnego?klient_indywidualny=} + ${klient.id_klienta_indywidualnego}">Usuń</a></td>
+						<td th:text = "${klient.plec}">Płeć</td>
+						<td th:text = "${klient.numer_telefonu}">Numer telefonu</td>
+						<td th:text = "${klient.adres_email}">Adres email</td>
+						<td th:text = "${klient.ulica}">Ulica</td>
+						<td th:text = "${klient.numer_budynku}">Numer budynku</td>
+						<td th:text = "${klient.numer_mieszkania}">Numer mieszkania</td>
+						<td th:text = "${klient.miejscowosc}">Miejscowość</td>
+						<td th:text = "${klient.kod_pocztowy}">Kod pocztowy</td>
+						<td><a th:href="@{/edytuj_klienta_indywidualnego?klient_indywidualny=} + ${klient.id_klienta_indywidualnego}"> Edit</a></td>					
+						
 						
 					</tr>
 				</tbody>

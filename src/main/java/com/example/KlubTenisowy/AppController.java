@@ -1,6 +1,5 @@
 package com.example.KlubTenisowy;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -11,26 +10,25 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tomcat.util.http.parser.MediaType;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.example.KlubTenisowy.Biur.BiuraDAO;
+import com.example.KlubTenisowy.Biur.Biuro;
 import com.example.KlubTenisowy.Pilki.Pilka;
 import com.example.KlubTenisowy.Pilki.PilkaDAO;
-import com.example.KlubTenisowy.Rakiety.RakietyDAO;
 import com.example.KlubTenisowy.Pracownic.*;
-import com.example.KlubTenisowy.Rakiety.Rakieta;
 import com.example.KlubTenisowy.Weryfikacja.AntySQLInjection;
 import com.example.KlubTenisowy.Weryfikacja.Daty;
 import com.example.KlubTenisowy.Weryfikacja.WeryfikacjaDaneOsobowe;
@@ -38,17 +36,23 @@ import com.example.KlubTenisowy.Wyplaty.Wyplaty;
 import com.example.KlubTenisowy.Wyplaty.WyplatyDAO;
 import com.example.KlubTenisowy.Wyplaty.WyplatyPodglad;
 import com.example.KlubTenisowy.Wyplaty.WyplatyWyciag;
+import com.example.KlubTenisowy.Klienc.Klienci_indywidualniDAO;
+import com.example.KlubTenisowy.Klienc.Klient_grupowy;
+import com.example.KlubTenisowy.Klienc.Klient_indywidualny;
+import com.example.KlubTenisowy.Klienc.Klienci_grupowiDAO;
 
 import ch.qos.logback.classic.Logger;
 
 @Controller
 public class AppController {
-
+	
 	@Autowired
 	private PracownicyDAO pracownicyDao;
 	
 	@Autowired
 	private WyplatyDAO wyplatyDao;
+	
+
 	
 	
 	@RequestMapping("/")
@@ -57,6 +61,7 @@ public class AppController {
 		return "index";
 		
 	}
+	
 	
 	@GetMapping("/usun_pracownika_ostatecznie")
 	public String viewUPraPage(@RequestParam(name="pracownik",required=false,defaultValue="") String id, Model model) {
@@ -101,14 +106,14 @@ public class AppController {
 			if(AntySQLInjection.isCorrect(id)) {
 				
 				try {
-					Pracownik wyp = pracownicyDao.get((int)Integer.parseInt(id));
+					Wyplaty wyp = wyplatyDao.get((int)Integer.parseInt(id));
 				
 					if(wyp != null) {
-						model.addAttribute("pracownik",wyp);
+						model.addAttribute("wyplata",wyp);
 						
 						return "usun_pracownik";
 					}else {
-						return "redirect:/pracownicy?brak";
+						return "redirect:/w?brak";
 					}
 					
 				}catch(NumberFormatException err) {
@@ -671,180 +676,5 @@ public class AppController {
 		
 		return "redirect:/pilki?success";
 	}
-	
-	// Rakiety
-	
-	@Autowired
-	private RakietyDAO rakietyDao;
-	
-	@GetMapping("/rakiety")
-	public String viewRakietyPage(@RequestParam(name="search",required=false,defaultValue="") String search,
-			Model model) {
-		
-			if(AntySQLInjection.isCorrect(search)) {
-				List<Rakieta> lista = rakietyDao.list(search);
-				
-				if(lista == null) {
-					lista = new ArrayList<Rakieta>();
-					
-				}
-				
-				int n=0;
-				for(Rakieta pilka : lista) {
-					
-					pilka.setIndex(n);
-					
-					n++;
-				}
-				
-				
-				model.addAttribute("lista",lista);
-			}else {
-				return "redirect:/rakiety?niedozwoloneZnaki";
-			}
-	
-		return "rakiety";
-	}
-	
-	@GetMapping("/nowa_rakieta")
-	public String viewRRaPage(Model model) {
-	
-		
-		Rakieta pilka = new Rakieta();
-		
-		model.addAttribute("rakieta",pilka);
-
-		return "nowa_rakieta";
-		
-	}
-	
-	@RequestMapping(value="/saveRakieta", method = RequestMethod.POST)
-	public String saveRakieta(@ModelAttribute("rakieta") Rakieta rakieta) {
-		
-		
-		if(!AntySQLInjection.isCorrect(rakieta.toString())) return "redirect:/nowa_rakieta?niedozwoloneZnaki";
-		if(WeryfikacjaDaneOsobowe.isEmpty(rakieta.getNazwa())) return "redirect:/nowa_rakieta?pustaNazwa";
-		if(rakieta.getMasa() <= 0) return "redirect:/nowa_rakieta?podanoNiedodatniaMase";
-		if(rakieta.getDlugosc() <= 0) return "redirect:/nowa_rakieta?podanoNiedodatniaDlugosc";
-		if(rakieta.getSzerokosc() <= 0) return "redirect:/nowa_rakieta?podanoNiedodatniaSzerokosc";
-		
-		rakietyDao.save(rakieta);
-		
-		return "redirect:/rakiety?success";
-	}
-	
-	@GetMapping("/usun_rakiete")
-	public String viewDRakPage(@RequestParam(name="rakieta",required=false,defaultValue="") String id, Model model) {
-		
-		if(id.length()>0) {
-			if(AntySQLInjection.isCorrect(id)) {
-				
-				try {
-					Rakieta wyp = rakietyDao.get((int)Integer.parseInt(id));
-				
-					if(wyp != null) {
-						model.addAttribute("rakieta",wyp);
-						
-						return "usun_rakiete";
-					}else {
-						return "redirect:/rakiety?brak";
-					}
-					
-				}catch(NumberFormatException err) {
-					return "redirect:/rakiety?error";
-				}
-				
-				
-			}else {
-				return "redirect:/rakiety?error";
-			}
-		}else {
-			
-			return "redirect:/rakiety?error";
-		}
-	
-	}
-	
-	@GetMapping("/usun_rakiete_ostatecznie")
-	public String viewRPIPage(@RequestParam(name="rakieta",required=false,defaultValue="") String id, Model model) {
-		
-		if(id.length()>0) {
-			if(AntySQLInjection.isCorrect(id)) {
-				
-				try {
-					Rakieta pracownik = rakietyDao.get((int)Integer.parseInt(id));
-				
-					if(pracownik != null) {
-						
-						rakietyDao.delete((int)Integer.parseInt(id));
-						
-						return "redirect:/rakiety?success";
-					}else {
-						return "redirect:/rakiety?brak";
-					}
-					
-				}catch(NumberFormatException err) {
-					return "redirect:/rakiety?error";
-				}
-				
-				
-			}else {
-				return "redirect:/rakiety?error";
-			}
-		}else {
-			
-			return "redirect:/rakiety?error";
-		}
-	
-	}
-	
-	@GetMapping("/edytuj_rakiete")
-	public String viewERaPage(@RequestParam(name="rakieta",required=false,defaultValue="") String id, Model model) {
-		
-		if(id.length()>0) {
-			if(AntySQLInjection.isCorrect(id)) {
-				
-				try {
-					Rakieta pracownik = rakietyDao.get((int)Integer.parseInt(id));
-				
-					if(pracownik != null) {
-						
-						model.addAttribute("rakieta",pracownik);
-						
-						return "edytuj_rakiete";
-					}else {
-						return "redirect:/rakiety?brak";
-					}
-					
-				}catch(NumberFormatException err) {
-					return "redirect:/rakiety?error";
-				}
-				
-				
-			}else {
-				return "redirect:/rakiety?error";
-			}
-		}else {
-			return "redirect:/rakiety?error";
-		}
-	
-	}
-	 
-
-	@RequestMapping(value="/editRakieta", method = RequestMethod.POST)
-	public String editRakieta(@ModelAttribute("rakieta") Rakieta rakieta) {
-		
-		
-		if(!AntySQLInjection.isCorrect(rakieta.toString())) return "redirect:/rakiety?niedozwoloneZnaki";
-		if(WeryfikacjaDaneOsobowe.isEmpty(rakieta.getNazwa())) return "redirect:/rakiety?pustaNazwa";
-		if(rakieta.getMasa() <= 0) return "redirect:/rakiety?podanoNiedodatniaMase";
-		if(rakieta.getDlugosc() <= 0) return "redirect:/rakiety?podanoNiedodatniaDlugosc";
-		if(rakieta.getSzerokosc() <= 0) return "redirect:/rakiety?podanoNiedodatniaSzerokosc";
-		
-		rakietyDao.update(rakieta);
-		
-		return "redirect:/rakiety?success";
-	}
-	
 	
 }

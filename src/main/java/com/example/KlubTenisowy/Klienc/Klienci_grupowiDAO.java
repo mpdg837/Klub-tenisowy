@@ -29,7 +29,7 @@ public class Klienci_grupowiDAO {
 	
 	public List<Klient_grupowy> list1(){
 		
-		String sql =  "SELECT  numer_telefonu, adres_email, ulica, numer_budynku, numer_mieszkania, miejscowosc, kod_pocztowy FROM " + tableName;
+		String sql =  "SELECT  NUMER_TELEFONU, ADRES_EMAIL, ULICA, NUMER_BUDYNKU, NUMER_MIESZKANIA, MIEJSCOWOSC, KOD_POCZTOWY FROM " + tableName;
 	
 		
 		List<Klient_grupowy> listaBiura = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Klient_grupowy.class)); 
@@ -53,11 +53,11 @@ public List<Klient_grupowy> list2(){
 	}
 	
 	/* Insert – wstawianie nowego wiersza do bazy */
-	public void save(Klient_indywidualny biuro) {
+	public void save(Klient_grupowy biuro) {
 		
 		SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
 		
-		insert.withTableName(tableName).usingColumns("ID_KLIENTA_ZBIOROWEGO", "NAZWA", "NIP", "REGON", "PLEC","NUMER_TELEFONU", "ADRES_EMAIL", "ULICA", "NUMER_BUDYNKU", "NUMER_MIESZKANIA", "MIEJSCOWOSC", "KOD_POCZTOWY");
+		insert.withTableName(tableName).usingColumns("ID_KLIENTA_ZBIOROWEGO", "NAZWA", "NIP", "REGON","NUMER_TELEFONU", "ADRES_EMAIL", "ULICA", "NUMER_BUDYNKU", "NUMER_MIESZKANIA", "MIEJSCOWOSC", "KOD_POCZTOWY");
 		
 		BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(biuro);
 		insert.execute(param);
@@ -65,7 +65,7 @@ public List<Klient_grupowy> list2(){
 	
 	/* Read – odczytywanie danych z bazy */
 	public Klient_grupowy get(int id) {
-		String sql = "SELECT * FROM "+tableName +" WHERE " + idName + " = " + id;
+		String sql = "SELECT * FROM "+tableName;
 		
 		List<Klient_grupowy> lista = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Klient_grupowy.class)); 
 		if(lista.size()>0) {
@@ -79,7 +79,8 @@ public List<Klient_grupowy> list2(){
 	
 	/* Update – aktualizacja danych */
 	public void update(Klient_grupowy biuro) {
-		String sql = "UPDATE BIURA SET NUMER_TELEFONU = ?,ADRES_EMAIL = ?, ULICA = ?,NUMER_BUDYNKU = ?,NUMER_MIESZKANIA = ?,MIEJSCOWOSC = ?,KOD_POCZTOWY = ? WHERE ID_BIURA = ?";
+		String sql = "UPDATE KLIENCI_ZBIOROWI SET NAZWA = ?, NIP = ?, REGON = ?,NUMER_TELEFONU = ?,ADRES_EMAIL = ?, ULICA = ?,NUMER_BUDYNKU = ?,NUMER_MIESZKANIA = ?,MIEJSCOWOSC = ?,KOD_POCZTOWY = ? WHERE ID_KLIENTA_ZBIOROWEGO= ?";
+		jdbcTemplate.update(sql, biuro.nazwa,biuro.nip,biuro.regon,biuro.numer_telefonu,biuro.adres_email,biuro.ulica,biuro.numer_budynku,biuro.numer_mieszkania,biuro.miejscowosc,biuro.kod_pocztowy,biuro.id_klienta_grupowego);
 	}
 		
 	/* Delete – wybrany rekord z danym id */

@@ -4,48 +4,20 @@
 <head>
 <meta charset="UTF-8">
 <title>Zarządzanie pracownikami</title>
-
-<link rel="stylesheet" href="style.css">
-
 </head>
 <body>
-
-	<div id="nadtlo">
-		<img id="tlo" src="theme.jpg"/>
-	</div>
-	<div id="headerX">
-	</div>
-	<div id="header">
-		<div class="menuX"><img src="tenis.png" width="32"/></div>
-		<div class="menu"><img src="konto.png" width="24"/>  Pracownicy</div>
-		<div class="menu"><img src="mone.png" width="24"/>  Pensje</div>
-		<div class="menu">
-			<img src="equipmnet.png" width="24"/>   Inwentaż <br />
-			<div id="rozwin">
-				<img src="equipmnet.png" width="24"/>   Pilki <br />
-				<img src="equipmnet.png" width="24"/>   Rakiety <br />
-			</div>
-		</div>
-		<div class="menu"><img src="office.png" width="24"/>   Biura</div>
-		<div class="menu"><img src="court.png" width="24"/>   Korty</div>
-		<div class="menu"><img src="calendar.png" width="24"/>   Rezerwacje</div>
-		<div class="menu"><img src="calendar.png" width="24"/>   Wypożyczenia</div>
-		
-		<div class="menuL"><img src="konto.png" width="18"/>   Logowanie</div>
-	</div>
-	
-	<div id="main" align = "center">
-		<h1><img src="konto.png" width="32"/> Zarządzanie pracownikami</h1>
+	<div align = "center">
+		<h1>Zarządzanie pracownikami</h1>
 		<a style = "color : red" id="komunikat"></a> <a style = "color : green" id="powodzenie"></a><br>
 
-		Szukaj po imieniu i nazwisku  <input type="text" id="szukaj"></a>  <button onclick="find()" ><img width="16" src="search.png"/></button> <br>
+		Szukaj po imieniu i nazwisku<input type="text" id="szukaj"></a><button onclick="find()" >Search</button> <br>
 		<form>
 		<input type="radio" name="filtry" id="brak"> Brak foltru </input> <input type="radio" name="filtry" id="trenerzy"> Szukaj tylko trenerów </input> <input type="radio" name="filtry" id="biuro"> Szukaj tylko pracowników biura </input> <input type="radio" name="filtry" id="inni"> Szukaj innych pracownikow </input>
 		</form>
-		
+		<a href="\nowy_pracownik"> Dodaj pracownika</a>
 		<br/>
 		<!--Table -->
-			<table id="table" cellspacing = 0 border = "1" cellpadding = "10">
+			<table id="table" border = "1" cellpadding = "10">
 			<!-–border –obramowanie, cellpadding –rozmiar komórki -->
 			<!--Table header -->
 			<thead>
@@ -58,35 +30,27 @@
 					<th>Numer telefonu</th>
 					<th>Adres Email</th>
 					<th>Stanowisko</th>
-					<th><a href="\nowy_pracownik"> <img width="24" src="add.jpg"/></a></th>
 				</tr>
 			</thead>
 			<!--Table body -->
 				<tbody>
 					<tr th:id = "@{pole} + ${pracownik.idAbs}" th:each = "pracownik : ${lista}">
 						<td th:text = "${pracownik.idPracownika}">ID</td>
-						<td class="kol" th:text = "${pracownik.imie}">Imie</td>
+						<td th:text = "${pracownik.imie}">Imie</td>
 						<td th:text = "${pracownik.nazwisko}">Nazwisko</td>
-						<td class="kol" th:text = "${pracownik.numerTelefonu}">Numer telefonu</td>
+						<td th:text = "${pracownik.numerTelefonu}">Numer telefonu</td>
 						<td th:text = "${pracownik.adresEmail}">Adres Email</td>
-						<td class="kol" th:text = "${pracownik.stanowisko}">Stanowisko</td>
-						<td><a class="button" th:href= "@{/szczegoly_pracownik?pracownik=} + ${pracownik.idPracownika}"><img width="24" src="properties.png"/></a></td>
+						<td th:text = "${pracownik.stanowisko}">Stanowisko</td>
+						<td><a th:href= "@{/szczegoly_pracownik?pracownik=} + ${pracownik.idPracownika}">Szczegóły</a></td>
 					</tr>
 				</tbody>
 			</table> 
 			<br/>
 			
-			<button onclick = "sub()"> <img width="19" src="prev.png"/> </button> <a id="pozycja"></a> <button onclick = "add()"> <img width="19" src="next.png"/> </button> 
+			<button onclick = "sub()"> << </button> <a id="pozycja"></a> <button onclick = "add()"> >> </button> 
 			<br />
 			Uzyskano : <a id = "ilosc" th:text = "${lista.size}">ID</a> wyników 
 			
-	</div>
-	
-	<div id="bottom" align="center">
-		System zarządzania klubem tenisowym <br />
-		<br />
-		<img src="tenis.png" width="32"/>
-		<br />
 	</div>
 </body>
 
@@ -222,13 +186,6 @@
 			document.getElementById("powodzenie").innerHTML = "Operacja zakończona pomyślnie"
 			
 		}
-		
-		if(success){
-			document.getElementById("powodzenie").innerHTML ="<img width=20 src='success.png' /> " + document.getElementById("powodzenie").innerHTML;
-		}else if(document.getElementById("komunikat").innerText.length != 0){
-			document.getElementById("komunikat").innerHTML ="<img width=20 src='error.png' /> " + document.getElementById("komunikat").innerHTML;
-		}
-		
 		document.getElementById("szukaj").value = wartosc;
 	}
 	

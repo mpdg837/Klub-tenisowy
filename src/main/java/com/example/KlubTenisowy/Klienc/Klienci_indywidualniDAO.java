@@ -66,7 +66,7 @@ public class Klienci_indywidualniDAO {
 	
 	/* Read – odczytywanie danych z bazy */
 	public Klient_indywidualny get(int id) {
-		String sql = "SELECT * FROM "+tableName +" WHERE " + idName + " = " + id;
+		String sql = "SELECT * FROM "+tableName;
 		
 		List<Klient_indywidualny> lista = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Klient_indywidualny.class)); 
 		if(lista.size()>0) {
@@ -80,8 +80,8 @@ public class Klienci_indywidualniDAO {
 	
 	/* Update – aktualizacja danych */
 	public void update(Klient_indywidualny biuro) {
-		String sql = "UPDATE BIURA SET NUMER_TELEFONU = ?,ADRES_EMAIL = ?, ULICA = ?,NUMER_BUDYNKU = ?,NUMER_MIESZKANIA = ?,MIEJSCOWOSC = ?,KOD_POCZTOWY = ? WHERE ID_BIURA = ?";
-		
+		String sql = "UPDATE KLIENCI_INDYWIDUALNI SET IMIE = ?, NAZWISKO = ?, DRUGIE_IMIE = ?, PLEC = ?, NUMER_TELEFONU = ?,ADRES_EMAIL = ?, ULICA = ?,NUMER_BUDYNKU = ?,NUMER_MIESZKANIA = ?,MIEJSCOWOSC = ?,KOD_POCZTOWY = ? WHERE ID_KLIENTA_INDYWIDUALNEGO = ?";
+		jdbcTemplate.update(sql, biuro.imie,biuro.nazwisko,biuro.drugieImie,biuro.plec,biuro.numer_telefonu,biuro.adres_email,biuro.ulica,biuro.numer_budynku,biuro.numer_mieszkania,biuro.miejscowosc,biuro.kod_pocztowy,biuro.id_klienta_indywidualnego);
 	}
 	/* Delete – wybrany rekord z danym id */
 	public void delete(int id) {

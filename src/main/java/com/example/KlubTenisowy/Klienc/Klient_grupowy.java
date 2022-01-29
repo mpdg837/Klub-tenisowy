@@ -1,10 +1,10 @@
 package com.example.KlubTenisowy.Klienc;
 
 public class Klient_grupowy {
-	int idKlienta_grupowego;
+	int id_klienta_grupowego;
 	String nazwa;
 	String nip;
-	String rego;
+	String regon;
 	String numer_telefonu;
 	String adres_email;
 	String ulica;
@@ -16,14 +16,14 @@ public class Klient_grupowy {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Klient_grupowy(int idKlienta_grupowego, String nazwa, String nip, String rego, String numer_telefonu,
+	public Klient_grupowy(int id_klienta_grupowego, String nazwa, String nip, String regon, String numer_telefonu,
 			String adres_email, String ulica, String numer_budynku, String numer_mieszkania, String miejscowosc,
 			String kod_pocztowy) {
 		super();
-		this.idKlienta_grupowego = idKlienta_grupowego;
+		this.id_klienta_grupowego = id_klienta_grupowego;
 		this.nazwa = nazwa;
 		this.nip = nip;
-		this.rego = rego;
+		this.regon = regon;
 		this.numer_telefonu = numer_telefonu;
 		this.adres_email = adres_email;
 		this.ulica = ulica;
@@ -32,11 +32,11 @@ public class Klient_grupowy {
 		this.miejscowosc = miejscowosc;
 		this.kod_pocztowy = kod_pocztowy;
 	}
-	public int getIdKlienta_grupowego() {
-		return idKlienta_grupowego;
+	public int getId_klienta_grupowego() {
+		return id_klienta_grupowego;
 	}
-	public void setIdKlienta_grupowego(int idKlienta_grupowego) {
-		this.idKlienta_grupowego = idKlienta_grupowego;
+	public void setId_klienta_grupowego(int id_klienta_grupowego) {
+		this.id_klienta_grupowego = id_klienta_grupowego;
 	}
 	public String getNazwa() {
 		return nazwa;
@@ -50,11 +50,11 @@ public class Klient_grupowy {
 	public void setNip(String nip) {
 		this.nip = nip;
 	}
-	public String getRego() {
-		return rego;
+	public String getRegon() {
+		return regon;
 	}
-	public void setRego(String rego) {
-		this.rego = rego;
+	public void setRegon(String regon) {
+		this.regon = regon;
 	}
 	public String getNumer_telefonu() {
 		return numer_telefonu;
@@ -100,8 +100,8 @@ public class Klient_grupowy {
 	}
 	@Override
 	public String toString() {
-		return "Klienct_grupowy [idKlienta_grupowego=" + idKlienta_grupowego + ", nazwa=" + nazwa + ", nip=" + nip
-				+ ", rego=" + rego + ", numer_telefonu=" + numer_telefonu + ", adres_email=" + adres_email + ", ulica="
+		return "Klienct_grupowy [id_klienta_grupowego=" + id_klienta_grupowego + ", nazwa=" + nazwa + ", nip=" + nip
+				+ ", regon=" + regon + ", numer_telefonu=" + numer_telefonu + ", adres_email=" + adres_email + ", ulica="
 				+ ulica + ", numer_budynku=" + numer_budynku + ", numer_mieszkania=" + numer_mieszkania
 				+ ", miejscowosc=" + miejscowosc + ", kod_pocztowy=" + kod_pocztowy + "]";
 	}

@@ -3,6 +3,7 @@ package com.example.KlubTenisowy;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,6 +20,7 @@ import com.example.KlubTenisowy.Klienc.Klient_indywidualny;
 import com.example.KlubTenisowy.Pracownic.PracownicyDAO;
 import com.example.KlubTenisowy.Wyplaty.WyplatyDAO;
 
+@Controller
 public class AppController2 {
 	@Autowired
 	private BiuraDAO biuraDao;
@@ -106,5 +108,91 @@ public class AppController2 {
 		return "redirect:/klienci_indywidualni";
 		
 	}
+	@RequestMapping("/nowy_klient_grupowy")
+	public String viewNewKliGPage(Model model) {
+		Klient_grupowy klient_grupowy = new Klient_grupowy();
+		model.addAttribute("klient_grupowy",klient_grupowy);
+		return "/nowy_klient_grupowy";
+		
+	}
+	@RequestMapping(value = "/saveKlient_grupowy", method = RequestMethod.POST)
+	public String saveNewKli(@ModelAttribute("nowy_klient_grupowy") Klient_grupowy biuro) {
+		Klienci_grupowiDAO.save(biuro);
+		return "redirect:/klienci_grupowi";
+		
+	}
+	@GetMapping("/edytuj_klienta_grupowego")
+	public String viewEKgruPage(@RequestParam(name="klient_grupowy",required=false,defaultValue="") String id, Model model) {
+		Klient_grupowy klient_grupowy = Klienci_grupowiDAO.get((int)Integer.parseInt(id));
+		model.addAttribute("klient_grupowy",klient_grupowy);
+						
 	
+		return "/edytuj_klienta_grupowego";
+	}
+	@RequestMapping(value = "/updateKlienta_grupowego", method = RequestMethod.POST)
+	public String updateKgru(@ModelAttribute("klient_grupowy") Klient_grupowy biuro) {
+		Klienci_grupowiDAO.update(biuro);
+		return "redirect:/klienci_grupowi";
+		
+	}
+	@GetMapping("/edytuj_klienta_indywidualnego")
+	public String viewEgruPage(@RequestParam(name="klient_indywidualny",required=false,defaultValue="") String id, Model model) {
+		Klient_indywidualny klient_indywidualny = Klienci_indywidualniDAO.get((int)Integer.parseInt(id));
+		model.addAttribute("klient_indywidualny",klient_indywidualny);
+						
+	
+		return "/edytuj_klienta_indywidualnego";
+	}
+	@RequestMapping(value = "/updateKlienta_indywidualnego", method = RequestMethod.POST)
+	public String updateKIgru(@ModelAttribute("klient_indywidualny") Klient_indywidualny biuro) {
+		Klienci_indywidualniDAO.update(biuro);
+		return "redirect:/klienci_indywidualni";
+		
+	}
+	@GetMapping("/szczegoly_klienta_grupowego")
+	public String viewSKGgruPage(@RequestParam(name="klient_grupowy",required=false,defaultValue="") String id, Model model) {
+		Klient_grupowy klient_grupowy = Klienci_grupowiDAO.get((int)Integer.parseInt(id));
+		model.addAttribute("listaKlientow_grupowych",klient_grupowy);
+		
+	
+		return "/szczegoly_klienta_grupowego";
+	}
+	@GetMapping("/szczegoly_klienta_indywidualnego")
+	public String viewSKgruPage(@RequestParam(name="klient_indywidualny",required=false,defaultValue="") String id, Model model) {
+		Klient_indywidualny klient_indywidualny = Klienci_indywidualniDAO.get((int)Integer.parseInt(id));
+		model.addAttribute("listaKlientow_indywidualnych",klient_indywidualny);
+						
+	
+		return "/szczegoly_klienta_indywidualnego";
+	}
+	@GetMapping("/usun_klienta_indywidualnego")
+	public String viewUKliPage(@RequestParam(name="klient_indywidualny",required=false,defaultValue="") String id, Model model) {
+		Klient_indywidualny biuro = Klienci_indywidualniDAO.get((int)Integer.parseInt(id));
+		model.addAttribute("listaKlientow_indywidualnych",biuro);
+		
+		return "usun_klienta_indywidualnego";
+		
+	}
+	@GetMapping("/usun_klienta_indywidualnego_ostatecznie")
+	public String viewDefUkliPage(@RequestParam(name="klient_indywidualny",required=false,defaultValue="") String id, Model model) {
+		Klienci_indywidualniDAO.delete((int)Integer.parseInt(id));
+		
+		return "klienci_indywidualni";
+		
+	}
+	@GetMapping("/usun_klienta_grupowego")
+	public String viewUKliGPage(@RequestParam(name="klient_grupowy",required=false,defaultValue="") String id, Model model) {
+		Klient_grupowy biuro = Klienci_grupowiDAO.get((int)Integer.parseInt(id));
+		model.addAttribute("listaKlientow_grupowych",biuro);
+		
+		return "usun_klienta_grupowego";
+		
+	}
+	@GetMapping("/usun_klienta_grupowego_ostatecznie")
+	public String viewDefUkliGPage(@RequestParam(name="klient_grupowy",required=false,defaultValue="") String id, Model model) {
+		Klienci_grupowiDAO.delete((int)Integer.parseInt(id));
+		
+		return "klienci_grupowy";
+		
+	}
 }
