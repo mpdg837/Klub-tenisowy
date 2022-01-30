@@ -118,11 +118,11 @@ public class Klient_indywidualny {
 	}
 	@Override
 	public String toString() {
-		return "Klient_indywidualny [id_klienta_indywidualnego:" + id_klienta_indywidualnego + ", imie:" + imie
-				+ ", nazwisko:" + nazwisko + ", drugieImie:" + drugieImie + ", plec:" + plec + ", numer_telefonu:"
-				+ numer_telefonu + ", adres_email:" + adres_email + ", ulica:" + ulica + ", numer_budynku:"
-				+ numer_budynku + ", numer_mieszkania:" + numer_mieszkania + ", miejscowosc:" + miejscowosc
-				+ ", kod_pocztowy:" + kod_pocztowy + "]";
+		return "Klient_indywidualny [id_klienta_indywidualnego=" + id_klienta_indywidualnego + ", imie=" + imie
+				+ ", nazwisko=" + nazwisko + ", drugieImie=" + drugieImie + ", plec=" + plec + ", numer_telefonu="
+				+ numer_telefonu + ", adres_email=" + adres_email + ", ulica=" + ulica + ", numer_budynku="
+				+ numer_budynku + ", numer_mieszkania=" + numer_mieszkania + ", miejscowosc=" + miejscowosc
+				+ ", kod_pocztowy=" + kod_pocztowy + "]";
 	}
 	
 }

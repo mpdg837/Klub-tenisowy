@@ -26,18 +26,28 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.example.KlubTenisowy.Biur.BiuraDAO;
+import com.example.KlubTenisowy.Biur.Biuro;
+import com.example.KlubTenisowy.Klienc.Klienci_grupowiDAO;
+import com.example.KlubTenisowy.Klienc.Klienci_indywidualniDAO;
+import com.example.KlubTenisowy.Klienc.Klient_grupowy;
+import com.example.KlubTenisowy.Klienc.Klient_indywidualny;
 import com.example.KlubTenisowy.Pilki.Pilka;
 import com.example.KlubTenisowy.Pilki.PilkaDAO;
 import com.example.KlubTenisowy.Rakiety.RakietyDAO;
 import com.example.KlubTenisowy.Pracownic.*;
 import com.example.KlubTenisowy.Rakiety.Rakieta;
 import com.example.KlubTenisowy.Weryfikacja.AntySQLInjection;
+import com.example.KlubTenisowy.Weryfikacja.Compare;
 import com.example.KlubTenisowy.Weryfikacja.Daty;
 import com.example.KlubTenisowy.Weryfikacja.WeryfikacjaDaneOsobowe;
 import com.example.KlubTenisowy.Wyplaty.Wyplaty;
 import com.example.KlubTenisowy.Wyplaty.WyplatyDAO;
 import com.example.KlubTenisowy.Wyplaty.WyplatyPodglad;
 import com.example.KlubTenisowy.Wyplaty.WyplatyWyciag;
+import com.example.KlubTenisowy.Wypozyczenia.WypozyczeniaDao;
+import com.example.KlubTenisowy.Wypozyczenia.Wypozyczenie;
+import com.example.KlubTenisowy.Wypozyczenia.WypozyczenieSave;
 
 import ch.qos.logback.classic.Logger;
 
@@ -50,6 +60,17 @@ public class AppController {
 	@Autowired
 	private WyplatyDAO wyplatyDao;
 	
+	@Autowired
+	private BiuraDAO biuraDao;
+	
+	@Autowired
+	private Klienci_grupowiDAO grupaDao;
+	
+	@Autowired
+	private Klienci_indywidualniDAO indDao;
+	
+	@Autowired
+	private WypozyczeniaDao wypDao;
 	
 	@RequestMapping("/")
 	public String viewHomePage(Model model) {
@@ -173,6 +194,9 @@ public class AppController {
 				
 					if(pracownik != null) {
 						
+						List<Biuro> biura = biuraDao.list();
+						
+						model.addAttribute("biura",biura);
 						model.addAttribute("pracownik",pracownik);
 						
 						return "edytuj_pracownik";
@@ -442,6 +466,11 @@ public class AppController {
 		Pracownik pracownik = new Pracownik();
 		model.addAttribute("pracownik",pracownik);
 		
+		List<Biuro> biura = biuraDao.list();
+		
+		model.addAttribute("biura",biura);
+		model.addAttribute("pracownik",pracownik);
+		
 		return "nowy_pracownik";
 		
 	}
@@ -532,6 +561,35 @@ public class AppController {
 			}
 	
 		return "pilki";
+	}
+	
+	@GetMapping("/pilki_user")
+	public String viewXPilkiPage(@RequestParam(name="search",required=false,defaultValue="") String search,
+			Model model) {
+		
+			if(AntySQLInjection.isCorrect(search)) {
+				List<Pilka> lista = pilkiDao.list(search);
+				
+				if(lista == null) {
+					lista = new ArrayList<Pilka>();
+					
+				}
+				
+				int n=0;
+				for(Pilka pilka : lista) {
+					
+					pilka.setIndex(n);
+					
+					n++;
+				}
+				
+				
+				model.addAttribute("lista",lista);
+			}else {
+				return "redirect:/pilki_user?niedozwoloneZnaki";
+			}
+	
+		return "pilki_user";
 	}
 	
 	@GetMapping("/nowa_pilka")
@@ -706,6 +764,34 @@ public class AppController {
 		return "rakiety";
 	}
 	
+	@GetMapping("/rakiety_user")
+	public String viewXRakietyPage(@RequestParam(name="search",required=false,defaultValue="") String search,
+			Model model) {
+		
+			if(AntySQLInjection.isCorrect(search)) {
+				List<Rakieta> lista = rakietyDao.list(search);
+				
+				if(lista == null) {
+					lista = new ArrayList<Rakieta>();
+					
+				}
+				
+				int n=0;
+				for(Rakieta pilka : lista) {
+					
+					pilka.setIndex(n);
+					
+					n++;
+				}
+				
+				
+				model.addAttribute("lista",lista);
+			}else {
+				return "redirect:/rakiety_user?niedozwoloneZnaki";
+			}
+	
+		return "rakiety_user";
+	}
 	@GetMapping("/nowa_rakieta")
 	public String viewRRaPage(Model model) {
 	
@@ -846,5 +932,223 @@ public class AppController {
 		return "redirect:/rakiety?success";
 	}
 	
+	// Zamowienia
+	
+	@GetMapping("/zamow_pilke")
+	public String viewZPAPage(@RequestParam(name="pilka",required=false,defaultValue="") String id, Model model) {
+		
+		Wypozyczenie wyp = new Wypozyczenie();
+		List<Klient_grupowy> grupa = grupaDao.list2();
+		List<Klient_indywidualny> ind = indDao.list2();
+
+		List<WypozyczenieSave> wypax = new ArrayList<>();
+			
+		if(!id.equals("")) {
+			wypax = wypDao.listFiltr(true, Integer.parseInt(id));
+			wyp.setIdPilki(Integer.parseInt(id));
+		}
+		 
+		int n=0;
+		List<WypozyczenieSave> wypa = new ArrayList<>();
+		for(WypozyczenieSave el: wypax) {
+			if(n<10) {
+				wypa.add(el);
+			}
+			n++;
+		}
+		
+	
+		model.addAttribute("wypozyczenia",wypa);
+		model.addAttribute("zamowienie",wyp);
+		model.addAttribute("klienciGrupowi",grupa);
+		model.addAttribute("klienciIndywidualni",ind);
+		
+		return "zamow_pilke";
+	}
+	
+	@GetMapping("/zamow_rakiete")
+	public String viewZRAPage(@RequestParam(name="rakieta",required=false,defaultValue="") String id, Model model) {
+		
+		Wypozyczenie wyp = new Wypozyczenie();
+		List<Klient_grupowy> grupa = grupaDao.list2();
+		List<Klient_indywidualny> ind = indDao.list2();
+
+		List<WypozyczenieSave> wypax = new ArrayList<>();
+			
+		if(!id.equals("")) {
+			wypax = wypDao.listFiltr(false, Integer.parseInt(id));
+			wyp.setIdRakiety(Integer.parseInt(id));
+		}
+		 
+		int n=0;
+		List<WypozyczenieSave> wypa = new ArrayList<>();
+		for(WypozyczenieSave el: wypax) {
+			if(n<10) {
+				wypa.add(el);
+			}
+			n++;
+		}
+		
+		
+	
+		model.addAttribute("wypozyczenia",wypa);
+		model.addAttribute("zamowienie",wyp);
+		model.addAttribute("klienciGrupowi",grupa);
+		model.addAttribute("klienciIndywidualni",ind);
+		
+		return "zamow_rakiete";
+	}
+	
+	@RequestMapping(value="/saveZamowienieP", method = RequestMethod.POST)
+	public String saveZamowienie(@ModelAttribute("zamowienie") Wypozyczenie wypozyczenie) {
+		
+		if(!AntySQLInjection.isCorrect(wypozyczenie.toString())) return "redirect:/pilki_user?niedozwoloneZnaki";
+		
+		if(WeryfikacjaDaneOsobowe.isEmpty(wypozyczenie.getDataWypozyczenia())) return "redirect:/pilki_user?brakDaty";
+		if(WeryfikacjaDaneOsobowe.isEmpty(wypozyczenie.getSpodziewanaDataZwrotu())) return "redirect:/pilki_user?brakDaty";
+		
+		if(Compare.compareDate(wypozyczenie.getDataWypozyczenia(), wypozyczenie.getSpodziewanaDataZwrotu())) {
+			return "redirect:/pilki_user?zlaKolejnoscData";
+		}
+		List<WypozyczenieSave> save= wypDao.listCzas(true, wypozyczenie.getDataWypozyczenia(), wypozyczenie.getSpodziewanaDataZwrotu(),wypozyczenie.getIdPilki());
+		if(save!=null) {
+			return "redirect:/pilki_user?zlaData";
+		}
+		
+		if(pilkiDao.get(wypozyczenie.getIdPilki())==null) {
+			return "redirect:/pilki_user?nieMaTakiejPilki";
+		}
+		
+		
+		wypDao.save(wypozyczenie);
+
+		return "redirect:/pilki_user?success";
+	}
+	
+	@RequestMapping(value="/saveZamowienieS", method = RequestMethod.POST)
+	public String savePZamowienie(@ModelAttribute("zamowienie") Wypozyczenie wypozyczenie) {
+		
+		if(!AntySQLInjection.isCorrect(wypozyczenie.toString())) return "redirect:/rakiety_user?niedozwoloneZnaki";
+		
+		if(WeryfikacjaDaneOsobowe.isEmpty(wypozyczenie.getDataWypozyczenia())) return "redirect:/rakiety_user?brakDaty";
+		if(WeryfikacjaDaneOsobowe.isEmpty(wypozyczenie.getSpodziewanaDataZwrotu())) return "redirect:/rakiety_user?brakDaty";
+		
+		if(Compare.compareDate(wypozyczenie.getDataWypozyczenia(), Daty.getActData())){
+			return "redirect:/rakiety_user?tenDzienJuzByl";
+		}
+		
+		if(Compare.compareDate(wypozyczenie.getSpodziewanaDataZwrotu(), Daty.getActData())){
+			return "redirect:/rakiety_user?tenDzienJuzByl";
+		}
+
+		if(Compare.compareDate(wypozyczenie.getDataWypozyczenia(), wypozyczenie.getSpodziewanaDataZwrotu())) {
+			return "redirect:/rakiety_user?zlaKolejnoscData";
+		}
+		List<WypozyczenieSave> save= wypDao.listCzas(true, wypozyczenie.getDataWypozyczenia(), wypozyczenie.getSpodziewanaDataZwrotu(),wypozyczenie.getIdPilki());
+		if(save!=null) {
+			return "redirect:/rakiety_user?zlaData";
+		}
+		
+		if(rakietyDao.get(wypozyczenie.getIdRakiety())==null) {
+			return "redirect:/rakiety_user?nieMaTakiejRakiety";
+		}
+		
+		
+		wypDao.save(wypozyczenie);
+
+		return "redirect:/rakiety_user?success";
+	}
+	
+	@GetMapping("/wypozyczenia")
+	public String viewWyppoPage(@RequestParam(name="dataOd",required=false,defaultValue="") String odDaty,
+			@RequestParam(name="dataDo",required=false,defaultValue="") String doDaty,
+			Model model) {
+		
+		List<WypozyczenieSave> lista = new ArrayList<>();
+		
+		if(!odDaty.equals("") && !doDaty.equals("")) {
+			lista = wypDao.listCzasA( odDaty, doDaty);
+		}else {
+			lista = wypDao.list();
+		}
+		
+		
+		if(lista!=null) {
+			for(int n=0;n<lista.size();n++) {
+				lista.get(n).setIndex(n);
+			}
+		}
+		model.addAttribute("wypozyczenia",lista);
+	
+		return "wypozyczenia";
+	}
+	
+	@GetMapping("/usun_wypozyczenie")
+	public String viewDDRakPage(@RequestParam(name="wypozyczenie",required=false,defaultValue="") String id, Model model) {
+		
+		try {
+			Wypozyczenie wyp = wypDao.get((int)Integer.parseInt(id));
+		
+			if(wyp != null) {
+				model.addAttribute("wypozyczenie",wyp);
+				
+				return "usun_wypozyczenie";
+			}else {
+				return "redirect:/wypozyczenia?brak";
+			}
+			
+		}catch(NumberFormatException err) {
+			return "redirect:/wypozyczenia?error";
+		}
+	
+	}
+	
+	@GetMapping("/usun_wypozyczenie_ostatecznie")
+	public String viewWWXPIPage(@RequestParam(name="wypozyczenie",required=false,defaultValue="") String id, Model model) {
+		
+		
+				try {
+					Wypozyczenie pracownik = wypDao.get((int)Integer.parseInt(id));
+				
+					if(pracownik != null) {
+						
+						wypDao.delete((int)Integer.parseInt(id));
+						
+						return "redirect:/wypozyczenia?success";
+					}else {
+						return "redirect:/wypozyczenia?brak";
+					}
+					
+				}catch(NumberFormatException err) {
+					return "redirect:/wypozyczenia?error";
+				}
+				
+		
+	
+	}
+	
+	@GetMapping("/wypozyczenia_user")
+	public String viewWWyppoPage(@RequestParam(name="dataOd",required=false,defaultValue="") String odDaty,
+			@RequestParam(name="dataDo",required=false,defaultValue="") String doDaty,
+			Model model) {
+		
+		List<WypozyczenieSave> lista = new ArrayList<>();
+		
+		if(!odDaty.equals("") && !doDaty.equals("")) {
+			lista = wypDao.listCzasA( odDaty, doDaty);
+		}else {
+			lista = wypDao.list();
+		}
+		
+		
+		if(lista!=null) {
+			for(int n=0;n<lista.size();n++) {
+				lista.get(n).setIndex(n);
+			}
+		}
+		model.addAttribute("wypozyczenia",lista);
+	
+		return "wypozyczenia_user";
+	}
 	
 }

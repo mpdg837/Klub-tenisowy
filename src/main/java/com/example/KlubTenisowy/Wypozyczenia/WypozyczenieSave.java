@@ -9,6 +9,9 @@ public class WypozyczenieSave {
 	Integer idRakiety;
 	Integer idKlientaIndywidualnego;
 	Integer idKlientaZbiorowego;
+	
+	int index;
+	
 	public WypozyczenieSave() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -81,5 +84,11 @@ public class WypozyczenieSave {
 				+ ", spodziewanaDataZwrotu=" + spodziewanaDataZwrotu + ", uwagi=" + uwagi + ", idPilki=" + idPilki
 				+ ", idRakiety=" + idRakiety + ", idKlientaIndywidualnego=" + idKlientaIndywidualnego
 				+ ", idKlientaZbiorowego=" + idKlientaZbiorowego + "]";
+	}
+	public int getIndex() {
+		return index;
+	}
+	public void setIndex(int index) {
+		this.index = index;
 	}
 }

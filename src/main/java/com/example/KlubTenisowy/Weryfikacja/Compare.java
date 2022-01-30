@@ -22,4 +22,14 @@ public class Compare {
 				return false;
 			}
 	}
+	
+	public static Date getDate(String date) {
+		SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
+		try{
+		      return sdformat.parse(date);
+		     
+		}catch(ParseException err) {
+			return null;
+		}
+	}
 }

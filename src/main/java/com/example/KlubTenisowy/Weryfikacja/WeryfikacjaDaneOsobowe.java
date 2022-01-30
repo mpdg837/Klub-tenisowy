@@ -67,28 +67,6 @@ public class WeryfikacjaDaneOsobowe {
 		return true;
 	}
 	
-	public static boolean weryfikujNIP(String NIP) {
-		char[] znaki = NIP.toCharArray();
-		
-		if(NIP.length() == 10) {
-			return true;
-		}
-		
-		return false;
-		
-	}
-	
-	public static boolean weryfikujREGON(String REGON) {
-		char[] znaki = REGON.toCharArray();
-		
-		if(REGON.length() == 9) {
-			return true;
-		}
-		
-		return false;
-		
-	}
-	
 	public static boolean isEmpty(String string) {
 		return string.length() == 0;
 	}

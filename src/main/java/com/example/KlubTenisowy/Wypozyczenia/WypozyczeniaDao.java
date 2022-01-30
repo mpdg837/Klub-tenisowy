@@ -72,11 +72,29 @@ public class WypozyczeniaDao {
 		
 	}
 	
+	public List<WypozyczenieSave> listCzasA(String odDaty, String doDaty){
+		
+		String sql =   "SELECT * FROM "+tableName+
+				" WHERE DATA_WYPOZYCZENIA BETWEEN to_date('"+odDaty+"', 'yyyy-mm-dd') AND to_date('"+doDaty+"', 'yyyy-mm-dd')"
+				+" ORDER BY "+ idName+ " ASC";
+		
+	
+		
+		List<WypozyczenieSave> listax = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(WypozyczenieSave.class)); 
+		
+		if(listax.size() > 0) {
+			return listax;
+		}else {
+			return null;
+		}
+		
+	}
+	
 	public List<WypozyczenieSave> listFiltr(boolean pilka,int id){
-		String sql =  "SELECT * FROM "+tableName+" WHERE ID_RAKIETY = "+id+" ORDER BY "+ idName+ " ASC";
+		String sql =  "SELECT * FROM "+tableName+" WHERE ID_RAKIETY = "+id+" ORDER BY DATA_WYPOZYCZENIA ASC";
 		
 		if(pilka) {
-			sql =  "SELECT * FROM "+tableName+" WHERE ID_PILKI = "+id+" ORDER BY "+ idName+ " ASC";
+			sql =  "SELECT * FROM "+tableName+" WHERE ID_PILKI = "+id+" ORDER BY DATA_WYPOZYCZENIA ASC";
 		}
 		
 		List<WypozyczenieSave> lista = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(WypozyczenieSave.class)); 
@@ -89,12 +107,12 @@ public class WypozyczeniaDao {
 		
 	}
 
-	public List<Wypozyczenie> list(){
+	public List<WypozyczenieSave> list(){
 		
 		String sql =  "SELECT * FROM "+tableName+" ORDER BY "+ idName+ " ASC";
 		
 		
-		List<Wypozyczenie> lista = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Wypozyczenie.class)); 
+		List<WypozyczenieSave> lista = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(WypozyczenieSave.class)); 
 	
 		if(lista.size() > 0) {
 			return lista;

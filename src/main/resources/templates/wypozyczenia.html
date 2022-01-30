@@ -6,10 +6,9 @@
 <title>Wysylanie wyplat pracownikom</title>
 
 <link rel="stylesheet" href="style.css">
-
 </head>
 <body>
-<div id="nadtlo">
+	<div id="nadtlo">
 		<img id="tlo" src="theme.jpg"/>
 	</div>
 	<div id="headerX">
@@ -32,41 +31,40 @@
 		
 		<div class="menuL"><img src="konto.png" width="18"/>   Logowanie</div>
 	</div>
+	
 	<div id="main" align = "center">
-		<h1> <img src="equipmnet.png" width="32"/> Pilki</h1>
+		<h1> <img src="calendar.png" width="32"/> Zarządzanie wypożyczeniami</h1>
 		<a style = "color : red" id="komunikat"></a> <a style = "color : green" id="powodzenie"></a><br>
 
-		Szukaj po nazwie <input type="text" id="szukanie"> <button onclick="find()" ><img width="16" src="search.png"/></button> <br>
+		Szukaj po dacie <input type="date" id="od"> - <input type="date" id="do"> <button onclick="find()" ><img width="16" src="search.png"/></button> <br>
 	
 		
-		<br/>
 		<!--Table -->
-			<table id="table" border = "1" cellpadding = "10" cellspacing = 0>
+			<table CELLSPACING=0 id="table" border = "0" cellpadding = "10">
 			<!-–border –obramowanie, cellpadding –rozmiar komórki -->
 			<!--Table header -->
 			<thead>
 				<tr>
 				<!--Table row -->
-					<th>ID Pilki</th>
+					<th>ID Wypozyczenia</th>
 					<!–-Table column -->
-					<th>Nazwa</th>
-					<th>Masa</th>
-					<th>Srednica</th>
-					<th>Materiał</th>
-					<th><a href="\nowa_pilka"><img width="24" src="add.jpg"/></a></th>
+					<th>Data wypożyczenia</th>
+					<th>Spodziewana data zwrotu</th>
+					<th>Piłka</th>
+					<th>Rakieta</th>
+					
 				</tr>
 			</thead>
 			<!--Table body -->
 				<tbody>
-					<tr th:id = "@{pole} + ${pilka.index}" th:each = "pilka : ${lista}">
-						<td th:text = "${pilka.idPilki}">ID</td>
-						<td class="kol" th:text = "${pilka.nazwa}">Imie</td>
-						<td  th:text = "${pilka.masa}">Nazwisko</td>
-						<td class="kol" th:text = "${pilka.srednica}">Numer telefonu</td>
-						<td  th:text = "${pilka.material}">Nazwisko</td>
-						<td><a class="button" th:href= "@{/edytuj_pilke?pilka=} + ${pilka.idPilki}"><img width="24" src="properties.png"/></a></td>
-						<td><a class="button" th:href= "@{/usun_pilke?pilka=} + ${pilka.idPilki}"><img width="24" src="remove.png"/></a></td>
-						<td><a class="button" th:href= "@{/zamow_pilke?pilka=} + ${pilka.idPilki}"><img width="24" src="order.jpg"/></a> Zamów </td>
+					<tr th:id = "@{pole} + ${wypozyczenie.index}" th:each = "wypozyczenie : ${wypozyczenia}">
+						<td th:text = "${wypozyczenie.idWypozyczenia}">ID</td>
+						<td class="kol" th:text = "${wypozyczenie.dataWypozyczenia}">Imie</td>
+						<td th:text = "${wypozyczenie.spodziewanaDataZwrotu}">Nazwisko</td>
+						<td class="kol"><a th:text="${wypozyczenie.idPilki} ?: '' "></a></td>
+						<td ><a th:if="@{-}" th:text="${wypozyczenie.idRakiety}?: '' "></a></td>
+						
+						<td><a th:href= "@{/usun_wypozyczenie?wypozyczenie=} + ${wypozyczenie.idWypozyczenia}" class="button"><img width="24" src="remove.png"/></a></td>
 					</tr>
 				</tbody>
 			</table> 
@@ -74,7 +72,7 @@
 			
 			<button onclick = "sub()"> <img width="19" src="prev.png"/> </button> <a id="pozycja"></a> <button onclick = "add()"> <img width="19" src="next.png"/> </button> 
 			<br />
-			Uzyskano : <a id = "ilosc" th:text = "${lista.size}">ID</a> wyników 
+			Uzyskano : <a id = "ilosc" th:text = "${wypozyczenia.size}">ID</a> wyników 
 			
 	</div>
 	<div id="bottom" align="center">
@@ -83,9 +81,9 @@
 		<img src="tenis.png" width="32"/>
 		<br />
 	</div>
+	<script>
 	
-	</body>
-	
+	</script>
 	
 	<script>
 	
@@ -96,48 +94,7 @@
 		
 		refresh(true);
 		
-		start();
 		errors();
-		
-		function start(){
-			var adres = decodeURIComponent(window.location.href);
-			var adresZn = adres.split('');
-			
-			var nciag="";
-			var wartosc = "";
-			
-			var startRead = false;
-			var startReadWartosc = false;
-			
-			var error = false;
-			var error1 = false;
-			var success = false;
-			
-			for(var n=0;n<adres.length;n++){
-				if(startReadWartosc){
-					if(adresZn[n] == "_"){
-						wartosc = wartosc + " ";
-					}else{
-						wartosc = wartosc + adresZn[n];
-					}
-					
-					
-				}else if(startRead){
-					nciag = nciag + adresZn[n];
-				}
-				
-				if(adresZn[n] == "?"){
-					startRead = true;
-				}
-				
-				if(nciag =="search="){
-					startReadWartosc = true;
-				}
-			
-			}
-			
-			document.getElementById("szukanie").value = wartosc ;
-		}
 		
 		function errors(){
 			
@@ -160,46 +117,25 @@
 					
 			}
 			
-			
-			
 			if(start){
 				if(komunikat == "niedozwoloneZnaki" || komunikat == "error"){
 					document.getElementById("komunikat").innerHTML = "Użyto niedozwolonych znaków";
 					document.getElementById("table").style.visibility = "hidden";
 				}
-			
+				if(komunikat == "zlaData"){
+					document.getElementById("komunikat").innerHTML = "Jedna z podanych dat była nieprawidłowa"; 	
+						document.getElementById("table").style.visibility = "hidden";
+				}
+				if(komunikat == "brakDaty"){
+					document.getElementById("komunikat").innerHTML = "Nie określono jednej z dat";
+					document.getElementById("table").style.visibility = "hidden";
+				}
 				
 				if(komunikat == "success"){
 					document.getElementById("powodzenie").innerHTML = "Operacja zakonczona sukcesem";
 				}
 				
 				
-					
-					if(komunikat == "pustaNazwa"){
-						document.getElementById("komunikat").innerHTML = "Nie podano nazwy";
-					}
-					if(komunikat == "podanoNiedodatniaMase"){
-						document.getElementById("komunikat").innerHTML = "Podano ujemną masę";
-					}
-					if(komunikat == "podanoNiedodatniaSrednice"){
-						document.getElementById("komunikat").innerHTML = "Podano ujemną średnice" 	
-					}
-					if(komunikat == "zlaKolejnoscData"){
-						document.getElementById("komunikat").innerHTML = "Podano zla kolejność dat"; 	
-					}
-					if(komunikat == "tenDzienJuzBył"){
-						document.getElementById("komunikat").innerHTML = "Ten dzień już był"; 	
-					}
-					if(komunikat == "zlaData"){
-						document.getElementById("komunikat").innerHTML = "W tym terminie piłka jest już zarezerowowana"; 	
-					}
-					if(komunikat == "brakDaty"){
-						document.getElementById("komunikat").innerHTML = "Nie podano jednej z dat"; 	
-					}
-					if(komunikat == "nieMaTakiejPilki"){
-						document.getElementById("komunikat").innerHTML = "Nie ma takiej pilki"; 	
-					}
-					
 			}
 			
 
@@ -216,22 +152,22 @@
 		}
 		
 		function add(){
-			if(currentPos + 5 < numbers){
-				currentPos += 5;	
+			if(currentPos + 10 < numbers){
+				currentPos += 10;	
 			}
 			refresh(false);
 		}
 		
 		function find(){
 			
-			var szukaj = document.getElementById("szukanie").value;
-
-			window.location.href = "/pilki?search="+ szukaj;
+			var od = document.getElementById("od").value;
+			var dox = document.getElementById("do").value;
+			window.location.href = "/wypozyczenia?dataOd="+ od +"&dataDo=" + dox;
 		}
 		
 		function sub(){
-			if(currentPos - 5 >=0){
-				currentPos -= 5;	
+			if(currentPos - 10 >=0){
+				currentPos -= 10;	
 			}
 			refresh(false);
 		}
@@ -245,15 +181,14 @@
 				if(starter){
 					state = document.getElementById(names).style.display;
 				}
-				if(n>= currentPos && n< currentPos + 5){
+				if(n>= currentPos && n< currentPos + 10){
 					document.getElementById(names).style.display = state;
 				}else{
 					document.getElementById(names).style.display = "none";
 				}
 			}
 			
-			document.getElementById("pozycja").innerHTML = currentPos + " - " + (currentPos + 5)
+			document.getElementById("pozycja").innerHTML = currentPos + " - " + (currentPos + 10)
 		}
 	</script>
-	
 </body>
