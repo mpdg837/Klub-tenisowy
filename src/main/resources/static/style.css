@@ -144,6 +144,20 @@ html{
 		animation-name: start;
 		animation-duration: 1s;
 	}
+	
+	.blocks{
+		margin-left: 0;
+		margin-right: 0;
+		opacity: 0.9;
+		margin-bottom:0px;
+		background-color: #7ecf48;
+		box-shadow: 1px 1px 1px;
+		border-radius: 5px;
+		padding-top:100px;
+		padding-bottom: 10px;
+		animation-name: start;
+		animation-duration: 1s;
+	}
 	#bottom{
 		margin-left: 10%;
 		margin-right: 10%;
@@ -156,6 +170,16 @@ html{
 		animation-duration: 0.5s;
 		
 		padding: 15px;
+	}
+	
+	select{
+		background-color: #cff2b8;
+		border-style:solid;
+		border-color: black;
+		border-radius: 2px;
+		border-width: 1px;
+		
+		padding: 10px;
 	}
 	
 	#header{

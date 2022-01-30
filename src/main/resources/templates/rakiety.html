@@ -66,6 +66,7 @@
 						<td class="kol"  th:text = "${rakieta.szerokosc}">Nazwisko</td>
 						<td><a th:href= "@{/edytuj_rakiete?rakieta=} + ${rakieta.idRakiety}"><img width="24" src="properties.png"/></a></td>
 						<td><a th:href= "@{/usun_rakiete?rakieta=} + ${rakieta.idRakiety}"><img width="24" src="remove.png"/></a></td>
+						<td><a class="button" th:href= "@{/zamow_rakiete?rakieta=} + ${rakieta.idRakiety}"><img width="24" src="order.jpg"/></a> Zamów</td>
 					</tr>
 				</tbody>
 			</table> 
@@ -183,6 +184,21 @@
 				if(komunikat == "podanoNiedodatniaSzerokosc"){
 					document.getElementById("komunikat").innerHTML = "Podano ujemną szerokosc" 	
 				}
+				if(komunikat == "tenDzienJuzByl"){
+					document.getElementById("komunikat").innerHTML = "Ten dzień już był"; 	
+				}
+				if(komunikat == "zlaKolejnoscData"){
+					document.getElementById("komunikat").innerHTML = "Podano zla kolejność dat"; 	
+				}
+			if(komunikat == "zlaData"){
+				document.getElementById("komunikat").innerHTML = "W tym terminie piłka jest już zarezerowowana"; 	
+			}
+			if(komunikat == "brakDaty"){
+				document.getElementById("komunikat").innerHTML = "Nie podano jednej z dat"; 	
+			}
+			if(komunikat == "nieMaTakiejRakiety"){
+				document.getElementById("komunikat").innerHTML = "Nie ma takiej rakiety"; 	
+			}
 					
 				
 			}
