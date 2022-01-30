@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Zwalnianie pracownika</title>
+</head>
+<body>
+
+	
+	<div align="center">
+	
+	<h1> Usuwanie piłki </h1>
+	<a href="/korty"> Powrót </a>
+	<a style="color: red" id="komunikat"> </a> </br>
+	<form action="#" th:action="@{/deleteKort}" th:object="${kort}" method="post">
+	Czy na pewno usunąć tą piłkę ?.
+	
+	
+		
+		
+		<h5> Dane osobowe </h5>
+		
+			<table border = "1" cellpadding  = "10">
+				<tr>
+					<td> Nazwa: </td>
+					<td> <a th:text="${biuro.id_biura}" /> </td>
+				</tr>
+				<tr>
+					<td> Material: </td>
+					<td> <a th:text="${biuro.miejscowosc}" /> </td>
+				</tr>
+			
+			</table>
+	
+	
+		
+		<button onclick="tak()">TAK</button>
+		<button onclick="nie()"> NIE </button>
+</form>
+	</div>
+</body>

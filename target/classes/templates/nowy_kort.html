@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Dodaj nowy kort</title>
+</head>
+<body>
+<div align="center">
+	<h1> Dodawanie nowego kortu </h1>
+	
+	
+	<a style="color: red" id="komunikat"> </a> </br>
+	
+	Tym formularzem możesz zarejestrować nowy kort. <br />
+	<a href="/korty" > Powrót</a>
+	
+	<form action="#" th:action="@{/saveKort}" th:object="${kort}" method="post">
+		<h5> Parametry kortu </h5>
+		<table border = "1" cellpadding  = "10">
+			<tr>
+				<td> Nawierzchnia: </td>
+				<td> <input type="text" th:field="*{nawierzchnia}" /></td>
+			</tr>
+			<tr>
+				<td> Stan: </td>
+				<td> <input type="text" th:field="*{stan}" /></td>
+			</tr>
+			<tr>
+				<td> Dlugosc </td>
+				<td> <input type="text" th:field="*{dlugosc}" /></td>
+			</tr>
+			<tr>
+				<td> Szczerokosc: </td>
+				<td> <input type="text" th:field="*{szerokosc}" /></td>
+			</tr>
+			
+		</table>
+		<h5> Dane adresowe biura </h5>
+		<table border = "1" cellpadding  = "10">
+			<tr>
+				<td> Ulica: </td>
+				<td> <input type="text" th:field="*{ulica}" /></td>
+			</tr>
+			<tr>
+				<td> Numer_budynku: </td>
+				<td> <input type="text" th:field="*{numer_budynku}" /></td>
+			</tr>
+			<tr>
+				<td> Numer mieszkania: </td>
+				<td> <input type="text" th:field="*{numer_mieszkania}" /> </td>
+			</tr>
+			<tr>
+				<td> Miejscowość: </td>
+				<td> <input type="text" th:field="*{miejscowosc}" /> </td>
+			</tr>
+			<tr>
+				<td> Kod pocztowy: </td>
+				<td> <input type="text" th:field="*{kod_pocztowy}" /> </td>
+			</tr>
+		</table>
+		<
+		
+		<button type="sumbit">Save</button>
+	</form>
+</div>
+
+</body>
+</html>
