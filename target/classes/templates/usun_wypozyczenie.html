@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Zwalnianie pracownika</title>
+
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<div id="nadtlo">
+		<img id="tlo" src="theme.jpg"/>
+	</div>
+	<div id="headerX">
+	</div>
+	<div id="header">
+		<div class="menuX"><img src="tenis.png" width="32"/></div>
+		<div class="menu"><img src="konto.png" width="24"/>  Pracownicy</div>
+		<div class="menu"><img src="mone.png" width="24"/>  Pensje</div>
+		<div class="menu">
+			<img src="equipmnet.png" width="24"/>   Inwentaż <br />
+			<div id="rozwin">
+				<img src="equipmnet.png" width="24"/>   Pilki <br />
+				<img src="equipmnet.png" width="24"/>   Rakiety <br />
+			</div>
+		</div>
+		<div class="menu"><img src="office.png" width="24"/>   Biura</div>
+		<div class="menu"><img src="court.png" width="24"/>   Korty</div>
+		<div class="menu"><img src="calendar.png" width="24"/>   Rezerwacje</div>
+		<div class="menu"><img src="calendar.png" width="24"/>   Wypożyczenia</div>
+		
+		<div class="menuL"><img src="konto.png" width="18"/>   Logowanie</div>
+	</div>
+	
+
+	
+	<div id="main" align="center">
+	<h1> Cofanie wypłaty </h1>
+	<a style="color: red" id="komunikat"> </a> </br>
+	
+	Czy na pewno chcesz cofnąć tą wypłatę ?.
+	
+	
+		
+		
+		<h5> Dane wyplaty </h5>
+		
+			<table cellspacing = 0 border = "1" cellpadding  = "10">
+				<tr>
+					<td> Data wypozyczenia: </td>
+					<td> <a th:text="${wypozyczenie.dataWypozyczenia}" /> </td>
+				</tr>
+			
+			
+			</table>
+	
+	
+		
+		<button class="buttonLarge" onclick="tak()">TAK</button>
+		<button class="buttonLarge"  onclick="nie()"> NIE </button>
+
+	</div>
+	
+	
+	<div id="bottom" align="center">
+		System zarządzania klubem tenisowym <br />
+		<br />
+		<img src="tenis.png" width="32"/>
+		<br />
+	</div>
+</body>
+
+<script>
+function nie(){
+	window.location.href = "/wypozyczenia";
+}
+
+function tak(){
+	
+	
+	
+	var adres = window.location.href;
+	var adresZn = adres.split('');
+	
+	var nciag="";
+	var wartosc = "";
+	
+	var startRead = false;
+	var startReadWartosc = false;
+	
+	var error = false;
+	var error1 = false;
+	var success = false;
+	
+	for(var n=0;n<adres.length;n++){
+		if(startReadWartosc){
+			if(adresZn[n] == "_"){
+				wartosc = wartosc + " ";
+			}else{
+				wartosc = wartosc + adresZn[n];
+			}
+			
+			
+		}else if(startRead){
+			nciag = nciag + adresZn[n];
+		}
+		
+		if(adresZn[n] == "?"){
+			startRead = true;
+		}
+		
+		if(nciag =="wypozyczenie="){
+			startReadWartosc = true;
+		}
+		
+	}
+	window.location.href = "/usun_wypozyczenie_ostatecznie?wypozyczenie=" + wartosc;
+}
+</script>
+</html>

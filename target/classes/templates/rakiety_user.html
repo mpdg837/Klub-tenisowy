@@ -3,13 +3,12 @@
 	xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Klienci indywidualni</title>
-
+<title>Rakiety</title>
 <link rel="stylesheet" href="style.css">
 
 </head>
 <body>
-<div id="nadtlo">
+	<div id="nadtlo">
 		<img id="tlo" src="theme.jpg"/>
 	</div>
 	<div id="headerX">
@@ -31,12 +30,13 @@
 		<div class="menu"><img src="calendar.png" width="24"/>   Wypożyczenia</div>
 		
 		<div class="menuL"><img src="konto.png" width="18"/>   Logowanie</div>
-	</div>
+	</div>	
+	
 	<div id="main" align = "center">
-		<h1> <img src="konto.png" width="32"/> Zarządzanie klientami indywidualnymi</h1>
+		<h1> <img src="equipmnet.png" width="32"/> Rakiety</h1>
 		<a style = "color : red" id="komunikat"></a> <a style = "color : green" id="powodzenie"></a><br>
 
-		
+		Szukaj po nazwie <input type="text" id="szukanie"> <button onclick="find()" ><img width="16" src="search.png"/></button> <br>
 	
 		
 		<br/>
@@ -47,33 +47,31 @@
 			<thead>
 				<tr>
 				<!--Table row -->
-					<th>ID Klienta</th>
+					<th>ID Rakiety</th>
 					<!–-Table column -->
 					<th>Nazwa</th>
-					<th>NIP</th>
-					<th>REGON</th>				
-					<th><a href="\nowy_klient_grupowy"><img width="24" src="add.jpg"/></a></th>	
-					
+					<th>Masa [g]</th>
+					<th>Długość [cm]</th>
+					<th>Szerokość [cm]</th>
 				</tr>
 			</thead>
 			<!--Table body -->
 				<tbody>
-					<tr th:id = "@{pole} + ${klient.index}" th:each = "klient : ${listaKlientow_grupowych}">
-						<td th:text = "${klient.id_klienta_grupowego}">ID Klienta</td>
-						<td th:text = "${klient.nazwa}">Nazwa</td>
-						<td th:text = "${klient.nip}">NIP</td>
-						<td th:text = "${klient.regon}">REGON</td>
-						<td><a class="button" th:href="@{'/edytuj_klienta_grupowego?klient_grupowy=' + ${klient.id_klienta_grupowego}}"> <img width="24" src="edit.jpg"/></a></td>
-						<td><a class="button" th:href="@{'/szczegoly_klienta_grupowego?klient_grupowy=' + ${klient.id_klienta_grupowego}}"> <img width="24" src="properties.png"/></a></td>
-						<td><a class="button" th:href= "@{/usun_klienta_grupowego?klient_grupowy=} + ${klient.id_klienta_grupowego}"><img width="24" src="remove.png"/></a></td>
+					<tr th:id = "@{pole} + ${rakieta.index}" th:each = "rakieta : ${lista}">
+						<td th:text = "${rakieta.idRakiety}">ID</td>
+						<td class="kol" th:text = "${rakieta.nazwa}">Imie</td>
+						<td th:text = "${rakieta.masa}">Nazwisko</td>
+						<td class="kol"  th:text = "${rakieta.dlugosc}">Numer telefonu</td>
+						<td class="kol"  th:text = "${rakieta.szerokosc}">Nazwisko</td>
+						<td><a class="button" th:href= "@{/zamow_rakiete?rakieta=} + ${rakieta.idRakiety}"><img width="24" src="order.jpg"/></a> Zamów</td>
 					</tr>
 				</tbody>
 			</table> 
-			
+			<br/>
 			
 			<button onclick = "sub()"> <img width="19" src="prev.png"/> </button> <a id="pozycja"></a> <button onclick = "add()"> <img width="19" src="next.png"/> </button> 
 			<br />
-			Uzyskano : <a id = "ilosc" th:text = "${listaKlientow_grupowych.size}">ID</a> wyników 
+			Uzyskano : <a id = "ilosc" th:text = "${lista.size}">ID</a> wyników 
 			
 			
 	</div>
@@ -83,9 +81,7 @@
 		<img src="tenis.png" width="32"/>
 		<br />
 	</div>
-</body>
-
-<script>
+	<script>
 	
 		
 		var numbers = parseInt(document.getElementById("ilosc").innerHTML);
@@ -134,6 +130,7 @@
 			
 			}
 			
+			document.getElementById("szukanie").value = wartosc ;
 		}
 		
 		function errors(){
@@ -159,25 +156,6 @@
 			
 			
 			
-			var adres = window.location.href;
-			var komunikat = "";
-			var start = false;
-			
-			for(var n=0; n< adres.length; n++){
-				var znak = adres[n];
-				
-				if(start){
-					komunikat = komunikat + znak;	
-				}
-				
-				if(znak + "" == "?"){
-					start = true;
-				}
-					
-			}
-				
-			
-			
 			if(start){
 				if(komunikat == "niedozwoloneZnaki" || komunikat == "error"){
 					document.getElementById("komunikat").innerHTML = "Użyto niedozwolonych znaków";
@@ -191,44 +169,35 @@
 				
 				
 					
-				if(komunikat == "error"){
-					document.getElementById("komunikat").innerHTML = "Użyto niedozwolonych znaków";
+				if(komunikat == "pustaNazwa"){
+					document.getElementById("komunikat").innerHTML = "Nie podano nazwy";
 				}
-				
-				if(komunikat == "brakNazwy"){
-					document.getElementById("komunikat").innerHTML = "Nie podano nazwy firmy";
+				if(komunikat == "podanoNiedodatniaMase"){
+					document.getElementById("komunikat").innerHTML = "Podano ujemną masę";
 				}
-				if(komunikat == "pustaUlica"){
-					document.getElementById("komunikat").innerHTML = "Nie podano nazwy ulicy";
+				if(komunikat == "podanoNiedodatniaDlugosc"){
+					document.getElementById("komunikat").innerHTML = "Podano ujemną dlugosc" 	
 				}
-				if(komunikat == "pustaMiejscowosc"){
-					document.getElementById("komunikat").innerHTML = "Nie podano miejscowości";
+				if(komunikat == "podanoNiedodatniaSzerokosc"){
+					document.getElementById("komunikat").innerHTML = "Podano ujemną szerokosc" 	
 				}
-				if(komunikat == "zlyNumerTelefonu"){
-					document.getElementById("komunikat").innerHTML = "Podano nieprawidłowy numer telefonu";
+				if(komunikat == "tenDzienJuzByl"){
+					document.getElementById("komunikat").innerHTML = "Ten dzień już był"; 	
 				}
-				if(komunikat == "zlyAdresEmail"){
-					document.getElementById("komunikat").innerHTML = "Podano nieprawidłowy adres email" 	
+				if(komunikat == "zlaKolejnoscData"){
+					document.getElementById("komunikat").innerHTML = "Podano zla kolejność dat"; 	
 				}
-				if(komunikat == "zlyNumerMieszkania"){
-					document.getElementById("komunikat").innerHTML = "Podano zły numer telefonu" 	
-				}
-				if(komunikat == "zlyNumerBudynku"){
-					document.getElementById("komunikat").innerHTML = "Podano zły numer budynku" 	
-				}
-				if(komunikat == "zlyNIP"){
-					document.getElementById("komunikat").innerHTML = "Podano zły numer NIP" 	
-				}
-				if(komunikat == "zlyRegon"){
-					document.getElementById("komunikat").innerHTML = "Podano zły numer REGON" 	
-				}
-				
-				if(komunikat == "success"){
-					document.getElementById("powodzenie").innerHTML ="<img width=20 src='success.png' /> " + document.getElementById("powodzenie").innerHTML;
-				}else if(document.getElementById("komunikat").innerText.length != 0){
-					document.getElementById("komunikat").innerHTML ="<img width=20 src='error.png' /> " + document.getElementById("komunikat").innerHTML;
-				}
+			if(komunikat == "zlaData"){
+				document.getElementById("komunikat").innerHTML = "W tym terminie piłka jest już zarezerowowana"; 	
+			}
+			if(komunikat == "brakDaty"){
+				document.getElementById("komunikat").innerHTML = "Nie podano jednej z dat"; 	
+			}
+			if(komunikat == "nieMaTakiejRakiety"){
+				document.getElementById("komunikat").innerHTML = "Nie ma takiej rakiety"; 	
+			}
 					
+				
 			}
 			
 
@@ -255,7 +224,7 @@
 			
 			var szukaj = document.getElementById("szukanie").value;
 
-			window.location.href = "/pilki?search="+ szukaj;
+			window.location.href = "/rakiety_user?search="+ szukaj;
 		}
 		
 		function sub(){
@@ -285,3 +254,4 @@
 		}
 	</script>
 	
+</body>
