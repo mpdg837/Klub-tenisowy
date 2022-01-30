@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 
 public class Compare {
 	public static boolean compareDate(String date1, String date2){
+		 System.out.println(date1+" "+date2);
 			SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
 			try{
 			      Date d1 = sdformat.parse(date1);

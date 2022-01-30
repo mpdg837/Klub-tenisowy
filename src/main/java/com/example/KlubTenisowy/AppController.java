@@ -661,6 +661,7 @@ public class AppController {
 				
 					if(pracownik != null) {
 						
+						wypDao.deletePilka((int)Integer.parseInt(id));
 						pilkiDao.delete((int)Integer.parseInt(id));
 						
 						return "redirect:/pilki?success";
@@ -862,6 +863,7 @@ public class AppController {
 				
 					if(pracownik != null) {
 						
+						wypDao.deleteRakieta((int)Integer.parseInt(id));
 						rakietyDao.delete((int)Integer.parseInt(id));
 						
 						return "redirect:/rakiety?success";
@@ -949,12 +951,15 @@ public class AppController {
 		}
 		 
 		int n=0;
+		
 		List<WypozyczenieSave> wypa = new ArrayList<>();
-		for(WypozyczenieSave el: wypax) {
-			if(n<10) {
-				wypa.add(el);
+		if(wypax != null) {
+			for(WypozyczenieSave el: wypax) {
+				if(n<10) {
+					wypa.add(el);
+				}
+				n++;
 			}
-			n++;
 		}
 		
 	
@@ -982,11 +987,13 @@ public class AppController {
 		 
 		int n=0;
 		List<WypozyczenieSave> wypa = new ArrayList<>();
-		for(WypozyczenieSave el: wypax) {
-			if(n<10) {
-				wypa.add(el);
+		if(wypax != null) {
+			for(WypozyczenieSave el: wypax) {
+				if(n<10) {
+					wypa.add(el);
+				}
+				n++;
 			}
-			n++;
 		}
 		
 		
@@ -1006,6 +1013,14 @@ public class AppController {
 		
 		if(WeryfikacjaDaneOsobowe.isEmpty(wypozyczenie.getDataWypozyczenia())) return "redirect:/pilki_user?brakDaty";
 		if(WeryfikacjaDaneOsobowe.isEmpty(wypozyczenie.getSpodziewanaDataZwrotu())) return "redirect:/pilki_user?brakDaty";
+		
+		if(Compare.compareDate(Daty.getActData(),wypozyczenie.getDataWypozyczenia())){
+			return "redirect:/rakiety_user?tenDzienJuzByl";
+		}
+		
+		if(Compare.compareDate(Daty.getActData(),wypozyczenie.getSpodziewanaDataZwrotu())){
+			return "redirect:/rakiety_user?tenDzienJuzByl";
+		}
 		
 		if(Compare.compareDate(wypozyczenie.getDataWypozyczenia(), wypozyczenie.getSpodziewanaDataZwrotu())) {
 			return "redirect:/pilki_user?zlaKolejnoscData";
@@ -1033,11 +1048,11 @@ public class AppController {
 		if(WeryfikacjaDaneOsobowe.isEmpty(wypozyczenie.getDataWypozyczenia())) return "redirect:/rakiety_user?brakDaty";
 		if(WeryfikacjaDaneOsobowe.isEmpty(wypozyczenie.getSpodziewanaDataZwrotu())) return "redirect:/rakiety_user?brakDaty";
 		
-		if(Compare.compareDate(wypozyczenie.getDataWypozyczenia(), Daty.getActData())){
+		if(Compare.compareDate(Daty.getActData(),wypozyczenie.getDataWypozyczenia())){
 			return "redirect:/rakiety_user?tenDzienJuzByl";
 		}
 		
-		if(Compare.compareDate(wypozyczenie.getSpodziewanaDataZwrotu(), Daty.getActData())){
+		if(Compare.compareDate(Daty.getActData(),wypozyczenie.getSpodziewanaDataZwrotu())){
 			return "redirect:/rakiety_user?tenDzienJuzByl";
 		}
 
@@ -1087,7 +1102,7 @@ public class AppController {
 	public String viewDDRakPage(@RequestParam(name="wypozyczenie",required=false,defaultValue="") String id, Model model) {
 		
 		try {
-			Wypozyczenie wyp = wypDao.get((int)Integer.parseInt(id));
+			WypozyczenieSave wyp = wypDao.get((int)Integer.parseInt(id));
 		
 			if(wyp != null) {
 				model.addAttribute("wypozyczenie",wyp);
@@ -1108,7 +1123,7 @@ public class AppController {
 		
 		
 				try {
-					Wypozyczenie pracownik = wypDao.get((int)Integer.parseInt(id));
+					WypozyczenieSave pracownik = wypDao.get((int)Integer.parseInt(id));
 				
 					if(pracownik != null) {
 						

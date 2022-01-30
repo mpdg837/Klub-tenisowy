@@ -135,10 +135,10 @@ public class WypozyczeniaDao {
 	}
 	
 	/* Read – odczytywanie danych z bazy */
-	public Wypozyczenie get(int id) {
+	public WypozyczenieSave get(int id) {
 		String sql = "SELECT * FROM "+tableName +" WHERE " + idName + " = " + id;
 		
-		List<Wypozyczenie> lista = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(Wypozyczenie.class)); 
+		List<WypozyczenieSave> lista = jdbcTemplate.query(sql,BeanPropertyRowMapper.newInstance(WypozyczenieSave.class)); 
 		
 		if(lista.size() > 0) {
 			return lista.get(0);
@@ -159,6 +159,16 @@ public class WypozyczeniaDao {
 	/* Delete – wybrany rekord z danym id */
 	public void delete(int id) {
 		String sql = "DELETE FROM "+tableName+" WHERE "+idName+" = ?";
+		jdbcTemplate.update(sql,id);
+	}
+	
+	public void deletePilka(int id) {
+		String sql = "DELETE FROM "+tableName+" WHERE ID_PILKI = ?";
+		jdbcTemplate.update(sql,id);
+	}
+	
+	public void deleteRakieta(int id) {
+		String sql = "DELETE FROM "+tableName+" WHERE ID_RAKIETY = ?";
 		jdbcTemplate.update(sql,id);
 	}
 	
