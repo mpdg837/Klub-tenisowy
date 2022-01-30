@@ -3,9 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Zwalnianie pracownika</title>
+
+
 <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
+
 <div id="nadtlo">
 		<img id="tlo" src="theme.jpg"/>
 	</div>
@@ -30,48 +34,47 @@
 		<div class="menuL"><img src="konto.png" width="18"/>   Logowanie</div>
 	</div>
 	
-	<div id="main" align="center">
+
 	
-	<h1> Usuwanie piłki </h1>
-	<a href="/klienci_indywidualni"> Powrót </a>
+	<div id="main" align="center">
+	<h1> Cofanie wypłaty </h1>
 	<a style="color: red" id="komunikat"> </a> </br>
 	
-	Czy na pewno usunąć tą piłkę ?.
+	Czy na pewno chcesz cofnąć tą wypłatę ?.
 	
 	
 		
 		
-		<h5> Dane osobowe </h5>
+		<h5> Dane wyplaty </h5>
 		
-			<table border = "1" cellpadding  = "10">
+			<table cellspacing = 0 border = "1" cellpadding  = "10">
 				<tr>
-					<td> Imie: </td>
-					<td> <a th:text="${klient_indywidualny.imie}" /> </td>
+					<td> Data wypozyczenia: </td>
+					<td> <a th:text="${rezerwacja.data_rozpoczecia}" /> </td>
 				</tr>
-				<tr>
-					<td> Nazwisko </td>
-					<td> <a th:text="${klient_indywidualny.nazwisko}" /> </td>
-				</tr>
+			
 			
 			</table>
 	
 	
 		
-		<button onclick="tak()">TAK</button>
-		<button onclick="nie()"> NIE </button>
-		</div>
-		<div id="bottom" align="center">
+		<button class="buttonLarge" onclick="tak()">TAK</button>
+		<button class="buttonLarge"  onclick="nie()"> NIE </button>
+
+	</div>
+	
+	
+	<div id="bottom" align="center">
 		System zarządzania klubem tenisowym <br />
 		<br />
 		<img src="tenis.png" width="32"/>
 		<br />
 	</div>
-
-	</div>
 </body>
+
 <script>
 function nie(){
-	window.location.href = "/klienci_indywidualni";
+	window.location.href = "/rezerwacje";
 }
 
 function tak(){
@@ -108,11 +111,12 @@ function tak(){
 			startRead = true;
 		}
 		
-		if(nciag =="klient_indywidualny="){
+		if(nciag =="rezerwacja="){
 			startReadWartosc = true;
 		}
 		
 	}
-	window.location.href = "/usun_klienta_indywidualnego_ostatecznie?klient_indywidualny=" + wartosc;
+	window.location.href = "/usun_rezerwacje_ostatecznie?rezerwacja=" + wartosc;
 }
 </script>
+</html>

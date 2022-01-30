@@ -63,7 +63,7 @@
 						<td th:text = "${rezerwacja.data_zakonczenia}">Data zakonczenia</td>
 						<td class="kol"><a th:text="${rezerwacja.id_kortu} ?: '' "></a></td>
 						
-						<td><a th:href= "@{/usun_rezerwacje?rezerwacja=} + ${rezerwacja.id_rezerwacji}" class="button"><img width="24" src="remove.png"/></a></td>
+						
 					</tr>
 				</tbody>
 			</table> 
@@ -161,7 +161,7 @@
 			
 			var od = document.getElementById("od").value;
 			var dox = document.getElementById("do").value;
-			window.location.href = "/wypozyczenia?dataOd="+ od +"&dataDo=" + dox;
+			window.location.href = "/rezerwacje?dataOd="+ od +"&dataDo=" + dox;
 		}
 		
 		function sub(){
