@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Wysylanie wyplat pracownikom</title>
+</head>
+<body>
+	<div align = "center">
+		<h1>Zarządzanie kortami</h1>
+		<a style = "color : red" id="komunikat"></a> <a style = "color : green" id="powodzenie"></a><br>
+
+		
+	
+		<a href="\nowy_kort"> Zarejestruj nowy kort</a>
+		<br/>
+		<!--Table -->
+			<table id="table" border = "1" cellpadding = "10">
+			<!-–border –obramowanie, cellpadding –rozmiar komórki -->
+			<!--Table header -->
+			<thead>
+				<tr>
+				<!--Table row -->
+					<th>ID Kortu</th>
+					<!–-Table column -->
+					<th>Nawierzchnia</th>
+					<th>Stan</th>				
+					<th>Długość</th>
+					<th>Szerokość</th>				
+					<th>Ulica</th>
+					<th>Numer budynku</th>
+					<th>Numer mieszkania</th>
+					<th>Miejscowosc</th>
+					<th>Kod pocztowy</th>
+				</tr>
+			</thead>
+			<!--Table body -->
+				<tbody>
+					<tr th:each = "kort : ${listaKortu}">
+						<td th:text = "${kort.id_kortu}">ID Kortu</td>
+						<td th:text = "${kort.nawierzchnia}">Nawierzchnia</td>
+						<td th:text = "${kort.stan}">Stan</td>
+						<td th:text = "${kort.dlugosc}">Długość</td>
+						<td th:text = "${kort.szerokosc}">Szerokość</td>
+						<td th:text = "${kort.ulica}">Ulica</td>
+						<td th:text = "${kort.numer_budynku}">Numer budynku</td>
+						<td th:text = "${kort.numer_mieszkania}">Numer mieszkania</td>
+						<td th:text = "${kort.miejscowosc}">Miejscowosc</td>
+						<td th:text = "${kort.kod_pocztowy}">Kod pocztowy</td>
+						
+						<td><a th:href="@{'/edytuj_kort?kort=' + ${kort.id_kortu}}"> Edit</a></td>
+						<td><a th:href= "@{/rezerwacje?kort=} + ${kort.id_kortu}">Rezerwacje</a></td>
+						<td><a th:href= "@{/usun_korto?kort=} + ${kort.id_kortu}">Usuń</a></td>
+					</tr>
+				</tbody>
+			</table> 
+		
+			
+			
+	</div>
+	

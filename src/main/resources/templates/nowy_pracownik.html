@@ -79,16 +79,7 @@
 		
 		<h5> Biuro </h5>
 			<td> Numer biura: </td>
-			<td class="kol"> 
-				   <select th:field="*{numerBiura}" >
-				   	 <option value="" />
-					 <option th:each = "biuro : ${biura}"
-	                    th:text="${biuro.id_biura} +@{.} + ${biuro.ulica} +@{, }+ ${biuro.numer_budynku} +@{, }+ ${biuro.miejscowosc}"
-	                    th:value="${biuro.id_biura}">
-				  </select>
-				</td>
-			
-			</td>
+			<td class="kol"> <input type="number" th:field="*{numerBiura}" /></td>
 			
 		<h5> Dane kontatkowe </h5>
 			<table border = "1" cellpadding  = "10" cellspacing=0>

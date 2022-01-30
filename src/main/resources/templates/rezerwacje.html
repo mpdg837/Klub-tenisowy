@@ -1,10 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Wysylanie wyplat pracownikom</title>
 </head>
 <body>
+	<div align = "center">
+		<h1>Rezerwacje kortu</h1>
+		<a style = "color : red" id="komunikat"></a> <a style = "color : green" id="powodzenie"></a><br>
 
-</body>
-</html>
+		
+	
+		<a href = "@{/nowa_rezerwacja?rezerwacja=} + ${rezerwacja.id_rezerwacji}"> Zarezerwuj kort</a>
+		<br/>
+		<!--Table -->
+			<table id="table" border = "1" cellpadding = "10">
+			<!-–border –obramowanie, cellpadding –rozmiar komórki -->
+			<!--Table header -->
+			<thead>
+				<tr>
+				<!--Table row -->
+					<th>ID rezerwacji</th>
+					<!–-Table column -->
+					<th>Data rozpoczecia</th>
+					<th>Data zakonczenia</th>				
+					<th>Uwagi</th>
+					<th>ID klienta indywidualnego</th>
+					<th>ID klienta grupowego</th>
+					
+				</tr>
+			</thead>
+			<!--Table body -->
+				<tbody>
+					<tr th:each = "rezerwacja : ${listaRezerwacji}">
+						<td th:text = "${rezerwacja.id_rezerwacji}">ID rezerwacji</td>
+						<td th:text = "${rezerwacja.data_rozpoczecia}">Data rozpoczecia</td>
+						<td th:text = "${rezerwacja.data_zakonczenia}">Data zakonczenia</td>
+						<td th:text = "${rezerwacja.uwagi}">Uwagi</td>
+						<td th:text = "${rezerwacja.id_klienta_indywidualnego}">ID klienta indywidualnego</td>
+						<td th:text = "${rezerwacja.id_klienta_grupowego">ID klienta grupowego</td>
+						<td><a th:href= >Rezerwacje</a></td>
+					
+					</tr>
+				</tbody>
+			</table> 
+		
+			
+			
+	</div>
+	

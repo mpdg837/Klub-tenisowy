@@ -155,16 +155,16 @@ public class PracownicyDAO {
 	public void update(Pracownik pracownik) {
 		
 		if(pracownik.getDataUrodzenia().length() == 0) {
-			String updateQuery = "update "+tableName+" set NUMER_BIURA = ?, IMIE = ? ,  NAZWISKO = ? , DRUGIE_IMIE = ?,  "
+			String updateQuery = "update "+tableName+" set IMIE = ? ,  NAZWISKO = ? , DRUGIE_IMIE = ?,  "
 					+ "ADRES_EMAIL = ? ,  PESEL = ? , NUMER_TELEFONU = ? , STANOWISKO = ? where "+idName+" = ?";
 			
-			jdbcTemplate.update(updateQuery,pracownik.getNumerBiura(), pracownik.getImie() , pracownik.getNazwisko(), pracownik.getDrugieImie(), pracownik.getAdresEmail(), pracownik.getPESEL(), 
+			jdbcTemplate.update(updateQuery, pracownik.getImie() , pracownik.getNazwisko(), pracownik.getDrugieImie(), pracownik.getAdresEmail(), pracownik.getPESEL(), 
 					pracownik.getNumerTelefonu(), pracownik.getStanowisko() , pracownik.getIdPracownika());
 			
 		}else {
-			String updateQuery = "update "+tableName+" set  NUMER_BIURA = ?, IMIE = ? ,  NAZWISKO = ? , DRUGIE_IMIE = ? ,  DATA_URODZENIA = ? ,  "
+			String updateQuery = "update "+tableName+" set IMIE = ? ,  NAZWISKO = ? , DRUGIE_IMIE = ? ,  DATA_URODZENIA = ? ,  "
 					+ "ADRES_EMAIL = ? ,  PESEL = ? , NUMER_TELEFONU = ? , STANOWISKO = ? where "+idName+" = ?";
-			jdbcTemplate.update(updateQuery,pracownik.getNumerBiura(), pracownik.getImie() , pracownik.getNazwisko(), pracownik.getDrugieImie(), 
+			jdbcTemplate.update(updateQuery, pracownik.getImie() , pracownik.getNazwisko(), pracownik.getDrugieImie(), 
 					pracownik.getDataUrodzenia(), pracownik.getAdresEmail(), pracownik.getPESEL(), pracownik.getNumerTelefonu(), pracownik.getStanowisko() , pracownik.getIdPracownika());
 		}
 		
