@@ -44,11 +44,11 @@
 	
 	<div id="main" align="center">
 	
-	<h1> Usuwanie piłki </h1>
+	<h1> Usuwanie kortu </h1>
 	<a href="/korty"> Powrót </a>
 	<a style="color: red" id="komunikat"> </a> </br>
 	<form action="#" th:action="@{/deleteKort}" th:object="${kort}" method="post">
-	Czy na pewno usunąć tą piłkę ?.
+	Czy na pewno usunąć ten kort ?.
 	
 	
 		
@@ -57,12 +57,20 @@
 		
 			<table border = "1" cellpadding  = "10">
 				<tr>
-					<td> Nazwa: </td>
-					<td> <a th:text="${biuro.id_biura}" /> </td>
+					<td> ID kortu: </td>
+					<td> <a th:text="${kort_id_kortu}" /> </td>
 				</tr>
 				<tr>
-					<td> Material: </td>
-					<td> <a th:text="${biuro.miejscowosc}" /> </td>
+					<td> Nawierzchnia: </td>
+					<td> <a th:text="${kort.nawierzchnia}" /> </td>
+				</tr>
+				<tr>
+					<td> Dlugosc: </td>
+					<td> <a th:text="${kort.dlugosc}" /> </td>
+				</tr>
+				<tr>
+					<td> Szerokosc: </td>
+					<td> <a th:text="${kort.szerokosc}" /> </td>
 				</tr>
 			
 			</table>
