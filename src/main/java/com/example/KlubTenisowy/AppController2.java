@@ -21,6 +21,7 @@ import com.example.KlubTenisowy.Klienc.Klient_grupowy;
 import com.example.KlubTenisowy.Klienc.Klient_indywidualny;
 import com.example.KlubTenisowy.Kor.Kort;
 import com.example.KlubTenisowy.Kor.KortyDAO;
+import com.example.KlubTenisowy.Log.Logowanie;
 import com.example.KlubTenisowy.Pilki.Pilka;
 import com.example.KlubTenisowy.Pracownic.PracownicyDAO;
 import com.example.KlubTenisowy.Pracownic.Pracownik;
@@ -69,10 +70,18 @@ public class AppController2 {
 		
 	}
 	@RequestMapping("/login")
-	public String viewlogin(Model model) {
-		
-		
+	public String viewlogin1(Model model) {
+		Logowanie biuro = new Logowanie();
+		model.addAttribute("login",biuro);
+	
 		return "login";
+		
+	}
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String viewlogin(@ModelAttribute("login") Logowanie login) {
+		if(!AntySQLInjection.isCorrect(login.toString())) return "redirect:/index?niedozwoloneZnaki";
+		
+		return "/main";
 		
 	}
 	@RequestMapping("/nowe_biuro")

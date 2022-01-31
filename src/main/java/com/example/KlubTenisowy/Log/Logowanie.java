@@ -24,6 +24,10 @@ public class Logowanie {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	@Override
+	public String toString() {
+		return "Logowanie [username:" + username + ", password:" + password + "]";
+	}
 	
 	
 }
