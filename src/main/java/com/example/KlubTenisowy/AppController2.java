@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
 import com.example.KlubTenisowy.Biur.BiuraDAO;
 import com.example.KlubTenisowy.Biur.Biuro;
@@ -51,6 +52,29 @@ public class AppController2 {
 	@Autowired
 	private RezerwacjeDAO rezerwacjeDao;
 	
+	
+	
+	@RequestMapping("/index")
+	public String viewindex(Model model) {
+		
+
+		return "index";
+		
+	}
+	@RequestMapping("/main")
+	public String viewmain(Model model) {
+		
+	
+		return "main";
+		
+	}
+	@RequestMapping("/login")
+	public String viewlogin(Model model) {
+		
+		
+		return "login";
+		
+	}
 	@RequestMapping("/nowe_biuro")
 	public String viewNewBiuPage(Model model) {
 		Biuro biuro = new Biuro();
@@ -781,7 +805,7 @@ public class AppController2 {
 				}
 				
 				
-				model.addAttribute("lista",lista);
+				model.addAttribute("listaBiura",lista);
 			}else {
 				return "redirect:/biura_user?niedozwoloneZnaki";
 			}
@@ -801,7 +825,7 @@ public class AppController2 {
 				}
 	
 				
-				model.addAttribute("lista",lista);
+				model.addAttribute("listaKortu",lista);
 			}else {
 				return "redirect:/korty_user?niedozwoloneZnaki";
 			}

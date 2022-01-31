@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Configuration;
 import
 org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
@@ -16,17 +17,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 		.authorizeRequests()
-		.antMatchers("/", "/index","biura","pracownicy").permitAll()
+		.antMatchers("/", "/index").permitAll()
+		.antMatchers("/resources/**", "/static/**", "/webjars/**").permitAll()
+		//.antMatchers("biura", "biura_user","blad_edytuj_pracownik","dodaj_wyplate",").authenticated()
+        //.antMatchers("resources/templates/admin/*").hasAuthority("ADMIN")
+        //.antMatchers("resources/templates/user/*").hasAuthority("USER")
+        //.antMatchers("/error","/nowa_rezerwacja","odmowa_dostepu","zamow_pilke","zamow_rakiete").hasAnyAuthority("ADMIN", "USER")
 		.anyRequest().authenticated()
 		.and()
 		.formLogin()
-		.loginPage("/pracownicy")
+		.loginPage("/login")
 		.permitAll()
 		.and()
 		.logout()
 		.logoutSuccessUrl("/index")
 		.permitAll();
 	}
+
+   
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.inMemoryAuthentication()
