@@ -15,23 +15,34 @@
 	</div>
 	<div id="headerX">
 	</div>
-	<div id="header">
+<div id="header">
 		<div class="menuX"><img src="tenis.png" width="32"/></div>
-		<div class="menu"><img src="konto.png" width="24"/>  Pracownicy</div>
-		<div class="menu"><img src="mone.png" width="24"/>  Pensje</div>
+		<div class="menu"><img src="konto.png" width="24"/>  <a href="/pracownicy">Pracownicy</a></div>
 		<div class="menu">
-			<img src="equipmnet.png" width="24"/>   Inwentaż <br />
+			<img src="konto.png" width="24"/>   Klienci <br />
 			<div id="rozwin">
-				<img src="equipmnet.png" width="24"/>   Pilki <br />
-				<img src="equipmnet.png" width="24"/>   Rakiety <br />
+				<img src="equipmnet.png" width="24"/>   <a href="/klienci_indywidualni">Indywidualni</a> <br />
+				<img src="equipmnet.png" width="24"/>   <a href="/klienci_grupowi">Zbiorowi </a><br />
 			</div>
 		</div>
-		<div class="menu"><img src="office.png" width="24"/>   Biura</div>
-		<div class="menu"><img src="court.png" width="24"/>   Korty</div>
-		<div class="menu"><img src="calendar.png" width="24"/>   Rezerwacje</div>
-		<div class="menu"><img src="calendar.png" width="24"/>   Wypożyczenia</div>
+		<div class="menu"><img src="mone.png" width="24"/>  <a href="/wyplaty">Wyplaty</a></div>
+		<div class="menu">
+			<img src="equipmnet.png" width="24"/>   Inwentarz <br />
+			<div id="rozwin">
+				<img src="equipmnet.png" width="24"/>   <a href="/pilki">Pilki</a> <br />
+				<img src="equipmnet.png" width="24"/>   <a href="/rakiety">Rakiety</a><br />
+			</div>
+		</div>
+		<div class="menu"><img src="office.png" width="24"/>   <a href="/biura">Biura</a></div>
+		<div class="menu"><img src="court.png" width="24"/>  <a href="/korty">Korty</a></div>
+		<div class="menu"><img src="calendar.png" width="24"/>   <a href="/rezerwacje">Rezerwacje</a></div>
+		<div class="menu"><img src="calendar.png" width="24"/>  <a href="/wypozyczenia">Wypozyczenia</a></div>
 		
-		<div class="menuL"><img src="konto.png" width="18"/>   Logowanie</div>
+		<div class="menuL" style="max-height: 10px;">
+		<form th:action="@{/logout}" method="post">
+			<button style="box-shadow: 0 0 0 ;background-color:transparent; border-style: none;" type="submit"> <img src="konto.png" width="16"/></button> Wyloguj
+		</form>
+	 	</div>
 	</div>
 	
 

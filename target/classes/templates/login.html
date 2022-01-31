@@ -1,20 +1,376 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html>
 <head>
-<title>Authentication Page</title>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	@charset "UTF-8";
+
+@keyframes start {
+  0%   {opacity: 0.1;}
+  100% {opacity: 0.9;}
+}
+
+@keyframes button {
+  0%   {background-color: #499914;}
+  0.5% {background-color: #4f7039;}
+}
+
+@keyframes buttona {
+  0%   {background-color: auto;}
+  0.5% {background-color: #4f7039;}
+}
+
+tdbody{
+	margin: 0;
+	padding: 0;
+	border:0;
+}
+html{
+		margin: 0px;
+		padding: 0px;
+		overflow-x: hidden;
+	}
+	
+	.button{
+		display: inline-block;
+		border-radius: 5px;
+		max-width: 32px;
+		max-height: 32px;
+	}
+	.button:hover{
+		animation-name: buttona;
+		animation-duration: 180s;
+	}
+	
+	#nadtlo{
+		position: fixed;
+		overflow: hidden;
+		z-index: -1;
+		width: 100%;
+		height: 100%;
+		
+		margin:0px;
+		padding:0px;
+		
+		background-color: #7ecf48;
+		
+		
+	}
+	#tlo{
+		position: absolute;
+		min-width: 100%;
+  		min-height: 100%;
+		
+	}
+	body{
+		font-family: Verdana;
+		margin: 0px;
+		padding: 0px;
+	}
+	
+	table{
+		border-color: black;
+		border: 0px;
+		background-color: #4f7039;
+		border-style: solid;
+		border-radius: 5px;
+		padding:0px;
+		margin:5px;
+		box-shadow: 1px 1px 1px;
+	}
+	tr{
+		margin:0px;
+		padding:0px;
+	}
+	
+	input{
+		background-color: #cff2b8;
+		border-style:solid;
+		border-color: black;
+		border-radius: 2px;
+		border-width: 1px;
+		
+		padding: 10px;
+	}
+	
+	.abutton{
+		border: 1;
+		border-color: black;
+		background-color: #499914;
+		width: 30px;
+		height: 30px;	
+		border-radius: 4px;
+		padding:0px;
+	}
+	
+	.kol{
+		background-color:#bcff8f;
+		
+	}
+	th{
+		border: 0px;
+		background-color: #4f7039;
+		color: white;
+		border-style: solid;
+		margin: 0px;
+	}
+	td{
+		border: 0px;
+		background-color: #cff2b8;
+		border-style: solid;
+		margin: 0px;
+	}
+	button{
+		border: 0;
+		background-color: #499914;
+		width: 30px;
+		height: 30px;	
+		border-radius: 4px;
+		padding:0px;
+		box-shadow: 1px 1px 1px;
+		
+		
+	}
+	
+	button:hover{
+		animation-name: button;
+		animation-duration: 180s;
+	}
+	#main{
+		margin-left: 10%;
+		margin-right: 10%;
+		opacity: 0.9;
+		margin-bottom:0px;
+		background-color: #7ecf48;
+		box-shadow: 1px 1px 1px;
+		border-radius: 5px;
+		padding-top:100px;
+		padding-bottom: 10px;
+		animation-name: start;
+		animation-duration: 1s;
+	}
+	
+	.blocks{
+		margin-left: 0;
+		margin-right: 0;
+		opacity: 0.9;
+		margin-bottom:0px;
+		background-color: #7ecf48;
+		box-shadow: 1px 1px 1px;
+		border-radius: 5px;
+		padding-top:100px;
+		padding-bottom: 10px;
+		animation-name: start;
+		animation-duration: 1s;
+	}
+	#bottom{
+		margin-left: 10%;
+		margin-right: 10%;
+		opacity: 0.9;
+		margin-bottom:0px;
+		background-color: #638f46;
+		box-shadow: 1px 1px 1px;
+		border-radius: 5px;
+		animation-name: start;
+		animation-duration: 0.5s;
+		
+		padding: 15px;
+	}
+	
+	select{
+		background-color: #cff2b8;
+		border-style:solid;
+		border-color: black;
+		border-radius: 2px;
+		border-width: 1px;
+		
+		padding: 10px;
+	}
+	
+	#header{
+	
+		background-color:transparent;
+		min-height:32px;
+		z-index:2;
+		position: fixed;
+		width: 98%;
+		
+		padding-top:0px;
+		padding-bottom:0px;
+		padding-left:25px;
+		padding-right:15px;
+		
+		margin-top: 0px;
+		margin-bottom: 0px;
+		opacity:0.9px;
+		
+		overflow-x: hidden;
+		
+		min-width: 700px;
+		
+		display: block;
+		
+	}
+	#headerX{
+		background-color:#638f46;
+		min-height:32px;
+		z-index:1;
+		position: fixed;
+		width: 100%;
+		
+		padding-top:0px;
+		padding-bottom:0px;
+		height: 79px;
+		
+		margin-top: 0px;
+		margin-bottom: 0px;
+		opacity:0.9px;
+		
+		
+		overflow-x: hidden;
+		
+		box-shadow: 3px 3px 3px;
+		min-width: 700px;
+		display:block;
+	}
+	
+	#komunikat{
+		font-size: 22px;
+		padding: 10px;
+		display: inline-block;
+	}
+	#powodzenie{
+		font-size: 22px;
+		padding: 10px;
+		display: inline-block;
+	}
+	
+	.menuL{
+		display: block;
+		
+		
+		float: right;
+		margin: 5px;
+		font-size: 18px;
+		
+		
+		margin: 0px;
+		
+		padding-top: 25px;
+		padding-bottom: 31px;
+		padding-left: 8px;
+		padding-right: 12px;
+		
+	}
+	
+	#rozwin{
+		display: none;	
+	}
+
+	.menu:hover > #rozwin{
+		display: block;	
+		animation-name: start;
+		animation-duration: 1s;
+	}
+	
+	.buttonLarge{
+		width: 200px;
+		font-size: 18px;
+	}
+	.menu{
+		display : inline-block;
+		
+		float: left;
+		margin: 5px;
+		font-size: 18px;
+		
+		margin-top: 0px;
+		margin-bottom:0px;
+		
+		margin-left:0px;
+		margin-right:0px;
+		
+		padding-top: 25px;
+		padding-bottom: 25px;
+		padding-left: 8px;
+		padding-right: 8px;
+		
+		
+		animation-name: start;
+		animation-duration: 0.5s;
+		
+	}
+	
+	.menu:hover{
+		animation-name: button;
+		animation-duration: 180s;
+		
+	}
+	
+	a{
+		text-decoration: none;
+		color: black;
+	}
+	.menuL:hover{
+		animation-name: button;
+		animation-duration: 180s;
+	}
+	
+	.menuX{
+		background-color:#638f46;
+		
+		float: left;
+		margin: 5px;
+		padding-right: 35px;
+		font-size: 23px;
+		
+		margin: 0px;
+		
+		padding-top: 25px;
+		padding-bottom: 15px;	
+		
+		
+	}
+	
+	
+	
+	
+</style>
+
+</head>
+
 </head>
 <body>
-<div th:if="${param.error}">
-Invalid username and password.
+
+	<div id="headerX">
+	</div>
+	<div id="header">
+		
+	</div>
+	
+<div id="main" align="center">
+
+<div th:if="${param.error}" style="color:red">
+Nieprawidłowy login lub hasło
 </div>
-<div th:if="${param.logout}">
-You have been logged out.
+<div th:if="${param.logout}"  style="color:red">
+Zostałeś wylogowany
 </div>
+
+<h1>Logowanie</h1>
 <form th:action="@{/login}" method="post">
 <div><label> User Name : <input type="text" name="username"/> </label></div>
 <div><label> Password: <input type="password" name="password"/> </label></div>
-<div><input type="submit" value="Sign In"/></div>
+>
+<div><button class="buttonLarge" type="submit"/>Loguj</div>
 </form>
+</div>
+<div id="bottom" align="center">
+		System zarządzania klubem tenisowym <br />
+		<br />
+		<br />
+	</div>
+	
 </body>
 </html>

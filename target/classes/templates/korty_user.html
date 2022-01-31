@@ -4,15 +4,41 @@
 <head>
 <meta charset="UTF-8">
 <title>Wysylanie wyplat pracownikom</title>
+
+<link rel="stylesheet" href="style.css">
+
 </head>
 <body>
-	<div align = "center">
-		<h1>Zarządzanie kortami</h1>
+<div id="nadtlo">
+		<img id="tlo" src="theme.jpg"/>
+	</div>
+	<div id="headerX">
+	</div>
+	<div id="header">
+		<div class="menuX"><img src="tenis.png" width="32"/></div>
+		<div class="menu">
+			<img src="equipmnet.png" width="24"/>   Inwentarz <br />
+			<div id="rozwin">
+				<img src="equipmnet.png" width="24"/>  <a href="pilki_user">Pilki</a> <br />
+				<img src="equipmnet.png" width="24"/>  <a href="rakiety_user">Rakiety</a>  <br />
+			</div>
+		</div>
+		<div class="menu"><img src="office.png" width="24"/>    <a href="biura_user">Biura</a> </div>
+		<div class="menu"><img src="court.png" width="24"/>    <a href="korty_user">Korty</a> </div>
+		<div class="menu"><img src="calendar.png" width="24"/>   <a href="wypozyczenia_user">Wypozyczenia</a> </div>
+		<div class="menu"><img src="calendar.png" width="24"/>    <a href="rezerwacje_user">Rezerwacje</a> </div>
+		
+		<div class="menuL" style="max-height: 10px;">
+		<form th:action="@{/logout}" method="post">
+			<button style="box-shadow: 0 0 0 ;background-color:transparent; border-style: none;" type="submit"> <img src="konto.png" width="16"/></button> Wyloguj
+		</form>
+	 	</div>
+	</div>
+	<div id = "main" align = "center">
+		<h1>Korty</h1>
 		<a style = "color : red" id="komunikat"></a> <a style = "color : green" id="powodzenie"></a><br>
 
 		
-	
-		<a href="\nowy_kort"> Zarejestruj nowy kort</a>
 		<br/>
 		<!--Table -->
 			<table id="table" border = "1" cellpadding = "10">
@@ -48,7 +74,7 @@
 						<td th:text = "${kort.miejscowosc}">Miejscowosc</td>
 						<td th:text = "${kort.kod_pocztowy}">Kod pocztowy</td>
 										
-						<td><a th:href= "@{/rezerwacje?kort=} + ${kort.id_kortu}">Rezerwacje</a></td>
+						<td><a th:href= "@{/nowa_rezerwacja_user?kort=} + ${kort.id_kortu}">Zarezerwuj</a></td>
 					</tr>
 				</tbody>
 			</table> 

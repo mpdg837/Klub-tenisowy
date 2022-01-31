@@ -2,12 +2,90 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
 xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-<title>Main Page</title>
+<meta charset="UTF-8">
+<title>Zwalnianie pracownika</title>
+<link rel="stylesheet" href="style.css">
+
 </head>
 <body>
-<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-<form th:action="@{/logout}" method="post">
-<input type="submit" value="Sign Out"/>
-</form>
+<div id="nadtlo">
+		<img id="tlo" src="theme.jpg"/>
+	</div>
+	<div id="headerX">
+	</div>
+	<div id="headerA" style="display:none">
+		<div class="menuX"><img src="tenis.png" width="32"/></div>
+		<div class="menu"><img src="konto.png" width="24"/>  <a href="/pracownicy">Pracownicy</a></div>
+		<div class="menu">
+			<img src="konto.png" width="24"/>   Klienci <br />
+			<div id="rozwin">
+				<img src="equipmnet.png" width="24"/>   <a href="/klienci_indywidualni">Indywidualni</a> <br />
+				<img src="equipmnet.png" width="24"/>   <a href="/klienci_grupowi">Zbiorowi </a><br />
+			</div>
+		</div>
+		<div class="menu"><img src="mone.png" width="24"/>  <a href="/wyplaty">Wyplaty</a></div>
+		<div class="menu">
+			<img src="equipmnet.png" width="24"/>   Inwentarz <br />
+			<div id="rozwin">
+				<img src="equipmnet.png" width="24"/>   <a href="/pilki">Pilki</a> <br />
+				<img src="equipmnet.png" width="24"/>   <a href="/rakiety">Rakiety</a><br />
+			</div>
+		</div>
+		<div class="menu"><img src="office.png" width="24"/>   <a href="/biura">Biura</a></div>
+		<div class="menu"><img src="court.png" width="24"/>  <a href="/korty">Korty</a></div>
+		<div class="menu"><img src="calendar.png" width="24"/>   <a href="/rezerwacje">Rezerwacje</a></div>
+		<div class="menu"><img src="calendar.png" width="24"/>  <a href="/wypozyczenia">Wypozyczenia</a></div>
+		
+		<div class="menuL" style="max-height: 10px;">
+		<form th:action="@{/logout}" method="post">
+			<button style="box-shadow: 0 0 0 ;background-color:transparent; border-style: none;" type="submit"> <img src="konto.png" width="16"/></button> Wyloguj
+		</form>
+	 	</div>
+	</div>
+	<div id="headerU"  style="display:none">
+		<div class="menuX"><img src="tenis.png" width="32"/></div>
+		<div class="menu">
+			<img src="equipmnet.png" width="24"/>   Inwentarz <br />
+			<div id="rozwin">
+				<img src="equipmnet.png" width="24"/>  <a href="pilki_user">Pilki</a> <br />
+				<img src="equipmnet.png" width="24"/>  <a href="rakiety_user">Rakiety</a>  <br />
+			</div>
+		</div>
+		<div class="menu"><img src="office.png" width="24"/>    <a href="biura_user">Biura</a> </div>
+		<div class="menu"><img src="court.png" width="24"/>    <a href="korty_user">Korty</a> </div>
+		<div class="menu"><img src="calendar.png" width="24"/>   <a href="wypozyczenia_user">Wypozyczenia</a> </div>
+		<div class="menu"><img src="calendar.png" width="24"/>    <a href="rezerwacje_user">Rezerwacje</a> </div>
+		
+		<div class="menuL" style="max-height: 10px;">
+		<form th:action="@{/logout}" method="post">
+			<button style="box-shadow: 0 0 0 ;background-color:transparent; border-style: none;" type="submit"> <img src="konto.png" width="16"/></button> Wyloguj
+		</form>
+	 	</div>
+	</div>
+	
+<div align="center" id="main">
+
+<h1> Witaj </h1>
+<h1 id="userName" th:inline="text"> [[${#httpServletRequest.remoteUser}]]!</h1>
+
+Zostałeś zalogowany do systemu. Na pasku górnym znajduje się nawigacja po dostępnych dla Ciebie funkcjach systemu zarządzania. 
+</div>
+<div id="bottom" align="center">
+		System zarządzania klubem tenisowym <br />
+		<br />
+		<img src="tenis.png" width="32"/>
+		<br />
+	</div>
+
 </body>
+<script>
+	var nazwa = document.getElementById("userName").innerText;
+	console.log(nazwa);
+	
+	if(nazwa=="admin!"){
+		document.getElementById("headerA").style.display ="block";
+	}else{
+		document.getElementById("headerU").style.display = "block";
+	}
+</script>
 </html>
