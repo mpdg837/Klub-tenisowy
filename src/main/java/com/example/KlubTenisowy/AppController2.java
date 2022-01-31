@@ -157,7 +157,7 @@ public class AppController2 {
 		if(!WeryfikacjaDaneOsobowe.weryfikujNumerTelefonu(biuro.getNumer_telefonu())) return "redirect:/nowe_biuro?nieprawidlowyNumerTelefonu";	
 		if(!WeryfikacjaDaneOsobowe.weryfikujEmail(biuro.getAdres_email())) return "redirect:/nowe_biuro?nieprawidlowyAdresEmail";
 		biuraDao.save(biuro);
-		return "redirect:/biura";
+		return "redirect:/biura?success";
 		
 	}
 	@GetMapping("/usun_biuro")
@@ -638,7 +638,7 @@ public class AppController2 {
 					if(pracownik != null) {
 						
 						kortyDao.delete((int)Integer.parseInt(id));
-						rezerwacjeDao.deleteKort((int)Integer.parseInt(id));
+						
 						
 						return "redirect:/korty?success";
 					}else {
