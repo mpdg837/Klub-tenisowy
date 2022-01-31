@@ -359,10 +359,9 @@ Zostałeś wylogowany
 </div>
 
 <h1>Logowanie</h1>
-<form th:action="@{/login}" method="post">
-<div><label> User Name : <input type="text" name="username"/> </label></div>
-<div><label> Password: <input type="password" name="password"/> </label></div>
->
+<form th:action="@{/login}" th:object="${login}" method="post">
+<div><label> User Name :<input type="text" th:field="*{username}"/></label></div>
+<div><label> Password: <input type="password" th:field="*{password}"/></label></div>
 <div><button class="buttonLarge" type="submit"/>Loguj</div>
 </form>
 </div>
