@@ -66,7 +66,7 @@
 						<td class="kol" th:text = "${pilka.srednica}">Numer telefonu</td>
 						<td  th:text = "${pilka.material}">Nazwisko</td>
 						
-						<td><a class="button" th:href= "@{/zamow_pilke?pilka=} + ${pilka.idPilki}"><img width="24" src="order.jpg"/></a> Zamów </td>
+						<td><a class="button" th:href= "@{/zamow_pilke_user?pilka=} + ${pilka.idPilki}"><img width="24" src="order.jpg"/></a> Zamów </td>
 					</tr>
 				</tbody>
 			</table> 

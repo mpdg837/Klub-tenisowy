@@ -65,7 +65,7 @@
 						<td th:text = "${rakieta.masa}">Nazwisko</td>
 						<td class="kol"  th:text = "${rakieta.dlugosc}">Numer telefonu</td>
 						<td class="kol"  th:text = "${rakieta.szerokosc}">Nazwisko</td>
-						<td><a class="button" th:href= "@{/zamow_rakiete?rakieta=} + ${rakieta.idRakiety}"><img width="24" src="order.jpg"/></a> Zamów</td>
+						<td><a class="button" th:href= "@{/zamow_rakiete_user?rakieta=} + ${rakieta.idRakiety}"><img width="24" src="order.jpg"/></a> Zamów</td>
 					</tr>
 				</tbody>
 			</table> 

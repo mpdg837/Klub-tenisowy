@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Dodaj pracownika</title>
+<title>Zarezerwuj kort</title>
 
 
 <link rel="stylesheet" href="style.css">
@@ -19,49 +19,36 @@
 	</div>
 	<div id="headerX">
 	</div>
-<div id="header">
+	<div id="header">
 		<div class="menuX"><img src="tenis.png" width="32"/></div>
-		<div class="menu"><img src="konto.png" width="24"/>  <a href="/pracownicy">Pracownicy</a></div>
-		<div class="menu">
-			<img src="konto.png" width="24"/>   Klienci <br />
-			<div id="rozwin">
-				<img src="equipmnet.png" width="24"/>   <a href="/klienci_indywidualni">Indywidualni</a> <br />
-				<img src="equipmnet.png" width="24"/>   <a href="/klienci_grupowi">Zbiorowi </a><br />
-			</div>
-		</div>
-		<div class="menu"><img src="mone.png" width="24"/>  <a href="/wyplaty">Wyplaty</a></div>
 		<div class="menu">
 			<img src="equipmnet.png" width="24"/>   Inwentarz <br />
 			<div id="rozwin">
-				<img src="equipmnet.png" width="24"/>   <a href="/pilki">Pilki</a> <br />
-				<img src="equipmnet.png" width="24"/>   <a href="/rakiety">Rakiety</a><br />
+				<img src="equipmnet.png" width="24"/>  <a href="pilki_user">Pilki</a> <br />
+				<img src="equipmnet.png" width="24"/>  <a href="rakiety_user">Rakiety</a>  <br />
 			</div>
 		</div>
-		<div class="menu"><img src="office.png" width="24"/>   <a href="/biura">Biura</a></div>
-		<div class="menu"><img src="court.png" width="24"/>  <a href="/korty">Korty</a></div>
-		<div class="menu"><img src="calendar.png" width="24"/>   <a href="/rezerwacje">Rezerwacje</a></div>
-		<div class="menu"><img src="calendar.png" width="24"/>  <a href="/wypozyczenia">Wypozyczenia</a></div>
+		<div class="menu"><img src="office.png" width="24"/>    <a href="biura_user">Biura</a> </div>
+		<div class="menu"><img src="court.png" width="24"/>    <a href="korty_user">Korty</a> </div>
+		<div class="menu"><img src="calendar.png" width="24"/>   <a href="wypozyczenia_user">Wypozyczenia</a> </div>
+		<div class="menu"><img src="calendar.png" width="24"/>    <a href="rezerwacje_user">Rezerwacje</a> </div>
 		
-		<div class="menuL" style="max-height: 10px;">
-		<form th:action="@{/logout}" method="post">
-			<button style="box-shadow: 0 0 0 ;background-color:transparent; border-style: none;" type="submit"> <img src="konto.png" width="16"/></button> Wyloguj
-		</form>
-	 	</div>
+		<div class="menuL"><img src="konto.png" width="18"/>   Logowanie</div>
 	</div>
 	
 <div style="height: 800px"  id="main" align = "center">
 	
 	<div style="display: inline;float: left; width: 50%;">
 	
-	<h1><a href="/pilki_user" class="button"><img src="prev.png" width="24" /> </a> Zamów piłkę </h1>
+	<h1><a href="/rakiete" class="button"><img src="prev.png" width="24" /> </a> Zarezerwuj kort </h1>
 	
 	<a style="color: red" id="komunikat"> </a> </br>
 	<br/>
-	Tym formularzem możesz wypożyczyć piłkę. <br />
+	Tym formularzem zarezerwować kort. <br />
 
 	Klient: <button class="buttonLarge" onclick="ind()">Indywidualny</button> | <button class="buttonLarge" onclick="zbio()">Zbiorowy</button>
 	
-	<h5> Wypozyczenia tego sprzętu</h5>
+	<h5> Rezerwowanie kortu</h5>
 	<!--Table -->
 			<table id="table" border = "1" cellpadding = "10" cellspacing = 0>
 			<!-–border –obramowanie, cellpadding –rozmiar komórki -->
@@ -77,24 +64,24 @@
 			</thead>
 			<!--Table body -->
 				<tbody>
-					<tr th:each = "wypozyczenie : ${wypozyczenia}">
-						<td th:text = "${wypozyczenie.dataWypozyczenia}">ID Biura</td>
-						<td class="kol" th:text = "${wypozyczenie.spodziewanaDataZwrotu}">Numer telefonu</td>
+					<tr th:each = "rezerwacja : ${rezerwacje}">
+						<td th:text = "${rezerwacja.data_rozpoczecia}">ID Biura</td>
+						<td class="kol" th:text = "${rezerwacja.data_zakonczenia}">Numer telefonu</td>
 					</tr>
 				</tbody>
 			</table> 
 	</div>		
 	<div style="display: inline;float: left;; width: 50%;">	
-	<form id="grupowy" action="#" th:action="@{/saveZamowienieP}" th:object="${zamowienie}" method="post" style="visibility: visible; display:block;">
+	<form id="grupowy" action="#" th:action="@{/saveRezerwacjaU}" th:object="${rezerwacja}" method="post" style="visibility: visible; display:block;">
 		<h5> Dane osobowe </h5>
 		<table border = "1" cellpadding  = "10" cellspacing=0>
 			<tr>
-				<td> ID Pilki: </td>
-				<td class="kol"> <input readonly="true" type="text" th:field="*{idPilki}" /></td>
+				<td> ID Kortu: </td>
+				<td class="kol"> <input readonly="true" type="text" th:field="*{id_kortu}" /></td>
 			</tr>
 			<tr>
 				<td> Klient zbiorowy: </td>
-				<td> <select name="idP"  th:field="*{idKlientaZbiorowego}" >
+				<td> <select name="idP"  th:field="*{id_klienta_zbiorowego}" >
 					 <option th:each = "klient : ${klienciGrupowi}"
 	                    th:text="${klient.id_klienta_grupowego} +@{.} + ${klient.nazwa} +@{, }+ ${klient.ulica} +@{, }+ ${klient.miejscowosc}"
 	                    th:value="${klient.id_klienta_grupowego}">
@@ -103,12 +90,12 @@
 			</tr>
 		
 			<tr>
-				<td> Data wypożyczenia: </td>
-				<td class="kol"> <input type="date" th:field="*{dataWypozyczenia}" /></td>
+				<td> Data rozpoczecia rezerwacji: </td>
+				<td class="kol"> <input type="date" th:field="*{data_rozpoczecia}" /></td>
 			</tr>
 			<tr>
-				<td> Spodziewana data zwrotu: </td>
-				<td class="kol"> <input type="date" th:field="*{spodziewanaDataZwrotu}" /></td>
+				<td> Data zakonczenia rezerwacji: </td>
+				<td class="kol"> <input type="date" th:field="*{data_zakonczenia}" /></td>
 			</tr>
 			<tr>
 				<td> Uwagi </td>
@@ -121,16 +108,16 @@
 		<button class="buttonLarge" type="sumbit">Zapisz</button>
 	</form>
 	
-	<form id="indywidualny" action="#" th:action="@{/saveZamowienieP}" th:object="${zamowienie}" method="post" style="visibility: hidden; display:none;">
+	<form id="indywidualny" action="#" th:action="@{/saveRezerwacja}" th:object="${rezerwacja}" method="post" style="visibility: hidden; display:none;">
 		<h5> Dane pilki </h5>
 		<table border = "1" cellpadding  = "10" cellspacing=0>
 			<tr>
-				<td> ID Pilki: </td>
-				<td class="kol"> <input readonly="true" type="text" th:field="*{idPilki}" /></td>
+				<td> ID Rakiety: </td>
+				<td class="kol"> <input readonly="true" type="text" th:field="*{id_kortu}" /></td>
 			</tr>
 			<tr>
 				<td> Klient indywidualny: </td>
-				<td> <select name="idP"  th:field="*{idKlientaIndywidualnego}" >
+				<td> <select name="idP"  th:field="*{id_klienta_indywidualnego}" >
 					 <option th:each = "klient : ${klienciIndywidualni}"
 	                    th:text="${klient.id_klienta_indywidualnego} +@{.} + ${klient.imie} +@{, }+ ${klient.nazwisko} +@{, }+ ${klient.ulica} +@{, }+ ${klient.miejscowosc}"
 	                    th:value="${klient.id_klienta_indywidualnego}">
@@ -138,18 +125,17 @@
 			</tr>
 		
 			<tr>
-				<td> Data wypożyczenia: </td>
-				<td class="kol"> <input type="date" th:field="*{dataWypozyczenia}" /></td>
+				<td> Data rozpoczecia rezerwacji: </td>
+				<td class="kol"> <input type="date" th:field="*{data_rozpoczecia}" /></td>
 			</tr>
 			<tr>
-				<td> Spodziewana data zwrotu: </td>
-				<td class="kol"> <input type="date" th:field="*{spodziewanaDataZwrotu}" /></td>
+				<td> Data zakonczenia rezerwacji: </td>
+				<td class="kol"> <input type="date" th:field="*{data_zakonczenia}" /></td>
 			</tr>
 			<tr>
 				<td> Uwagi </td>
 				<td class="kol"> <input type="text" th:field="*{uwagi}" /></td>
 			</tr>
-			
 		</table>
 		
 		

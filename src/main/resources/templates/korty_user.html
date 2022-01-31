@@ -74,7 +74,7 @@
 						<td th:text = "${kort.miejscowosc}">Miejscowosc</td>
 						<td th:text = "${kort.kod_pocztowy}">Kod pocztowy</td>
 										
-						<td><a th:href= "@{/rezerwacje?kort=} + ${kort.id_kortu}">Rezerwacje</a></td>
+						<td><a th:href= "@{/nowa_rezerwacja_user?kort=} + ${kort.id_kortu}">Zarezerwuj</a></td>
 					</tr>
 				</tbody>
 			</table> 

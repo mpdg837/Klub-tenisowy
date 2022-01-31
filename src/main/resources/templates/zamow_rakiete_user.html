@@ -19,28 +19,19 @@
 	</div>
 	<div id="headerX">
 	</div>
-<div id="header">
+	<div id="header">
 		<div class="menuX"><img src="tenis.png" width="32"/></div>
-		<div class="menu"><img src="konto.png" width="24"/>  <a href="/pracownicy">Pracownicy</a></div>
-		<div class="menu">
-			<img src="konto.png" width="24"/>   Klienci <br />
-			<div id="rozwin">
-				<img src="equipmnet.png" width="24"/>   <a href="/klienci_indywidualni">Indywidualni</a> <br />
-				<img src="equipmnet.png" width="24"/>   <a href="/klienci_grupowi">Zbiorowi </a><br />
-			</div>
-		</div>
-		<div class="menu"><img src="mone.png" width="24"/>  <a href="/wyplaty">Wyplaty</a></div>
 		<div class="menu">
 			<img src="equipmnet.png" width="24"/>   Inwentarz <br />
 			<div id="rozwin">
-				<img src="equipmnet.png" width="24"/>   <a href="/pilki">Pilki</a> <br />
-				<img src="equipmnet.png" width="24"/>   <a href="/rakiety">Rakiety</a><br />
+				<img src="equipmnet.png" width="24"/>  <a href="pilki_user">Pilki</a> <br />
+				<img src="equipmnet.png" width="24"/>  <a href="rakiety_user">Rakiety</a>  <br />
 			</div>
 		</div>
-		<div class="menu"><img src="office.png" width="24"/>   <a href="/biura">Biura</a></div>
-		<div class="menu"><img src="court.png" width="24"/>  <a href="/korty">Korty</a></div>
-		<div class="menu"><img src="calendar.png" width="24"/>   <a href="/rezerwacje">Rezerwacje</a></div>
-		<div class="menu"><img src="calendar.png" width="24"/>  <a href="/wypozyczenia">Wypozyczenia</a></div>
+		<div class="menu"><img src="office.png" width="24"/>    <a href="biura_user">Biura</a> </div>
+		<div class="menu"><img src="court.png" width="24"/>    <a href="korty_user">Korty</a> </div>
+		<div class="menu"><img src="calendar.png" width="24"/>   <a href="wypozyczenia_user">Wypozyczenia</a> </div>
+		<div class="menu"><img src="calendar.png" width="24"/>    <a href="rezerwacje_user">Rezerwacje</a> </div>
 		
 		<div class="menuL" style="max-height: 10px;">
 		<form th:action="@{/logout}" method="post">
@@ -53,11 +44,11 @@
 	
 	<div style="display: inline;float: left; width: 50%;">
 	
-	<h1><a href="/pilki_user" class="button"><img src="prev.png" width="24" /> </a> Zamów piłkę </h1>
+	<h1><a href="/rakiety_user" class="button"><img src="prev.png" width="24" /> </a> Zamów rakiete </h1>
 	
 	<a style="color: red" id="komunikat"> </a> </br>
 	<br/>
-	Tym formularzem możesz wypożyczyć piłkę. <br />
+	Tym formularzem możesz wypożyczyć rakiete. <br />
 
 	Klient: <button class="buttonLarge" onclick="ind()">Indywidualny</button> | <button class="buttonLarge" onclick="zbio()">Zbiorowy</button>
 	
@@ -85,12 +76,12 @@
 			</table> 
 	</div>		
 	<div style="display: inline;float: left;; width: 50%;">	
-	<form id="grupowy" action="#" th:action="@{/saveZamowienieP}" th:object="${zamowienie}" method="post" style="visibility: visible; display:block;">
+	<form id="grupowy" action="#" th:action="@{/saveZamowienieSU}" th:object="${zamowienie}" method="post" style="visibility: visible; display:block;">
 		<h5> Dane osobowe </h5>
 		<table border = "1" cellpadding  = "10" cellspacing=0>
 			<tr>
-				<td> ID Pilki: </td>
-				<td class="kol"> <input readonly="true" type="text" th:field="*{idPilki}" /></td>
+				<td> ID Rakiety: </td>
+				<td class="kol"> <input readonly="true" type="text" th:field="*{idRakiety}" /></td>
 			</tr>
 			<tr>
 				<td> Klient zbiorowy: </td>
@@ -121,12 +112,12 @@
 		<button class="buttonLarge" type="sumbit">Zapisz</button>
 	</form>
 	
-	<form id="indywidualny" action="#" th:action="@{/saveZamowienieP}" th:object="${zamowienie}" method="post" style="visibility: hidden; display:none;">
+	<form id="indywidualny" action="#" th:action="@{/saveZamowienieS}" th:object="${zamowienie}" method="post" style="visibility: hidden; display:none;">
 		<h5> Dane pilki </h5>
 		<table border = "1" cellpadding  = "10" cellspacing=0>
 			<tr>
-				<td> ID Pilki: </td>
-				<td class="kol"> <input readonly="true" type="text" th:field="*{idPilki}" /></td>
+				<td> ID Rakiety: </td>
+				<td class="kol"> <input readonly="true" type="text" th:field="*{idRakiety}" /></td>
 			</tr>
 			<tr>
 				<td> Klient indywidualny: </td>

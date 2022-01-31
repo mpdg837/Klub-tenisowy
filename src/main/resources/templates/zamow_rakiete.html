@@ -20,18 +20,27 @@
 	<div id="headerX">
 	</div>
 	<div id="header">
-		<div class="menuX"><img src="tenis.png" width="32"/></div>
+<div class="menuX"><img src="tenis.png" width="32"/></div>
+		<div class="menu"><img src="konto.png" width="24"/>  <a href="/pracownicy">Pracownicy</a></div>
+		<div class="menu">
+			<img src="konto.png" width="24"/>   Klienci <br />
+			<div id="rozwin">
+				<img src="equipmnet.png" width="24"/>   <a href="/klienci_indywidualni">Indywidualni</a> <br />
+				<img src="equipmnet.png" width="24"/>   <a href="/klienci_grupowi">Zbiorowi </a><br />
+			</div>
+		</div>
+		<div class="menu"><img src="mone.png" width="24"/>  <a href="/wyplaty">Wyplaty</a></div>
 		<div class="menu">
 			<img src="equipmnet.png" width="24"/>   Inwentarz <br />
 			<div id="rozwin">
-				<img src="equipmnet.png" width="24"/>  <a href="pilki_user">Pilki</a> <br />
-				<img src="equipmnet.png" width="24"/>  <a href="rakiety_user">Rakiety</a>  <br />
+				<img src="equipmnet.png" width="24"/>   <a href="/pilki">Pilki</a> <br />
+				<img src="equipmnet.png" width="24"/>   <a href="/rakiety">Rakiety</a><br />
 			</div>
 		</div>
-		<div class="menu"><img src="office.png" width="24"/>    <a href="biura_user">Biura</a> </div>
-		<div class="menu"><img src="court.png" width="24"/>    <a href="korty_user">Korty</a> </div>
-		<div class="menu"><img src="calendar.png" width="24"/>   <a href="wypozyczenia_user">Wypozyczenia</a> </div>
-		<div class="menu"><img src="calendar.png" width="24"/>    <a href="rezerwacje_user">Rezerwacje</a> </div>
+		<div class="menu"><img src="office.png" width="24"/>   <a href="/biura">Biura</a></div>
+		<div class="menu"><img src="court.png" width="24"/>  <a href="/korty">Korty</a></div>
+		<div class="menu"><img src="calendar.png" width="24"/>   <a href="/rezerwacje">Rezerwacje</a></div>
+		<div class="menu"><img src="calendar.png" width="24"/>  <a href="/wypozyczenia">Wypozyczenia</a></div>
 		
 		<div class="menuL" style="max-height: 10px;">
 		<form th:action="@{/logout}" method="post">
