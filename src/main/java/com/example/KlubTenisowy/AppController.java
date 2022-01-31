@@ -935,7 +935,40 @@ public class AppController {
 	}
 	
 	// Zamowienia
+	@GetMapping("/zamow_pilke_user")
+	public String viewZPAUPage(@RequestParam(name="pilka",required=false,defaultValue="") String id, Model model) {
+		
+		Wypozyczenie wyp = new Wypozyczenie();
+		List<Klient_grupowy> grupa = grupaDao.list2();
+		List<Klient_indywidualny> ind = indDao.list2();
+
+		List<WypozyczenieSave> wypax = new ArrayList<>();
+			
+		if(!id.equals("")) {
+			wypax = wypDao.listFiltr(true, Integer.parseInt(id));
+			wyp.setIdPilki(Integer.parseInt(id));
+		}
+		 
+		int n=0;
+		
+		List<WypozyczenieSave> wypa = new ArrayList<>();
+		if(wypax != null) {
+			for(WypozyczenieSave el: wypax) {
+				if(n<10) {
+					wypa.add(el);
+				}
+				n++;
+			}
+		}
+		
 	
+		model.addAttribute("wypozyczenia",wypa);
+		model.addAttribute("zamowienie",wyp);
+		model.addAttribute("klienciGrupowi",grupa);
+		model.addAttribute("klienciIndywidualni",ind);
+		
+		return "zamow_pilke_user";
+	}
 	@GetMapping("/zamow_pilke")
 	public String viewZPAPage(@RequestParam(name="pilka",required=false,defaultValue="") String id, Model model) {
 		
@@ -969,6 +1002,40 @@ public class AppController {
 		model.addAttribute("klienciIndywidualni",ind);
 		
 		return "zamow_pilke";
+	}
+	@GetMapping("/zamow_rakiete_user")
+	public String viewZRAUPage(@RequestParam(name="rakieta",required=false,defaultValue="") String id, Model model) {
+		
+		Wypozyczenie wyp = new Wypozyczenie();
+		List<Klient_grupowy> grupa = grupaDao.list2();
+		List<Klient_indywidualny> ind = indDao.list2();
+
+		List<WypozyczenieSave> wypax = new ArrayList<>();
+			
+		if(!id.equals("")) {
+			wypax = wypDao.listFiltr(false, Integer.parseInt(id));
+			wyp.setIdRakiety(Integer.parseInt(id));
+		}
+		 
+		int n=0;
+		List<WypozyczenieSave> wypa = new ArrayList<>();
+		if(wypax != null) {
+			for(WypozyczenieSave el: wypax) {
+				if(n<10) {
+					wypa.add(el);
+				}
+				n++;
+			}
+		}
+		
+		
+	
+		model.addAttribute("wypozyczenia",wypa);
+		model.addAttribute("zamowienie",wyp);
+		model.addAttribute("klienciGrupowi",grupa);
+		model.addAttribute("klienciIndywidualni",ind);
+		
+		return "zamow_rakiete_user";
 	}
 	
 	@GetMapping("/zamow_rakiete")
@@ -1009,6 +1076,73 @@ public class AppController {
 	@RequestMapping(value="/saveZamowienieP", method = RequestMethod.POST)
 	public String saveZamowienie(@ModelAttribute("zamowienie") Wypozyczenie wypozyczenie) {
 		
+		if(!AntySQLInjection.isCorrect(wypozyczenie.toString())) return "redirect:/pilki?niedozwoloneZnaki";
+		
+		if(WeryfikacjaDaneOsobowe.isEmpty(wypozyczenie.getDataWypozyczenia())) return "redirect:/pilki?brakDaty";
+		if(WeryfikacjaDaneOsobowe.isEmpty(wypozyczenie.getSpodziewanaDataZwrotu())) return "redirect:/pilki?brakDaty";
+		
+		if(Compare.compareDate(Daty.getActData(),wypozyczenie.getDataWypozyczenia())){
+			return "redirect:/rakiety?tenDzienJuzByl";
+		}
+		
+		if(Compare.compareDate(Daty.getActData(),wypozyczenie.getSpodziewanaDataZwrotu())){
+			return "redirect:/rakiety?tenDzienJuzByl";
+		}
+		
+		if(Compare.compareDate(wypozyczenie.getDataWypozyczenia(), wypozyczenie.getSpodziewanaDataZwrotu())) {
+			return "redirect:/pilki?zlaKolejnoscData";
+		}
+		List<WypozyczenieSave> save= wypDao.listCzas(true, wypozyczenie.getDataWypozyczenia(), wypozyczenie.getSpodziewanaDataZwrotu(),wypozyczenie.getIdPilki());
+		if(save!=null) {
+			return "redirect:/pilki?zlaData";
+		}
+		
+		if(pilkiDao.get(wypozyczenie.getIdPilki())==null) {
+			return "redirect:/pilki?nieMaTakiejPilki";
+		}
+		
+		
+		wypDao.save(wypozyczenie);
+
+		return "redirect:/pilki?success";
+	}
+	
+	@RequestMapping(value="/saveZamowienieS", method = RequestMethod.POST)
+	public String savePZamowienie(@ModelAttribute("zamowienie") Wypozyczenie wypozyczenie) {
+		
+		if(!AntySQLInjection.isCorrect(wypozyczenie.toString())) return "redirect:/rakiety?niedozwoloneZnaki";
+		
+		if(WeryfikacjaDaneOsobowe.isEmpty(wypozyczenie.getDataWypozyczenia())) return "redirect:/rakiety?brakDaty";
+		if(WeryfikacjaDaneOsobowe.isEmpty(wypozyczenie.getSpodziewanaDataZwrotu())) return "redirect:/rakiety?brakDaty";
+		
+		if(Compare.compareDate(Daty.getActData(),wypozyczenie.getDataWypozyczenia())){
+			return "redirect:/rakiety?tenDzienJuzByl";
+		}
+		
+		if(Compare.compareDate(Daty.getActData(),wypozyczenie.getSpodziewanaDataZwrotu())){
+			return "redirect:/rakiety?tenDzienJuzByl";
+		}
+
+		if(Compare.compareDate(wypozyczenie.getDataWypozyczenia(), wypozyczenie.getSpodziewanaDataZwrotu())) {
+			return "redirect:/rakiety?zlaKolejnoscData";
+		}
+		List<WypozyczenieSave> save= wypDao.listCzas(true, wypozyczenie.getDataWypozyczenia(), wypozyczenie.getSpodziewanaDataZwrotu(),wypozyczenie.getIdPilki());
+		if(save!=null) {
+			return "redirect:/rakiety?zlaData";
+		}
+		
+		if(rakietyDao.get(wypozyczenie.getIdRakiety())==null) {
+			return "redirect:/rakiety?nieMaTakiejRakiety";
+		}
+		
+		
+		wypDao.save(wypozyczenie);
+
+		return "redirect:/rakiety?success";
+	}
+	@RequestMapping(value="/saveZamowieniePU", method = RequestMethod.POST)
+	public String saveZamowienieU(@ModelAttribute("zamowienie") Wypozyczenie wypozyczenie) {
+		
 		if(!AntySQLInjection.isCorrect(wypozyczenie.toString())) return "redirect:/pilki_user?niedozwoloneZnaki";
 		
 		if(WeryfikacjaDaneOsobowe.isEmpty(wypozyczenie.getDataWypozyczenia())) return "redirect:/pilki_user?brakDaty";
@@ -1040,8 +1174,8 @@ public class AppController {
 		return "redirect:/pilki_user?success";
 	}
 	
-	@RequestMapping(value="/saveZamowienieS", method = RequestMethod.POST)
-	public String savePZamowienie(@ModelAttribute("zamowienie") Wypozyczenie wypozyczenie) {
+	@RequestMapping(value="/saveZamowienieSU", method = RequestMethod.POST)
+	public String savePZamowienieU(@ModelAttribute("zamowienie") Wypozyczenie wypozyczenie) {
 		
 		if(!AntySQLInjection.isCorrect(wypozyczenie.toString())) return "redirect:/rakiety_user?niedozwoloneZnaki";
 		

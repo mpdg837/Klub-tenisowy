@@ -629,6 +629,7 @@ public class AppController2 {
 					if(pracownik != null) {
 						
 						kortyDao.delete((int)Integer.parseInt(id));
+						rezerwacjeDao.deleteKort((int)Integer.parseInt(id));
 						
 						return "redirect:/korty?success";
 					}else {
@@ -705,6 +706,39 @@ public class AppController2 {
 
 		return "redirect:/korty?success";
 	}
+	@RequestMapping(value="/saveRezerwacjaU", method = RequestMethod.POST)
+	public String savePUZamowienie(@ModelAttribute("rezerwacja") Rezerwacja wypozyczenie) {
+		
+		if(!AntySQLInjection.isCorrect(wypozyczenie.toString())) return "redirect:/korty_user?niedozwoloneZnaki";
+		
+		if(WeryfikacjaDaneOsobowe.isEmpty(wypozyczenie.getData_rozpoczecia())) return "redirect:/korty_user?brakDaty";
+		if(WeryfikacjaDaneOsobowe.isEmpty(wypozyczenie.getData_zakonczenia())) return "redirect:/korty_user?brakDaty";
+		
+		if(Compare.compareDate(wypozyczenie.getData_rozpoczecia(), Daty.getActData())){
+			return "redirect:/korty_user?tenDzienJuzByl";
+		}
+		
+		if(Compare.compareDate(wypozyczenie.getData_zakonczenia(), Daty.getActData())){
+			return "redirect:/korty_user?tenDzienJuzByl";
+		}
+
+		if(Compare.compareDate(wypozyczenie.getData_rozpoczecia(), wypozyczenie.getData_zakonczenia())) {
+			return "redirect:/korty_user?zlaKolejnoscData";
+		}
+		List<RezerwacjaSave> save= rezerwacjeDao.listCzas(wypozyczenie.getData_rozpoczecia(), wypozyczenie.getData_zakonczenia(),wypozyczenie.getId_kortu());
+		if(save!=null) {
+			return "redirect:/korty_user?zlaData";
+		}
+		
+		if(rezerwacjeDao.get(wypozyczenie.getId_kortu())==null) {
+			return "redirect:/korty_user?nieMaTakiegoKortu";
+		}
+		
+		
+		rezerwacjeDao.save(wypozyczenie);
+
+		return "redirect:/korty_user?success";
+	}
 	@GetMapping("/nowa_rezerwacja")
 	public String viewZRAPage(@RequestParam(name="kort",required=false,defaultValue="") String id, Model model) {
 		
@@ -725,6 +759,27 @@ public class AppController2 {
 		model.addAttribute("klienciIndywidualni",ind);
 		
 		return "nowa_rezerwacja";
+	}
+	@GetMapping("/nowa_rezerwacja_user")
+	public String viewZRAPUage(@RequestParam(name="kort",required=false,defaultValue="") String id, Model model) {
+		
+		Rezerwacja wyp = new Rezerwacja();
+		List<Klient_grupowy> grupa = Klienci_grupowiDAO.list2();
+		List<Klient_indywidualny> ind = Klienci_indywidualniDAO.list2();
+
+		List<RezerwacjaSave> wypa = new ArrayList<>();
+			
+		if(!id.equals("")) {
+			wypa = rezerwacjeDao.listFiltr(Integer.parseInt(id));
+			wyp.setId_kortu(Integer.parseInt(id));
+		}
+		 
+		model.addAttribute("rezerwacje",wypa);
+		model.addAttribute("rezerwacja",wyp);
+		model.addAttribute("klienciGrupowi",grupa);
+		model.addAttribute("klienciIndywidualni",ind);
+		
+		return "nowa_rezerwacja_user";
 	}
 	@GetMapping("/usun_rezerwacje")
 	public String viewDDRakPage(@RequestParam(name="rezerwacja",required=false,defaultValue="") String id, Model model) {

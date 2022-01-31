@@ -67,7 +67,7 @@ public class Rezerwacja {
 		}else {
 			return id_klienta_indywidualnego;
 		}
-		
+
 	}
 	public void setId_klienta_indywidualnego(Integer id_klienta_indywidualnego) {
 		if(id_klienta_indywidualnego==-1) {
@@ -97,5 +97,5 @@ public class Rezerwacja {
 				+ ", id_klienta_indywidualnego:" + id_klienta_indywidualnego + ", id_klienta_zbiorowego:"
 				+ id_klienta_zbiorowego + "]";
 	}
-	
+
 }
